@@ -1,0 +1,4 @@
+[lfs]
+        url = http://devbot.enterprises:8080
+[lfs "transfer"]
+        maxretries = 10
