@@ -14,6 +14,7 @@
 #include "StartComponent.h"
 #include <assert.h>
 #include "LuaState.h"
+#include "CameraComponent.h"
 
 namespace sge {
 	sf::CircleShape shape(100.f);
@@ -44,6 +45,14 @@ namespace sge {
 		{
 			if (event.type == sf::Event::Closed)
 				close();
+			if (event.type == sf::Event::Resized) {
+				//would be better to move this to the renderer
+				//this version implements nonconstrained match viewport scaling
+				std::cout << ("Video mode changed to " + std::to_string(event.size.width) + " - " + std::to_string(event.size.height)) << std::endl;
+				//_world->getMainCamera()->setProjection(glm::perspective(glm::radians(60.0f), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f));	//fix projection
+				//glViewport(0, 0, event.size.width, event.size.height);
+				
+			}
 		}
 		while (Time::DoFixedStep()) {
 			//std::cout << Time::GetFramerate() << std::endl;
@@ -136,6 +145,7 @@ namespace sge {
 		rect->AddComponent(new StartComponent());
 		rect->SetName("StartS");
 		LuaState state("test.lua");
+		std::cout << state.getNumber("width");
 		//std::cout << typeid(typeid(5)).name() << std::endl;
 		while (running && isOpen()) {
 			updateLoop();

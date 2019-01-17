@@ -10,6 +10,7 @@ namespace sge {
 	public:
 		LuaState(std::string file);
 		~LuaState();
+		double getNumber(std::string name);
 	private:
 		lua_State *state = luaL_newstate();
 	};
