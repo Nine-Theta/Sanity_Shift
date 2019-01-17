@@ -13,6 +13,7 @@
 #include "TextComponent.h"
 #include "StartComponent.h"
 #include <assert.h>
+#include "LuaState.h"
 
 namespace sge {
 	sf::CircleShape shape(100.f);
@@ -134,6 +135,7 @@ namespace sge {
 		GameObject* rect = new GameObject();
 		rect->AddComponent(new StartComponent());
 		rect->SetName("StartS");
+		LuaState state("test.lua");
 		//std::cout << typeid(typeid(5)).name() << std::endl;
 		while (running && isOpen()) {
 			updateLoop();
