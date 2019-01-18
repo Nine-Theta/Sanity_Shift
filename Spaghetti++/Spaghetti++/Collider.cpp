@@ -19,7 +19,7 @@ namespace sge {
 	}
 	void Collider::OnDestroy()
 	{
-		std::cout << "Deleting a collider" << std::endl;
+		//std::cout << "Deleting a collider" << std::endl;
 	}
 	void Collider::Update()
 	{

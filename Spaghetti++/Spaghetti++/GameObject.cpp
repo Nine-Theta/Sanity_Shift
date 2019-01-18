@@ -8,12 +8,12 @@ namespace sge {
 	{
 		_p_parent = parent;
 		if (_p_parent != NULL) {
-			std::cout << "Initialised an object with a parent" << std::endl;
+			//std::cout << "Initialised an object with a parent" << std::endl;
 			_combinedTransform = _p_parent->GetCombinedTransform();
 			_p_parent->AddChild(this);
 		}
 		else {
-			std::cout << "Initialised an object without a parent" << std::endl;
+			//std::cout << "Initialised an object without a parent" << std::endl;
 			_combinedTransform = sf::Transform::Identity;
 			//Game::GetInstance().AddToRoot(this);
 		}
@@ -166,9 +166,9 @@ namespace sge {
 
 	ObjectBehaviour * GameObject::GetComponent(const type_info& type)
 	{
-		std::cout << "Searching for component of type " << type.name() << std::endl;
+		//std::cout << "Searching for component of type " << type.name() << std::endl;
 		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
-			std::cout << "Comparing to component type " << typeid(*(*itr)).name() << std::endl;
+			//std::cout << "Comparing to component type " << typeid(*(*itr)).name() << std::endl;
 			if (typeid(*(*itr)) == type)
 				return (*itr);
 		}
@@ -203,7 +203,7 @@ namespace sge {
 			}
 			col->SetParent(this);
 			_collider = col;
-			std::cout << "Added a collider to a gameobject" << std::endl;
+			//std::cout << "Added a collider to a gameobject" << std::endl;
 			return;
 		}
 		Rigidbody2D* rbody = dynamic_cast<Rigidbody2D*>(p_component);
@@ -225,12 +225,12 @@ namespace sge {
 		//std::cout << "Destroying a game object..." << std::endl;
 		GameObject* obj = (GameObject*)p_object;
 		if (obj->GetObjectState() < GOState::DESTROYED) {
-			std::cout << "Marked game object for deletion, will destroy after frame: " << obj->GetName() << " - " << obj << std::endl;
+			//std::cout << "Marked game object for deletion, will destroy after frame: " << obj->GetName() << " - " << obj << std::endl;
 			Game::GetInstance().RemoveGameObject(obj);
 			obj->SetObjectState(GOState::DESTROYED);
 		}
 		else if (obj->GetObjectState() == GOState::DELETED) {
-			std::cout << "Deleted a game object from memory: " << obj->GetName() << " - " << obj << std::endl;
+			//std::cout << "Deleted a game object from memory: " << obj->GetName() << " - " << obj << std::endl;
 			delete p_object;
 		}
 		else {
@@ -272,7 +272,7 @@ namespace sge {
 
 	void GameObject::OnDestroy()
 	{
-		std::cout << "Deleting a game object's components" << std::endl;
+		//std::cout << "Deleting a game object's components" << std::endl;
 		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
 			ObjectBehaviour* obj = (*itr);
 			obj->OnDestroy();

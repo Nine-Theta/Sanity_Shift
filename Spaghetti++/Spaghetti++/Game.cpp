@@ -181,7 +181,7 @@ namespace sge {
 	void Game::AddToRoot(GameObject * p_object)
 	{
 		_rootObjects.push_back(p_object);
-		std::cout << "Added an object to root updating: " << p_object << std::endl;
+		//std::cout << "Added an object to root updating: " << p_object << std::endl;
 	}
 
 	GameObject* Game::FindGameObject(std::string name) {

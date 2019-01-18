@@ -1,8 +1,8 @@
 teststring = "This is a test"
 string2 = "\nor is it??"
 
-width = 600
-height = 500
+width = 1280
+height = 1024
 windowname = "Spaghetti+++Lua"
 
 function printJoined(s1, s2)
