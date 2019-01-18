@@ -99,6 +99,9 @@
     <ClInclude Include="LuaState.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="spaghet.cpp">
@@ -177,6 +180,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="LuaState.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

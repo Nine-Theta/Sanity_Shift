@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+#include "Settings.h"
 
 using namespace std;
 int main(int argc, char * argv[])
@@ -9,6 +10,7 @@ int main(int argc, char * argv[])
 	//sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
 	//shape.setFillColor(sf::Color::Green);
 	ios_base::sync_with_stdio(false);
+	sge::Settings::ReadSettings();
 	sge::Game &game = sge::Game::GetInstance();
 	game.Run();
 	/*while (game.isOpen())

@@ -17,11 +17,18 @@ namespace sge {
 		lua_close(state);
 	}
 
-	double LuaState::getNumber(std::string name)
+	double LuaState::GetNumber(std::string name)
 	{
 		lua_getglobal(state,name.c_str());
 		double nmbr = lua_tonumber(state, -1);
 		return nmbr;
+	}
+
+	std::string LuaState::GetString(std::string name)
+	{
+		lua_getglobal(state, name.c_str());
+		std::string str = lua_tostring(state, -1);
+		return str;
 	}
 
 

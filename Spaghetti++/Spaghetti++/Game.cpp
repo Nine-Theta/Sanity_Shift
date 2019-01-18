@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include <list>
+#include <assert.h>
 #include "Time.h"
 #include "SFML/Graphics.hpp"
 #include "GameObject.h"
@@ -15,12 +16,13 @@
 #include <assert.h>
 #include "LuaState.h"
 #include "CameraComponent.h"
+#include "Settings.h"
 
 namespace sge {
 	sf::CircleShape shape(100.f);
 
 	Game* Game::instance = NULL;
-	Game::Game() : sf::RenderWindow(sf::VideoMode(1280, 1024), "Spaghetti++")
+	Game::Game() : sf::RenderWindow(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"))
 	{
 		/*_allObjects = new std::list<sge::GameObject*>;
 		_newComponents = new std::list<sge::ObjectBehaviour*>;
@@ -144,8 +146,8 @@ namespace sge {
 		GameObject* rect = new GameObject();
 		rect->AddComponent(new StartComponent());
 		rect->SetName("StartS");
-		LuaState state("test.lua");
-		std::cout << state.getNumber("width");
+		//LuaState state("test.lua");
+		//std::cout << state.GetNumber("width");
 		//std::cout << typeid(typeid(5)).name() << std::endl;
 		while (running && isOpen()) {
 			updateLoop();

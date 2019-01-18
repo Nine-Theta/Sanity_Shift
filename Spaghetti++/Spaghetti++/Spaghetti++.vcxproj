@@ -37,6 +37,7 @@
     <ClInclude Include="Rigidbody2D.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="SelfDestructComp.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="ShootComponent.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="spaghet.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="Rigidbody2D.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="SelfDestructComp.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="ShootComponent.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="spaghet.cpp" />

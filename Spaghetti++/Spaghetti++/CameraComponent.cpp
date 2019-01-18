@@ -3,6 +3,7 @@
 #include <list>
 #include <iostream>
 #include "Game.h"
+#include "Settings.h"
 
 namespace sge {
 	std::list<CameraComponent*> CameraComponent::cameras = std::list<CameraComponent*>();
@@ -29,6 +30,8 @@ namespace sge {
 	}
 	CameraComponent::CameraComponent()
 	{
+		width = sge::Settings::GetInt("width");
+		height = sge::Settings::GetInt("height");
 	}
 
 
