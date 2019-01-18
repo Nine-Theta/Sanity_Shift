@@ -185,9 +185,4 @@
       <Filter>Ressourcendateien</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\Devin\Pictures\gecko.png">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-  </ItemGroup>
 </Project>
