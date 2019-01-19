@@ -2,6 +2,7 @@
 
 #include "lua.hpp"
 #include <iostream>
+#include <vector>
 
 namespace sge {
 
@@ -12,6 +13,8 @@ namespace sge {
 		~LuaState();
 		double GetNumber(std::string name);
 		std::string GetString(std::string name);
+		std::vector<std::string> CallFunction(std::string name, int returns = 0);
+		std::vector<std::string> CallFunction(std::string name, std::vector<std::string> args, int returns = 0);
 	private:
 		lua_State *state = luaL_newstate();
 	};

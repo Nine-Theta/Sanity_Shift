@@ -17,6 +17,7 @@
 #include "LuaState.h"
 #include "CameraComponent.h"
 #include "Settings.h"
+#include "LuaComponent.h"
 
 namespace sge {
 	sf::CircleShape shape(100.f);
@@ -146,9 +147,8 @@ namespace sge {
 		GameObject* rect = new GameObject();
 		rect->AddComponent(new StartComponent());
 		rect->SetName("StartS");
-		//LuaState state("test.lua");
-		//std::cout << state.GetNumber("width");
-		//std::cout << typeid(typeid(5)).name() << std::endl;
+		LuaComponent* luac = new LuaComponent("testcomponent.lua");
+		obj->AddComponent(luac);
 		while (running && isOpen()) {
 			updateLoop();
 		}

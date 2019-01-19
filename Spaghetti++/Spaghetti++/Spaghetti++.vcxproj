@@ -29,6 +29,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HorizontalPlayerFollower.h" />
+    <ClInclude Include="LuaComponent.h" />
     <ClInclude Include="LuaState.h" />
     <ClInclude Include="ObjectBehaviour.h" />
     <ClInclude Include="PlayerControls.h" />
@@ -59,6 +60,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HorizontalPlayerFollower.cpp" />
+    <ClCompile Include="LuaComponent.cpp" />
     <ClCompile Include="LuaState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectBehaviour.cpp" />
