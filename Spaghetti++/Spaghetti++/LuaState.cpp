@@ -39,6 +39,37 @@ namespace sge {
 		return str;
 	}
 
+	std::vector<std::string> LuaState::ReadFromTable(std::string table, std::vector<std::string> vars)
+	{
+		lua_getglobal(state, table.c_str());
+
+		if (!lua_istable(state, -1)) {
+			lua_pop(state, 1);
+			return std::vector<std::string>();
+		}
+		std::vector<std::string> returns{};
+		for (std::string s : vars) {
+			lua_pushstring(state, s.c_str());
+			lua_gettable(state, -2);
+			returns.push_back(lua_tostring(state, -1));
+			lua_pop(state, 1);
+		}
+		return returns;
+	}
+
+	std::string LuaState::ReadFromTable(std::string table, std::string var)
+	{
+		if (!lua_istable(state, -1)) {
+			lua_pop(state, 1);
+			return "";
+		}
+		lua_pushstring(state, var.c_str());
+		lua_gettable(state, -2);
+		std::string s = lua_tostring(state, -1);
+		lua_pop(state, 1);
+		return s;
+	}
+
 	std::vector<std::string> LuaState::CallFunction(std::string name, int returns)
 	{
 		return CallFunction(name, std::vector<std::string>{},returns);
