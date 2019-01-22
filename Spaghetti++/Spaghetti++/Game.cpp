@@ -140,15 +140,16 @@ namespace sge {
 		if (running) return;
 		running = true;
 		GameObject* obj = new GameObject();
-		CameraComponent* ccam = new CameraComponent();
+		obj->AddComponent(new LuaComponent("../scene.lua"));
+		/*CameraComponent* ccam = new CameraComponent();
 		obj->AddComponent(ccam);
 		obj->SetName("Camera");
 		TextComponent::LoadFont("font.ttf");
 		GameObject* rect = new GameObject();
 		rect->AddComponent(new StartComponent());
 		rect->SetName("StartS");
-		LuaComponent* luac = new LuaComponent("testcomponent.lua");
-		obj->AddComponent(luac);
+		//LuaComponent* luac = new LuaComponent("testcomponent.lua");
+		//obj->AddComponent(luac);*/
 		while (running && isOpen()) {
 			updateLoop();
 		}
