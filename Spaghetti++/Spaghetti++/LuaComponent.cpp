@@ -30,6 +30,8 @@ namespace sge {
 		_state.SetGlobal("nullobject");
 		_state.RegisterLib(timeLib, "time");
 		_state.RegisterLib(gameObjectLib, "gameObject");
+		_state.PushMetaLib("sge.keys", keysMetaLib);
+		registerKeys();
 		_state.CallFunction("start");
 //		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;
 		
@@ -109,6 +111,11 @@ namespace sge {
 	const struct luaL_Reg LuaComponent::gameObjectLib[] = {
 		{"new", newObject},
 		{"find", findObject},
+		{NULL, NULL} // - signals the end of the registry
+	};
+
+	const struct luaL_Reg LuaComponent::keysMetaLib[] = {
+		{"pressed", isKeyDown},
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -231,5 +238,24 @@ namespace sge {
 		LuaState* ls = comp->GetState();
 		ls->PushLightUserData(obj, "sge.gameObject");
 		return 1;
+	}
+
+	int LuaComponent::isKeyDown(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>((int)comp->GetState()->GetNumbersFromStack()[0]);
+		lua_pushboolean(state, sf::Keyboard::isKeyPressed(key));
+		return 1;
+	}
+
+	void LuaComponent::registerKeys()
+	{
+		_state.OpenTable("keys");
+		_state.PushToTable("up", sf::Keyboard::Up);
+		_state.PushToTable("down", sf::Keyboard::Down);
+		_state.PushToTable("left", sf::Keyboard::Left);
+		_state.PushToTable("right", sf::Keyboard::Right);
+		_state.PushToTable("space", sf::Keyboard::Space);
+		_state.SaveTable("keys","sge.keys");
 	}
 }

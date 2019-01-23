@@ -104,11 +104,29 @@ namespace sge {
 		return s;
 	}
 
-	void LuaState::PushToTable(std::string table, int value)
+	void LuaState::OpenTable(std::string table)
 	{
 		lua_getglobal(state, table.c_str());
-		lua_pushinteger(state, value);
+		if (!lua_istable(state, -1))
+			lua_newtable(state);
+	}
 
+	void LuaState::SaveTable(std::string name, std::string metatable)
+	{
+		if (lua_istable(state, -1)) {
+			if (metatable != "") {
+				luaL_getmetatable(state, metatable.c_str());
+				lua_setmetatable(state, -2);
+			}
+			lua_setglobal(state, name.c_str());
+		}
+	}
+
+	void LuaState::PushToTable(std::string table, int value)
+	{
+		lua_pushstring(state, table.c_str());
+		lua_pushinteger(state, value);
+		lua_settable(state, -3);
 	}
 
 	std::vector<std::string> LuaState::CallFunction(std::string name, int returns)

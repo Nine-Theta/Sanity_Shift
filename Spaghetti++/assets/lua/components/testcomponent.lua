@@ -28,6 +28,7 @@ function fixedupdate()
 	--print(parent.getPos())
 	local x, y = parent:getPos()
 	parent:setPos(math.sin(time.seconds() * 10) * 100,y)
+	print(keys.pressed(keys.space))
 end
 	
 function ondestroy()
