@@ -104,6 +104,13 @@ namespace sge {
 		return s;
 	}
 
+	void LuaState::PushToTable(std::string table, int value)
+	{
+		lua_getglobal(state, table.c_str());
+		lua_pushinteger(state, value);
+
+	}
+
 	std::vector<std::string> LuaState::CallFunction(std::string name, int returns)
 	{
 		return CallFunction(name, std::vector<std::string>{},returns);

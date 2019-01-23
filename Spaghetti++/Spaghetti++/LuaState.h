@@ -15,6 +15,8 @@ namespace sge {
 		std::string GetString(std::string name);
 		std::vector<std::string> ReadFromTable(std::string table, std::vector<std::string> vars);
 		std::string ReadFromTable(std::string table, std::string var);
+		void PushToTable(std::string table, int value);
+		void PushToTable(std::string table, std::string value);
 		std::vector<std::string> CallFunction(std::string name, int returns = 0);
 		std::vector<std::string> CallFunction(std::string name, std::vector<std::string> args, int returns = 0);
 		std::vector<std::string> GetArgsFromStack();

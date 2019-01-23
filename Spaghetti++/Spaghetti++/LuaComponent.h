@@ -41,11 +41,25 @@ namespace sge {
 
 		static int newObject(lua_State* state);
 		static int findObject(lua_State* state);
+		//static const type_info& ParseComponentType(std::string type);
 
 		static const struct luaL_Reg gameObjectMetaLib[];
 		static const struct luaL_Reg timeLib[];
 		static const struct luaL_Reg gameObjectLib[];
 
 		static std::map <lua_State*, LuaComponent*> _components;
+
+
+
+		static constexpr unsigned int hash(const char* str, int h = 0)
+		{
+			return !str[h] ? 5381 : (hash(str, h + 1) * 33) ^ str[h];
+		}
+
+		inline
+		static unsigned int hash(const std::string& str)
+		{
+			return hash(str.c_str());
+		}
 	};
 }

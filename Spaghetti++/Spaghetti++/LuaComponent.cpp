@@ -2,6 +2,10 @@
 #include <string>
 #include "GameObject.h"
 #include "SpriteComponent.h"
+#include "CameraComponent.h"
+#include "CircleCollider.h"
+#include "TextComponent.h"
+#include "PlayerControls.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -22,10 +26,12 @@ namespace sge {
 		_state.PushMetaLib("sge.gameObject", gameObjectMetaLib);
 		_state.PushLightUserData(GetParent(), "sge.gameObject");
 		_state.SetGlobal("parent");
+		_state.PushLightUserData(NULL, "sge.gameObject");
+		_state.SetGlobal("nullobject");
 		_state.RegisterLib(timeLib, "time");
 		_state.RegisterLib(gameObjectLib, "gameObject");
 		_state.CallFunction("start");
-		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;
+//		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;
 		
 	}
 
@@ -46,11 +52,36 @@ namespace sge {
 
 	int LuaComponent::setParent(lua_State * state)
 	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		GameObject* parent = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		obj->SetParent(parent);
 		return 0;
 	}
 
 	int LuaComponent::addComponent(lua_State * state)
 	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<std::string> args = comp->GetState()->GetArgsFromStack();
+		std::string comps = args[args.size() - 1];
+		std::cout << "Attempting to add a component of type " << comps << std::endl;
+
+		switch (hash(comps)) 
+		{
+			case hash("camera"): obj->AddComponent(new CameraComponent()); break;
+			case hash("sprite"): obj->AddComponent(new SpriteComponent(args[0])); break;
+			case hash("text"): {TextComponent* txt = new TextComponent();
+				txt->SetSize(50);
+				txt->SetText(args[0]);
+				obj->AddComponent(txt);
+				break;
+			}
+			case hash("collider"): obj->AddComponent(new CircleCollider(std::stoi(args[0]))); break;
+			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
+			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
+			default: std::cout << "Component did not exist" << std::endl;
+		}
 		return 0;
 	}
 
@@ -183,8 +214,8 @@ namespace sge {
 	{
 		GameObject* obj = new GameObject();
 		obj->SetName("NewObject");
-		ObjectBehaviour* rcomp = new SpriteComponent("gecko.png");
-		obj->AddComponent(rcomp);
+		//ObjectBehaviour* rcomp = new SpriteComponent("gecko.png");
+		//obj->AddComponent(rcomp);
 		LuaComponent* comp = _components[state];
 		LuaState* ls = comp->GetState();
 		ls->PushLightUserData(obj, "sge.gameObject");
