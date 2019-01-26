@@ -137,11 +137,18 @@ namespace sge {
 	}
 	void LuaComponent::OnCollision(Collider * other)
 	{
-		_state.CallFunction("oncollision");
+		lua_State* state = _state.GetState();
+		lua_getglobal(state, "oncollision");
+		_state.PushLightUserData(other->GetParent());
+		lua_pcall(state, 1, 1, 0);
 	}
 	void LuaComponent::OnTrigger(Collider * other)
 	{
-		_state.CallFunction("oncollision");
+		lua_State* state = _state.GetState();
+		lua_getglobal(state, "oncollision");
+		_state.PushLightUserData(other->GetParent());
+		lua_pcall(state, 1, 1, 0);
+		//_state.CallFunction("oncollision");
 	}
 	LuaState * LuaComponent::GetState()
 	{

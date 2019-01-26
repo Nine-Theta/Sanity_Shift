@@ -33,6 +33,7 @@ namespace sge {
 	void Collider::CollideWithAll()
 	{
 		size_t cols = _allColliders.size();
+		//std::cout << cols << std::endl;
 		for (std::list<Collider*>::iterator itr = _allColliders.begin(), end = _allColliders.end();itr != end; itr++) {
 			//std::list<Collider*>::iterator toCol = itr; //Wanted a nested for loop but this saves one unnecessary check of the collider checking itself
 			//toCol++;

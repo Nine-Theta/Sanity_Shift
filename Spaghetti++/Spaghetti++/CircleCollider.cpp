@@ -40,7 +40,7 @@ namespace sge {
 		//float minDistSq = sqrtf(radius) + sqrtf(col->radius);
 		float minDist = radius + col->radius;
 		float distf = magnitude(dist);
-		//std::cout << "Attempted to collide two circles at distance " << minDistSq << " and it's meant to be " << distSq << std::endl;
+		//std::cout << "Attempted to collide two circles at distance " << minDist << " and it's meant to be " << distf << std::endl;
 		if (distf < minDist) {
 			if (isTrigger || col->isTrigger) {
 				p_gameObj->OnTrigger(col);

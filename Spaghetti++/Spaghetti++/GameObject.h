@@ -21,6 +21,7 @@ namespace sge {
 		std::vector<GameObject*> _children;
 		std::string _name;
 		sge::Collider* _collider = NULL;
+		bool isstatic = true;
 		Rigidbody2D* rigidbody = NULL;
 		void SetObjectState(GOState state);
 		void AddChild(GameObject* child);

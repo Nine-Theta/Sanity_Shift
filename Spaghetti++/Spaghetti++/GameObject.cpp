@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "SFML/Graphics/Transformable.hpp"
 #include <iostream>
+#include "LuaComponent.h"
 
 namespace sge {
 	GameObject::GameObject(GameObject* parent) : Transformable()
@@ -117,10 +118,11 @@ namespace sge {
 			_combinedTransform = getTransform();
 		if (rigidbody != NULL) {
 			rigidbody->FixedUpdate();
-			if (_collider != NULL)
-				_collider->CollideWithAll();
 			//std::cout << _collider->GetParent() << " - Updated collider with that parent!" << std::endl;
 		}
+
+			if (_collider != NULL && !isstatic) //make colliders also check for collision even without rigidbody now. Slower, but lua. Thanks lua
+				_collider->CollideWithAll();
 		/*for (unsigned int i = 0; i < _components.size(); i++) {
 			_components[i]->FixedUpdate();
 		}*/
@@ -209,6 +211,11 @@ namespace sge {
 		Rigidbody2D* rbody = dynamic_cast<Rigidbody2D*>(p_component);
 		if (rbody != NULL) {
 			rigidbody = rbody;
+			isstatic = false;
+		}
+		LuaComponent* lua = dynamic_cast<LuaComponent*>(p_component);
+		if (lua != NULL) {
+			isstatic = false;
 		}
 		p_component->SetParent(this);
 		_components.push_back(p_component);
