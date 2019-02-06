@@ -7,7 +7,7 @@ namespace sge {
 		luaL_openlibs(state);
 		file = "lua/" + file;
 		if (luaL_loadfile(state, file.c_str())) {
-			throw std::runtime_error("Lua file could not be found: " + file);
+			throw std::runtime_error("Error loading lua file: " + file);
 		}
 
 		int status = lua_pcall(state, 0, 0, 0);
@@ -46,7 +46,7 @@ namespace sge {
 		for (int i = 1; i <= n; i++) {
 			if (!lua_isnil(state, -1) && !lua_isfunction(state, -1) && !lua_islightuserdata(state, -1) && !lua_istable(state, -1)) {
 				std::string s = lua_tostring(state, -1);
-				std::cout << "Arg " << i << ": " << s << std::endl;
+				//std::cout << "Arg " << i << ": " << s << std::endl;
 				vals.push_back(s);
 				lua_pop(state, 1);
 			}

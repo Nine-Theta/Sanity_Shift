@@ -8,7 +8,7 @@ namespace sge {
 	{
 	public:
 		CircleCollider();
-		CircleCollider(float radius);
+		CircleCollider(float radius, bool trigger = false);
 		~CircleCollider();
 
 		void SetRadius(float radius);

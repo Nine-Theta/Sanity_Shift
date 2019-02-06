@@ -6,7 +6,7 @@ function spawnEnemy()
 	enemy:addComponent("sprite","enemy.png")
 	enemy:addComponent("collider",40)
 	enemy:addComponent("lua","enemy.lua")
-	enemy:setPos(600,math.random(-300,300))
+	enemy:setPos(1200,math.random(-300,300))
 end
 
 function update() --currently disabled
@@ -19,7 +19,7 @@ function fixedupdate()
 	timer = timer - time.fixedDelta()
 	
 	if timer < 0 then
-		timer = math.random(1,5)
+		timer = math.random(1,5) * 0.5
 		spawnEnemy()
 	end
 end

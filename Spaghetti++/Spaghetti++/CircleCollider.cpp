@@ -7,9 +7,10 @@ namespace sge {
 	{
 	}
 
-	CircleCollider::CircleCollider(float radius) : CircleCollider()
+	CircleCollider::CircleCollider(float radius, bool trigger) : CircleCollider() 
 	{
 		SetRadius(radius);
+		isTrigger = trigger;
 	}
 
 

@@ -80,6 +80,7 @@ namespace sge {
 				break;
 			}
 			case hash("collider"): obj->AddComponent(new CircleCollider(std::stoi(args[0]))); break;
+			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			default: std::cout << "Component did not exist" << std::endl;

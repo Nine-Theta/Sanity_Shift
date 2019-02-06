@@ -1,9 +1,5 @@
 --parent is component's parent gameObject. It supports functions 
 
-function printJoined(s1, s2)
-	local s3 = s1 .. s2
-	print(s3)
-end
 
 function start()
 	print("Initialised test lua component")
@@ -65,5 +61,3 @@ end
 function returnTest()
 	return 3,5,7
 end
-
-printJoined(teststring, string2)
