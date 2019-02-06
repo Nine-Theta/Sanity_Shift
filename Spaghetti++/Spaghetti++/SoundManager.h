@@ -10,6 +10,7 @@ namespace sge {
 		SoundManager();
 		~SoundManager();
 		static void PlaySound(std::string name);
+		static void BufferSound(std::string name);
 		static void PlayBGM(std::string name);
 		static void StopBGM();
 	private:

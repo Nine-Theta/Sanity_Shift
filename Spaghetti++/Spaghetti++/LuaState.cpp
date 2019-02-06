@@ -42,7 +42,7 @@ namespace sge {
 	std::vector<std::string> LuaState::GetArgsFromStack() {
 		std::vector<std::string> vals;
 		int n = lua_gettop(state);
-		std::cout << n << " elements on stack" << std::endl;
+		//std::cout << n << " elements on stack" << std::endl;
 		for (int i = 1; i <= n; i++) {
 			if (!lua_isnil(state, -1) && !lua_isfunction(state, -1) && !lua_islightuserdata(state, -1) && !lua_istable(state, -1)) {
 				std::string s = lua_tostring(state, -1);

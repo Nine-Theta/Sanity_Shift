@@ -10,6 +10,7 @@ function update() --currently disabled
 end
 
 function spawnBullet()
+	audio.play("LaserBlaster.wav")
 	local bullet = gameObject:new()
 	bullet:setName("Bullet")
 	bullet:addComponent("sprite","glows.png")
@@ -49,6 +50,11 @@ end
 
 function oncollision(other)
 	--print(other:getName())
+	if other:getName() == "Enemy" then
+		audio.play("PlayerDeathSound.wav")
+		local score = gameObject.find("score")
+		score:sendMessage("endGame")
+	end
 end
 
 function returnTest()

@@ -45,6 +45,11 @@ namespace sge {
 		return Game::GetInstance().FindGameObject(name);
 	}
 
+	void GameObject::DestroyAll()
+	{
+		return Game::GetInstance().DestroyAllObjects();
+	}
+
 	void GameObject::SetParent(GameObject * p_parent)
 	{
 		if (_p_parent == NULL && p_parent != NULL) {

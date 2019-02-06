@@ -25,11 +25,18 @@ namespace sge {
 		LuaState _state;
 
 		static int test(lua_State* state);
+		static int playAudio(lua_State* state);
+		static int bufferAudio(lua_State* state);
+		static int streamAudio(lua_State* state);
+		static int stopStream(lua_State* state);
 		static int getLParent(lua_State* state);
 		static int setParent(lua_State* state);
+		static int sendMessage(lua_State* state);
+		static int setText(lua_State* state);
 		static int addComponent(lua_State* state);
 		static int removeComponent(lua_State* state);
 		static int gDelete(lua_State* state);
+		static int gDeleteAll(lua_State* state);
 		static int getName(lua_State* state);
 		static int setName(lua_State* state);
 		static int getPos(lua_State* state);
@@ -41,12 +48,14 @@ namespace sge {
 
 		static int newObject(lua_State* state);
 		static int findObject(lua_State* state);
+		static int deleteAll(lua_State* state);
 
 		static int isKeyDown(lua_State* state);
 		//static const type_info& ParseComponentType(std::string type);
 
 		static const struct luaL_Reg gameObjectMetaLib[];
 		static const struct luaL_Reg timeLib[];
+		static const struct luaL_Reg audioLib[];
 		static const struct luaL_Reg gameObjectLib[];
 		static const struct luaL_Reg keysMetaLib[];
 

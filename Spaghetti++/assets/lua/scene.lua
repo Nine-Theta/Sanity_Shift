@@ -11,4 +11,6 @@ function init()
 	local cam = gameObject:new()
 	cam:setName("Camera")	
 	cam:addComponent("camera")
+	audio.buffer("LaserBlaster.wav")
+	audio.buffer("PlayerDeathSound.wav")
 end

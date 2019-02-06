@@ -6,6 +6,7 @@
 #include "CircleCollider.h"
 #include "TextComponent.h"
 #include "PlayerControls.h"
+#include "SoundManager.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -30,6 +31,7 @@ namespace sge {
 		_state.SetGlobal("nullobject");
 		_state.RegisterLib(timeLib, "time");
 		_state.RegisterLib(gameObjectLib, "gameObject");
+		_state.RegisterLib(audioLib, "audio");
 		_state.PushMetaLib("sge.keys", keysMetaLib);
 		registerKeys();
 		_state.CallFunction("start");
@@ -67,7 +69,7 @@ namespace sge {
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<std::string> args = comp->GetState()->GetArgsFromStack();
 		std::string comps = args[args.size() - 1];
-		std::cout << "Attempting to add a component of type " << comps << std::endl;
+		//std::cout << "Attempting to add a component of type " << comps << std::endl;
 
 		switch (hash(comps)) 
 		{
@@ -99,6 +101,8 @@ namespace sge {
 		{"getWorldPos", getWorldPos},
 		{"setPos", setPos},
 		{"setParent", setParent},
+		{"sendMessage", sendMessage},
+		{"setText", setText},
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -109,9 +113,18 @@ namespace sge {
 		{NULL, NULL} // - signals the end of the registry
 	};
 
+	const struct luaL_Reg LuaComponent::audioLib[] = {
+		{"buffer", bufferAudio},
+		{"play", playAudio},
+		{"stream", streamAudio},
+		{"stop", stopStream},
+		{NULL, NULL} // - signals the end of the registry
+	};
+
 	const struct luaL_Reg LuaComponent::gameObjectLib[] = {
 		{"new", newObject},
 		{"find", findObject},
+		{"deleteAll", deleteAll},
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -159,6 +172,34 @@ namespace sge {
 	{
 		return 0;
 	}
+	int LuaComponent::bufferAudio(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		std::string file = comp->GetState()->GetArgsFromStack()[0];
+		SoundManager::BufferSound(file);
+		return 0;
+	}
+	int LuaComponent::playAudio(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		std::string file = comp->GetState()->GetArgsFromStack()[0];
+		SoundManager::PlaySound(file);
+		return 0;
+	}
+	int LuaComponent::streamAudio(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		std::string file = comp->GetState()->GetArgsFromStack()[0];
+		SoundManager::PlayBGM(file);
+		return 0;
+	}
+	int LuaComponent::stopStream(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		//std::string file = comp->GetState()->GetArgsFromStack()[0];
+		SoundManager::StopBGM();
+		return 0;
+	}
 	int LuaComponent::gDelete(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
@@ -173,12 +214,38 @@ namespace sge {
 		lua_pushstring(state,obj->GetName().c_str());
 		return 1;
 	}
+	int LuaComponent::sendMessage(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::string message = comp->GetState()->GetArgsFromStack()[0];
+		LuaComponent* receiver = (LuaComponent*)obj->GetComponent(typeid(LuaComponent));
+		if (receiver != NULL) {
+			lua_getglobal(receiver->_state.GetState(), "onmessage");
+			lua_pushstring(receiver->_state.GetState(), message.c_str());
+			lua_pcall(receiver->_state.GetState(), 1, 1, 0);
+		}
+		return 0;
+	}
 	int LuaComponent::setName(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::string name = comp->GetState()->GetArgsFromStack()[0];
 		obj->SetName(name);
+		return 0;
+	}
+	int LuaComponent::setText(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::string text = comp->GetState()->GetArgsFromStack()[0];
+		TextComponent* textComp = (TextComponent*)obj->GetComponent(typeid(TextComponent));
+		if (textComp == NULL) {
+			textComp = new TextComponent();
+			obj->AddComponent(textComp);
+		}
+		textComp->SetText(text);
 		return 0;
 	}
 	int LuaComponent::getPos(lua_State * state)
@@ -246,6 +313,18 @@ namespace sge {
 		LuaState* ls = comp->GetState();
 		ls->PushLightUserData(obj, "sge.gameObject");
 		return 1;
+	}
+	int LuaComponent::deleteAll(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+//		std::string name = comp->GetState()->GetArgsFromStack()[0];
+		std::cout << "Attempting to delete all game objects" << std::endl;
+		//GameObject* obj = GameObject::Find(name);
+		//std::cout << "Found game object: " << obj << std::endl;
+		LuaState* ls = comp->GetState();
+		//ls->PushLightUserData(obj, "sge.gameObject");
+		GameObject::DestroyAll();
+		return 0;
 	}
 
 	int LuaComponent::isKeyDown(lua_State * state)

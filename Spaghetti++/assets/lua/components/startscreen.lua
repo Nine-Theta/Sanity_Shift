@@ -32,22 +32,32 @@ function initSpawner()
 	spawner:setName("spawner")
 	spawner:addComponent("lua","enemyspawner.lua")
 end
+
+function initScore()
+	local spawner = gameObject:new()
+	spawner:setName("score")
+	spawner:addComponent("lua","score.lua")
+	spawner:setPos(-350,-450)
+end
 	
 function fixedupdate()
 	--print(parent.getPos())
 	
 	if keys.pressed(keys.space) then
+		gameObject.deleteAll()
 		local bigScore = gameObject.find("BigScore")
 		if bigScore ~= nullobject then
 			bigScore:delete()
 		end
-	
+		local cam = gameObject:new()
+		cam:setName("Camera")	
+		cam:addComponent("camera")
+		initScore()
 		initPlayer()
 		initBounds()
 		initSpawner()
-		local cam = gameObject.find("Camera")
 		cam:setPos(250,0)
-		
+		audio.stream("BongoBongo.wav")
 		parent:delete()
 	end
 	
