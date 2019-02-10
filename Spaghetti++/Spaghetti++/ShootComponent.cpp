@@ -51,7 +51,7 @@ namespace sge {
 
 	void sge::ShootComponent::shoot()
 	{
-		std::cout << "Fired a shot" << std::endl;
+		//std::cout << "Fired a shot" << std::endl;
 		GameObject* bullet = new GameObject();
 		bullet->AddComponent(new SpriteComponent("glow.png"));
 		bullet->setPosition(p_gameObj->GetCombinedPosition());

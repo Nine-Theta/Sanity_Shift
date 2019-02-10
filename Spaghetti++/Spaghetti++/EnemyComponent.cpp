@@ -24,6 +24,7 @@ namespace sge {
 
 	void sge::EnemyComponent::OnDestroy()
 	{
+		std::cout << "Destroyed an enemy" << std::endl;
 	}
 
 	void sge::EnemyComponent::Update()

@@ -21,6 +21,7 @@ namespace sge {
 		std::vector<GameObject*> _children;
 		std::string _name;
 		sge::Collider* _collider = NULL;
+		bool isstatic = true;
 		Rigidbody2D* rigidbody = NULL;
 		void SetObjectState(GOState state);
 		void AddChild(GameObject* child);
@@ -37,6 +38,7 @@ namespace sge {
 		void OnDestroy();
 		static GameObject* Create();
 		static void Destroy(GameObject* p_object);
+		static void DestroyAll();
 		static GameObject* Create(GameObject* p_parent);
 		static GameObject* Find(std::string name);
 		void SetParent(GameObject* p_parent);

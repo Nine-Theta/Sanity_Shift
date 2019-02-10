@@ -29,6 +29,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HorizontalPlayerFollower.h" />
+    <ClInclude Include="LuaComponent.h" />
     <ClInclude Include="LuaState.h" />
     <ClInclude Include="ObjectBehaviour.h" />
     <ClInclude Include="PlayerControls.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Rigidbody2D.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="SelfDestructComp.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="ShootComponent.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="spaghet.h" />
@@ -58,6 +60,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HorizontalPlayerFollower.cpp" />
+    <ClCompile Include="LuaComponent.cpp" />
     <ClCompile Include="LuaState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectBehaviour.cpp" />
@@ -66,6 +69,7 @@
     <ClCompile Include="Rigidbody2D.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="SelfDestructComp.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="ShootComponent.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="spaghet.cpp" />
@@ -78,14 +82,11 @@
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\Devin\Pictures\gecko.png" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{0055016A-E389-4A93-9678-BD7D964DEFC7}</ProjectGuid>
     <RootNamespace>Spaghetti</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -110,9 +111,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include <list>
+#include <assert.h>
 #include "Time.h"
 #include "SFML/Graphics.hpp"
 #include "GameObject.h"
@@ -14,12 +15,15 @@
 #include "StartComponent.h"
 #include <assert.h>
 #include "LuaState.h"
+#include "CameraComponent.h"
+#include "Settings.h"
+#include "LuaComponent.h"
 
 namespace sge {
 	sf::CircleShape shape(100.f);
 
 	Game* Game::instance = NULL;
-	Game::Game() : sf::RenderWindow(sf::VideoMode(1280, 1024), "Spaghetti++")
+	Game::Game() : sf::RenderWindow(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"))
 	{
 		/*_allObjects = new std::list<sge::GameObject*>;
 		_newComponents = new std::list<sge::ObjectBehaviour*>;
@@ -44,6 +48,14 @@ namespace sge {
 		{
 			if (event.type == sf::Event::Closed)
 				close();
+			if (event.type == sf::Event::Resized) {
+				//would be better to move this to the renderer
+				//this version implements nonconstrained match viewport scaling
+				std::cout << ("Video mode changed to " + std::to_string(event.size.width) + " - " + std::to_string(event.size.height)) << std::endl;
+				//_world->getMainCamera()->setProjection(glm::perspective(glm::radians(60.0f), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f));	//fix projection
+				//glViewport(0, 0, event.size.width, event.size.height);
+				
+			}
 		}
 		while (Time::DoFixedStep()) {
 			//std::cout << Time::GetFramerate() << std::endl;
@@ -128,15 +140,20 @@ namespace sge {
 		if (running) return;
 		running = true;
 		GameObject* obj = new GameObject();
-		CameraComponent* ccam = new CameraComponent();
+		obj->AddComponent(new LuaComponent("../scene.lua"));
+		updateLoop();
+		LuaComponent* lua = (LuaComponent*)obj->GetComponent(typeid(LuaComponent));
+		lua->GetState()->CallFunction("init");
+		GameObject::Destroy(obj);
+		TextComponent::LoadFont("font.ttf");
+		/*CameraComponent* ccam = new CameraComponent();
 		obj->AddComponent(ccam);
 		obj->SetName("Camera");
-		TextComponent::LoadFont("font.ttf");
 		GameObject* rect = new GameObject();
 		rect->AddComponent(new StartComponent());
 		rect->SetName("StartS");
-		LuaState state("test.lua");
-		//std::cout << typeid(typeid(5)).name() << std::endl;
+		//LuaComponent* luac = new LuaComponent("testcomponent.lua");
+		//obj->AddComponent(luac);*/
 		while (running && isOpen()) {
 			updateLoop();
 		}
@@ -169,7 +186,7 @@ namespace sge {
 	void Game::AddToRoot(GameObject * p_object)
 	{
 		_rootObjects.push_back(p_object);
-		std::cout << "Added an object to root updating: " << p_object << std::endl;
+		//std::cout << "Added an object to root updating: " << p_object << std::endl;
 	}
 
 	GameObject* Game::FindGameObject(std::string name) {

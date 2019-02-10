@@ -10,6 +10,7 @@
 #include "DebugComponent.h"
 #include "ScoreComponent.h"
 #include "SoundManager.h"
+#include "LuaComponent.h"
 
 namespace sge {
 
@@ -74,6 +75,7 @@ namespace sge {
 		rect->AddComponent(new Rigidbody2D());
 		rect->AddComponent(new PlayerControls());
 		rect->AddComponent(new ShootComponent());
+		rect->AddComponent(new LuaComponent("testcomponent.lua"));
 		CircleCollider* ccol = new CircleCollider(80.0f);
 		rect->AddComponent(ccol);
 		GameObject* subrect = new GameObject(rect);
