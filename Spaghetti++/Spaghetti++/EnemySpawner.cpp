@@ -53,7 +53,7 @@ namespace sge {
 		timeUntilSpawn = randf() * 1.5f + 0.2f;
 		GameObject* enemy = new GameObject();
 		enemy->AddComponent(new SpriteComponent("enemy.png"));
-		enemy->setPosition(p_gameObj->getPosition() + sf::Vector2f(1280, -312 + randf() * 624));
+		enemy->setPosition(p_gameObj->getPosition() + glm::vec2(1280, -312 + randf() * 624));
 		Rigidbody2D* rbody = new Rigidbody2D();
 		rbody->SetDrag(0);
 		rbody->SetVelocity(randf() * -300 - 100, 0);

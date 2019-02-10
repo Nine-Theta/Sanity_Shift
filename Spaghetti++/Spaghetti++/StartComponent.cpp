@@ -29,7 +29,7 @@ namespace sge {
 		txt->SetText("Press Spacebar to play!");
 		txt->SetSize(50);
 		p_gameObj->AddComponent(txt);
-		p_gameObj->setPosition(sf::Vector2f(-300, 300));
+		p_gameObj->setPosition(vec2(-300, 300));
 	}
 
 	void sge::StartComponent::OnDestroy()
@@ -84,12 +84,12 @@ namespace sge {
 		subrect->setPosition(450, 200);
 		subrect->setRotation(74);
 		GameObject* topLimit = new GameObject();
-		topLimit->setPosition(rect->getPosition() + sf::Vector2f(0, 512));
+		topLimit->setPosition(rect->getPosition() + glm::vec2(0, 512));
 		//topLimit->AddComponent(new RectangleComponent(50,50));
 		topLimit->AddComponent(new CircleCollider(0));
 		topLimit->AddComponent(new HorizontalPlayerFollower());
 		GameObject* bottomLimit = new GameObject();
-		bottomLimit->setPosition(rect->getPosition() + sf::Vector2f(0, -512));
+		bottomLimit->setPosition(rect->getPosition() + glm::vec2(0, -512));
 		bottomLimit->AddComponent(new CircleCollider(0));
 		bottomLimit->AddComponent(new HorizontalPlayerFollower());
 		std::cout << rect->GetComponent(typeid(Rigidbody2D)) << std::endl;

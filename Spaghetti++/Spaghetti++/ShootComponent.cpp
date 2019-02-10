@@ -57,8 +57,8 @@ namespace sge {
 		bullet->setPosition(p_gameObj->GetCombinedPosition());
 		bullet->setScale(0.3f,0.3f);
 		Rigidbody2D* rbody = new Rigidbody2D();
-		sf::Vector2f velocity(1000, 0);
-		velocity = rotate(velocity, p_gameObj->getRotation());
+		glm::vec2 velocity(1000, 0);
+		velocity = vec2(cos(radians(p_gameObj->getRotation())), sin(radians(p_gameObj->getRotation()))) * 1000.f;//p_gameObj->getRotation());
 		velocity += rbody->GetVelocity();
 		rbody->SetVelocity(velocity.x,velocity.y);
 		CircleCollider* col = new CircleCollider(10);

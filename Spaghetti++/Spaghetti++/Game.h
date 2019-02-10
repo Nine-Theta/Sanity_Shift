@@ -1,6 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
+
+#include "GL/glew.h"
+#include "SFML/Graphics.hpp"
 #include <list>
 namespace sge {
 	class Game : public sf::RenderWindow
@@ -15,6 +18,9 @@ namespace sge {
 		void doFixedUpdate();
 		void doRender();
 		void initNewComponents();
+
+		void _printVersionInfo();
+		void _initializeGlew();
 
 		static Game *instance;
 		bool running = false;

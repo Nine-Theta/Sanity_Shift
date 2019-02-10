@@ -1,5 +1,5 @@
 #pragma once
-#include "SFML/Graphics/Transformable.hpp"
+//#include "SFML/Graphics/Transformable.hpp"
 #include <vector>
 #include "ObjectBehaviour.h"
 #include "Collider.h"
@@ -11,10 +11,11 @@ namespace sge {
 	class Rigidbody2D;
 	//template<class T>
 	//template <class T>
-	class GameObject : public sf::Transformable
+	class GameObject// : public sf::Transformable
 	{
 	private:
-		sf::Transform _combinedTransform = sf::Transform::Identity;
+		glm::mat4 _transform = glm::mat4();
+		glm::mat4 _combinedTransform = glm::mat4();
 		GameObject* _p_parent = NULL;
 		sge::GOState _state = GOState::PRE_INIT;
 		std::vector<ObjectBehaviour*> _components;
@@ -31,7 +32,7 @@ namespace sge {
 		GameObject();
 		GameObject(GameObject* p_parent);
 		~GameObject();
-		sf::Transform GetCombinedTransform();
+		glm::mat4 GetCombinedTransform() const;
 		sge::GOState GetObjectState();
 		GameObject* GetParent();
 		Collider* GetCollider();
@@ -44,8 +45,17 @@ namespace sge {
 		void SetParent(GameObject* p_parent);
 		void SetName(std::string newName);
 		std::string GetName();
-		sf::Vector2f GetCombinedPosition();
+		glm::vec3 GetCombinedPosition();
 		Rigidbody2D* GetRigidbody();
+		void SetWorldPosition(glm::vec3 pos);
+		//Dummies for old SFML-based functions:
+		void setPosition(float x, float y);
+		void setPosition(glm::vec2);
+		void setRotation(float rot);
+		glm::vec2 getPosition();
+		void rotate(float rot);
+		void setScale(float x, float y, float z = 1);
+		float getRotation();
 		//void operator delete(void * p);
 		//template <class T>
 		//T* GetComponent<T>();

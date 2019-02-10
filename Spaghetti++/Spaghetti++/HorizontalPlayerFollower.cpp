@@ -25,7 +25,7 @@ namespace sge {
 	void HorizontalPlayerFollower::FixedUpdate()
 	{
 		if (player == NULL) return;
-		p_gameObj->setPosition(sf::Vector2f(p_gameObj->getPosition().x + offset.x,p_gameObj->getPosition().y));
+		p_gameObj->setPosition(glm::vec2(p_gameObj->getPosition().x + offset.x,p_gameObj->getPosition().y));
 	}
 	void HorizontalPlayerFollower::OnRender()
 	{

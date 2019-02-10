@@ -24,7 +24,7 @@ namespace sge {
 		view.setSize(sf::Vector2f(width, height));
 		//view.setCenter(sf::Vector2f(width * 0.5, height * 0.5));
 		view.zoom(scale);
-		view.setCenter(p_gameObj->GetCombinedPosition());
+		//view.setCenter(p_gameObj->GetCombinedPosition()); //TODO: Port to GLM
 		view.setRotation(p_gameObj->getRotation());
 		Game::GetInstance().setView(view);
 	}

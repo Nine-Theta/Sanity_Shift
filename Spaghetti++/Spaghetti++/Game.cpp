@@ -3,7 +3,6 @@
 #include <list>
 #include <assert.h>
 #include "Time.h"
-#include "SFML/Graphics.hpp"
 #include "GameObject.h"
 #include "ObjectBehaviour.h"
 #include "CameraComponent.h"
@@ -25,6 +24,8 @@ namespace sge {
 	Game* Game::instance = NULL;
 	Game::Game() : sf::RenderWindow(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"))
 	{
+		_initializeGlew();
+		_printVersionInfo();
 		/*_allObjects = new std::list<sge::GameObject*>;
 		_newComponents = new std::list<sge::ObjectBehaviour*>;
 		_rootObjects = new std::list<sge::GameObject*>;
@@ -231,6 +232,35 @@ namespace sge {
 		for (GameObject* obj : _allObjects) {
 			GameObject::Destroy(obj);
 		}
+	}
+
+	void Game::_printVersionInfo() {
+		std::cout << "Context info:" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		//print some debug stats for whoever cares
+		const GLubyte *vendor = glGetString(GL_VENDOR);
+		const GLubyte *renderer = glGetString(GL_RENDERER);
+		const GLubyte *version = glGetString(GL_VERSION);
+		const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+		//nice consistency here in the way OpenGl retrieves values
+		GLint major, minor;
+		glGetIntegerv(GL_MAJOR_VERSION, &major);
+		glGetIntegerv(GL_MINOR_VERSION, &minor);
+
+		printf("GL Vendor : %s\n", vendor);
+		printf("GL Renderer : %s\n", renderer);
+		printf("GL Version (string) : %s\n", version);
+		printf("GL Version (integer) : %d.%d\n", major, minor);
+		printf("GLSL Version : %s\n", glslVersion);
+
+		std::cout << "----------------------------------" << std::endl << std::endl;
+	}
+
+	void Game::_initializeGlew() {
+		std::cout << "Initializing GLEW..." << std::endl;
+		//initialize the opengl extension wrangler
+		GLint glewStatus = glewInit();
+		std::cout << "Initialized GLEW, status (1 == OK, 0 == FAILED):" << (glewStatus == GLEW_OK) << std::endl << std::endl;
 	}
 
 	sge::Game& Game::GetInstance()

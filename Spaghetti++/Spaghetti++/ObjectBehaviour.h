@@ -3,9 +3,13 @@
 #include "Time.h"
 //#include "Game.h"
 #include <vector>
+#include "glm/glm.hpp"
+
 namespace sge {
 	class GameObject;
 	class Collider;
+
+	using namespace glm;
 	class ObjectBehaviour
 	{
 	protected:

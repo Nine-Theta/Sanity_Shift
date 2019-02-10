@@ -38,7 +38,7 @@ namespace sge {
 	void RectangleComponent::OnRender()
 	{
 		sf::RenderStates state = sf::RenderStates::Default;
-		state.transform = p_gameObj->GetCombinedTransform();
+//		state.transform = p_gameObj->GetCombinedTransform(); //TODO: Port to GLM
 		sge::Game::GetInstance().draw(rect, state);
 	}
 

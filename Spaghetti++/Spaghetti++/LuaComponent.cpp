@@ -253,7 +253,7 @@ namespace sge {
 		LuaComponent* comp = _components[state];
 		LuaState* ls = comp->GetState();
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
-		sf::Vector2 vec = obj->getPosition();
+		glm::vec2 vec = obj->getPosition();
 		lua_pushnumber(state, vec.x);
 		lua_pushnumber(state, vec.y);
 		return 2;
@@ -264,7 +264,7 @@ namespace sge {
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
-		obj->setPosition(sf::Vector2f((float)vals[1], (float)vals[0]));
+		obj->setPosition(glm::vec2((float)vals[1], (float)vals[0]));
 		return 0;
 	}
 	int LuaComponent::getWorldPos(lua_State * state)
@@ -272,7 +272,7 @@ namespace sge {
 		LuaComponent* comp = _components[state];
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		LuaState* ls = comp->GetState();
-		sf::Vector2 vec = obj->GetCombinedPosition();
+		glm::vec2 vec = obj->GetCombinedPosition();
 		lua_pushnumber(state, vec.x);
 		lua_pushnumber(state, vec.y);
 		return 2;

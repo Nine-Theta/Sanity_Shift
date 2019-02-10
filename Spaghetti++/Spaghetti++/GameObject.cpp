@@ -5,7 +5,7 @@
 #include "LuaComponent.h"
 
 namespace sge {
-	GameObject::GameObject(GameObject* parent) : Transformable()
+	GameObject::GameObject(GameObject* parent)
 	{
 		_p_parent = parent;
 		if (_p_parent != NULL) {
@@ -15,7 +15,7 @@ namespace sge {
 		}
 		else {
 			//std::cout << "Initialised an object without a parent" << std::endl;
-			_combinedTransform = sf::Transform::Identity;
+			_combinedTransform = glm::mat4();
 			//Game::GetInstance().AddToRoot(this);
 		}
 		Game::GetInstance().RegisterGameObject(this);
@@ -68,14 +68,54 @@ namespace sge {
 		return _name;
 	}
 
-	sf::Vector2f GameObject::GetCombinedPosition()
+	glm::vec3 GameObject::GetCombinedPosition()
 	{
-		return _combinedTransform.transformPoint(sf::Vector2f(0,0));
+		return _combinedTransform[3];// * glm::vec4(0,0,0,0);
 	}
 
 	Rigidbody2D * GameObject::GetRigidbody()
 	{
 		return rigidbody;
+	}
+
+	void GameObject::SetWorldPosition(glm::vec3 pos)
+	{
+		if (GetParent() != NULL) {
+			glm::mat4 inverse = glm::inverse(GetParent()->GetCombinedTransform());
+			_transform[3] = inverse * glm::vec4(pos, 1);
+		}
+		else
+			_transform[3] = vec4(pos, 1);
+	}
+
+	void GameObject::setPosition(float x, float y)
+	{
+	}
+
+	void GameObject::setPosition(glm::vec2)
+	{
+	}
+
+	void GameObject::setRotation(float rot)
+	{
+	}
+
+	glm::vec2 GameObject::getPosition()
+	{
+		return _transform[3];
+	}
+
+	void GameObject::rotate(float rot)
+	{
+	}
+
+	void GameObject::setScale(float x, float y, float z)
+	{
+	}
+
+	float GameObject::getRotation()
+	{
+		return 0.0f;
 	}
 
 	/*void GameObject::operator delete(void * p)
@@ -102,9 +142,9 @@ namespace sge {
 		if (_state > GOState::ACTIVE)
 			return;
 		if (_p_parent != NULL)
-			_combinedTransform = _p_parent->GetCombinedTransform().combine(getTransform());
+			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
 		else
-			_combinedTransform = getTransform();
+			_combinedTransform = _transform;//getTransform();
 		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
 			//(*itr)->Update();
 		}
@@ -115,12 +155,10 @@ namespace sge {
 	void GameObject::OnFixedUpdate(){
 		if (_state > GOState::ACTIVE)
 			return;
-		if (_p_parent != NULL) {
-			_combinedTransform = _p_parent->GetCombinedTransform().combine(getTransform());
-			//std::cout << "Object that is a child has a transform of position: " << _combinedTransform.transformPoint(sf::Vector2f(0, 0)).y << std::endl;
-		}
+		if (_p_parent != NULL)
+			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
 		else
-			_combinedTransform = getTransform();
+			_combinedTransform = _transform;//getTransform();
 		if (rigidbody != NULL) {
 			rigidbody->FixedUpdate();
 			//std::cout << _collider->GetParent() << " - Updated collider with that parent!" << std::endl;
@@ -250,7 +288,7 @@ namespace sge {
 		}
 	}
 
-	sf::Transform GameObject::GetCombinedTransform()
+	glm::mat4 GameObject::GetCombinedTransform() const
 	{
 		return _combinedTransform;//_combinedTransform;
 	}

@@ -36,11 +36,11 @@ namespace sge {
 	{
 		//col->SetParent(GameObject::Find("Player"));
 		if (p_gameObj == NULL || col->GetParent() == NULL) return;
-		sf::Vector2f dist = p_gameObj->getPosition() - col->GetParent()->getPosition();
+		glm::vec3 dist = p_gameObj->GetCombinedPosition() - col->GetParent()->GetCombinedPosition();
 		//float distSq = magnitudeSq(dist);
 		//float minDistSq = sqrtf(radius) + sqrtf(col->radius);
 		float minDist = radius + col->radius;
-		float distf = magnitude(dist);
+		float distf = glm::length(dist);
 		//std::cout << "Attempted to collide two circles at distance " << minDist << " and it's meant to be " << distf << std::endl;
 		if (distf < minDist) {
 			if (isTrigger || col->isTrigger) {
@@ -51,15 +51,15 @@ namespace sge {
 			p_gameObj->OnCollision(col);
 			col->GetParent()->OnCollision(this);
 			float minDist = radius + col->radius;
-			float diff = -(magnitude(sf::Vector2f(dist)) - minDist);
-			sf::Vector2f colDir = normalized(dist);
-			sf::Vector2f toMove = colDir * (diff + 1); //one pixel offset hack, shouldn't be used but faster than fixing collision
-			p_gameObj->setPosition(p_gameObj->getPosition() + toMove);
+			float diff = -(glm::length(dist) - minDist);
+			glm::vec3 colDir = glm::normalize(dist);
+			glm::vec3 toMove = colDir * (diff + 1); //one pixel offset hack, shouldn't be used but faster than fixing collision
+			p_gameObj->SetWorldPosition(p_gameObj->GetCombinedPosition() + toMove);
 			if (p_gameObj->GetRigidbody() != NULL) {
 				Rigidbody2D* rbody = p_gameObj->GetRigidbody();
-				sf::Vector2f vel = rbody->GetVelocity();
-				float colVel = dot(vel, colDir);
-				sf::Vector2f newColVel = colDir * colVel;
+				vec2 vel = rbody->GetVelocity();
+				float colVel = glm::dot(vel, vec2(colDir));
+				vec2 newColVel = colDir * colVel;
 				rbody->AddVelocity(-newColVel - newColVel * bounciness);
 			}
 		}

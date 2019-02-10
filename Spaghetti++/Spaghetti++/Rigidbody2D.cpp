@@ -25,10 +25,10 @@ namespace sge {
 	}
 	void Rigidbody2D::FixedUpdate()
 	{
-		sf::Vector2f dir = normalized(velocity);
+		glm::vec2 dir = glm::normalize(velocity);
 		velocity -= dir * drag;
-		if (dot(velocity, dir) < 0)
-			velocity = sf::Vector2f(0, 0);
+		if (glm::dot(velocity, dir) < 0)
+			velocity = glm::vec2(0, 0);
 		if (rotVel < 0) {
 			rotVel += rotDrag;
 			if (rotVel > 0)
@@ -47,13 +47,13 @@ namespace sge {
 	}
 	void Rigidbody2D::SetVelocity(float x, float y)
 	{
-		velocity = sf::Vector2f(x, y);
+		velocity = glm::vec2(x, y);
 	}
 	void Rigidbody2D::AddVelocity(float x, float y)
 	{
-		velocity += sf::Vector2f(x, y);
+		velocity += vec2(x, y);
 	}
-	void Rigidbody2D::AddVelocity(sf::Vector2f vel)
+	void Rigidbody2D::AddVelocity(glm::vec2 vel)
 	{
 		velocity += vel;
 	}
@@ -69,7 +69,7 @@ namespace sge {
 	{
 		this->drag = drag;
 	}
-	sf::Vector2f Rigidbody2D::GetVelocity()
+	glm::vec2 Rigidbody2D::GetVelocity()
 	{
 		return velocity;
 	}

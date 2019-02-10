@@ -32,9 +32,9 @@ namespace sge {
 			rbody->AddAngularVelocity(3 * Time::FixedDelta());
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			sf::Vector2f toAdd = sf::Vector2f(0, 300 * Time::FixedDelta());
-			toAdd = rotate(toAdd, p_gameObj->getRotation());
-			if (magnitude(rbody->GetVelocity()) < 250)
+			vec2 toAdd = vec2(0, 300 * Time::FixedDelta());
+			//toAdd = rotate(toAdd, p_gameObj->getRotation());
+			if (length(rbody->GetVelocity()) < 250)
 				rbody->AddVelocity(toAdd);
 		}
 	}

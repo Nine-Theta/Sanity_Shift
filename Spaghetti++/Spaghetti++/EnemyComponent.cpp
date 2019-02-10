@@ -34,7 +34,7 @@ namespace sge {
 	void sge::EnemyComponent::FixedUpdate()
 	{
 		if(wave)
-			p_gameObj->setPosition(p_gameObj->getPosition() + sf::Vector2f(0, sinf(Time::TimeRunning() * PI) * 5));
+			p_gameObj->setPosition(p_gameObj->getPosition() + glm::vec2(0, sinf(Time::TimeRunning() * PI) * 5));
 	}
 
 	void sge::EnemyComponent::OnRender()

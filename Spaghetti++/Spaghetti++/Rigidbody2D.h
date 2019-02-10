@@ -18,15 +18,15 @@ namespace sge {
 
 		void SetVelocity(float, float);
 		void AddVelocity(float x, float y);
-		void AddVelocity(sf::Vector2f vel);
+		void AddVelocity(glm::vec2 vel);
 		void AddAngularVelocity(float vel);
 		void SetAngularVelocity(float vel);
 		void SetDrag(float drag);
 		virtual void OnCollision(Collider* other) override;
-		sf::Vector2f GetVelocity();
+		glm::vec2 GetVelocity();
 		virtual void OnTrigger(Collider * other) override;
 	private:
-		sf::Vector2f velocity = sf::Vector2f(0,0);
+		glm::vec2 velocity = glm::vec2(0,0);
 		float drag = 3;
 		float rotVel = 0;
 		float rotDrag = 0.01f;

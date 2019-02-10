@@ -18,7 +18,7 @@ namespace sge {
 		virtual void OnTrigger(Collider * other) override;
 	private:
 		GameObject* player = NULL;
-		sf::Vector2f offset;
+		glm::vec2 offset;
 
 
 		// Geerbt über ObjectBehaviour
