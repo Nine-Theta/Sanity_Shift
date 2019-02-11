@@ -12,6 +12,8 @@
 #include "components/CircleCollider.h"
 #include "components/TextComponent.h"
 #include "components/StartComponent.h"
+#include "components/MeshComponent.h"
+#include "materials/WobbleMaterial.hpp"
 #include <assert.h>
 #include "LuaState.h"
 #include "components/CameraComponent.h"
@@ -151,6 +153,9 @@ namespace sge {
 		lua->GetState()->CallFunction("init");
 		GameObject::Destroy(obj);
 		TextComponent::LoadFont("font.ttf");
+		GameObject* room = new GameObject();
+		room->AddComponent(new MeshComponent("cuberoom.obj",new WobbleMaterial("rustypaint.png")));
+		room->SetWorldPosition(vec3(0,8,-40));
 		/*CameraComponent* ccam = new CameraComponent();
 		obj->AddComponent(ccam);
 		obj->SetName("Camera");

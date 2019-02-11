@@ -12,6 +12,7 @@ namespace sge {
 		~MeshComponent();
 	private:
 		Mesh* _mesh;
+		AbstractMaterial* _material;
 
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;

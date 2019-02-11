@@ -51,7 +51,8 @@ namespace sge {
 	}
 
 	void WobbleMaterial::render(sge::MeshComponent* mesh, sge::CameraComponent* cam) {
-		if (!_diffuseTexture) return;
+		//if (!_diffuseTexture) return;
+		std::cout << "Rendering material\n";
 		if (cam == NULL)
 			cam = CameraComponent::GetMain();
 		_shader->use();
@@ -65,7 +66,7 @@ namespace sge {
 		//setup texture slot 0
 		glActiveTexture(GL_TEXTURE0);
 		//bind the texture to the current active slot
-		glBindTexture(GL_TEXTURE_2D, _diffuseTexture->getId());
+		//glBindTexture(GL_TEXTURE_2D, _diffuseTexture->getId());
 		//tell the shader the texture slot for the diffuse texture is slot 0
 		glUniform1i(_uDiffuseTexture, 0);
 

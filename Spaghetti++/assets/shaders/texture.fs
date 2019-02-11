@@ -10,5 +10,5 @@ out vec4 fragment_color;
 
 void main( void ) {
 	vec3 lightCol = ((1 + dot(sunDir,fNormal)) / 2) * vec3(1,1,1);
-	fragment_color = vec4(lightCol,1) * texture(diffuseTexture,texCoord);
+	fragment_color = vec4(lightCol,1) * vec4(1,1,1,1);//texture(diffuseTexture,texCoord);
 }

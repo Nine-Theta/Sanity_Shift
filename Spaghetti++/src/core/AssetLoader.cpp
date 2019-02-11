@@ -25,7 +25,7 @@ namespace sge {
 			return;// _cached[path];
 		Mesh* mesh = Mesh::load(Settings::GetSetting("meshDir") + path);
 		if (mesh == NULL) {
-			std::cout << "Error loading mesh: " << path << std::endl;
+			std::cout << "Error loading mesh: " << Settings::GetSetting("meshDir") << path << std::endl;
 			return;
 		}
 		_cached.insert(std::make_pair(path, mesh));
