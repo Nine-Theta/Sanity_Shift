@@ -19,6 +19,7 @@
 #include "components/CameraComponent.h"
 #include "Settings.h"
 #include "components/LuaComponent.h"
+#include "components/LightComponent.hpp"
 
 namespace sge {
 	sf::CircleShape shape(100.f);
@@ -29,6 +30,7 @@ namespace sge {
 		_initializeGlew();
 		_printVersionInfo();
 		_initializeOGL();
+		LightComponent::GenLightUBO();
 		/*_allObjects = new std::list<sge::GameObject*>;
 		_newComponents = new std::list<sge::ObjectBehaviour*>;
 		_rootObjects = new std::list<sge::GameObject*>;
@@ -50,8 +52,10 @@ namespace sge {
 		sf::Event event;
 		while (pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed) {
 				close();
+				return;
+			}
 			if (event.type == sf::Event::Resized) {
 				//would be better to move this to the renderer
 				//this version implements nonconstrained match viewport scaling
@@ -116,6 +120,7 @@ namespace sge {
 	{
 		std::list<CameraComponent*> cameras = CameraComponent::GetCameras();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		LightComponent::UpdateLights();
 		//std::cout << "Drawing cameras: " << cameras.size() << std::endl;
 		for (std::list<CameraComponent*>::iterator citr = cameras.begin(), cend = cameras.end(); citr != cend; citr++) {
 			(*citr)->UpdateCamera();

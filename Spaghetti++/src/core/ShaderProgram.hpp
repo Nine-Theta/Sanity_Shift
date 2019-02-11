@@ -1,3 +1,4 @@
+#pragma once
 #ifndef SHADERPROGRAM_HPP
 #define SHADERPROGRAM_HPP
 

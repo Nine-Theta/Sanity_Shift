@@ -1,3 +1,4 @@
+#pragma once
 #ifndef ABSTRACTMATERIAL_HPP
 #define ABSTRACTMATERIAL_HPP
 

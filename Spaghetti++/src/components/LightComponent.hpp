@@ -8,6 +8,7 @@
 #include "SFML/Graphics/Color.hpp"
 #include "GameObject.h"
 #include "CameraComponent.h"
+#include "GL/glew.h"
 
 /**
  * Exercise for the student: implement the Light class...
@@ -19,6 +20,7 @@ enum Lighttype {
 	POINT
 };
 namespace sge {
+	using namespace glm;
 	class LightComponent : ObjectBehaviour
 	{
 	public:
@@ -27,6 +29,13 @@ namespace sge {
 
 		//override set parent to register/deregister light...
 		//virtual void _setWorldRecursively(World* pWorld) override;
+		static void GenLightUBO();
+		static void RegisterLight(LightComponent* light);
+		static void UnregisterLight(LightComponent* light);
+		static GLLight* GetLights();
+		static void UpdateLights();
+		static GLuint GetLightUBO();
+		static uint GetLightCount();
 
 		void SetColor(sf::Color col);
 		void SetSpotlightAngle(float sharpAngle, float maxAngle);
@@ -76,7 +85,9 @@ namespace sge {
 		}
 
 	private:
-
+		static std::vector<LightComponent*> _lights;
+		static GLLight _glLights[16];
+		static GLuint uboLightID;
 		sf::Color _color;
 		float _intensity;
 		float _ambientContrib;
@@ -85,6 +96,15 @@ namespace sge {
 		float _falloffMax = -1;
 
 		static unsigned int _lightsCount;
+
+		// Geerbt über ObjectBehaviour
+		virtual void Start() override;
+		virtual void OnDestroy() override;
+		virtual void Update() override;
+		virtual void FixedUpdate() override;
+		virtual void OnRender() override;
+		virtual void OnCollision(Collider * other) override;
+		virtual void OnTrigger(Collider * other) override;
 	};
 }
 #endif // LIGHT_HPP
