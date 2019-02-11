@@ -105,6 +105,11 @@ namespace sge {
 		return _transform[3];
 	}
 
+	vec3 GameObject::forward()
+	{
+		return -_combinedTransform[2];
+	}
+
 	void GameObject::rotate(float rot)
 	{
 	}

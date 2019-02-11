@@ -53,6 +53,8 @@ namespace sge {
 		void setPosition(glm::vec2);
 		void setRotation(float rot);
 		glm::vec2 getPosition();
+
+		vec3 forward();
 		void rotate(float rot);
 		void setScale(float x, float y, float z = 1);
 		float getRotation();

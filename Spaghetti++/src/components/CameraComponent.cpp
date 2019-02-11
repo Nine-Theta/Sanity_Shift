@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Game.h"
 #include "Settings.h"
+#include "CameraComponent.h"
 
 namespace sge {
 	std::list<CameraComponent*> CameraComponent::cameras = std::list<CameraComponent*>();
@@ -37,6 +38,14 @@ namespace sge {
 	void CameraComponent::SetProjection(float width, float height, float far)
 	{
 		projectionM = glm::ortho(0.f, width, 0.f, height, -1.f, far);
+	}
+	mat4 CameraComponent::GetView()
+	{
+		return viewM;
+	}
+	mat4 CameraComponent::GetProjection()
+	{
+		return projectionM;
 	}
 	CameraComponent::CameraComponent()
 	{

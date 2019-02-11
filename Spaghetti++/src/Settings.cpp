@@ -18,6 +18,9 @@ namespace sge {
 		SetSetting("height", settings.GetString("height"));
 		SetSetting("windowname", settings.GetString("windowname"));
 		SetSetting("fov", settings.GetString("fov"));
+		SetSetting("meshDir", settings.GetString("meshDir"));
+		SetSetting("texDir", settings.GetString("texDir"));
+		SetSetting("shaderDir", settings.GetString("shaderDir"));
 	}
 	std::string Settings::GetSetting(std::string key)
 	{

@@ -26,6 +26,8 @@ namespace sge {
 		void UpdateCamera();
 		void SetProjection(float fov, float aspect, float near, float far);
 		void SetProjection(float width, float height, float far);
+		mat4 GetView();
+		mat4 GetProjection();
 		CameraComponent();
 		~CameraComponent();
 
