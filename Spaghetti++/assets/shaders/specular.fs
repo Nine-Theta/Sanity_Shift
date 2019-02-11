@@ -116,5 +116,5 @@ void main( void ) {
 		specCol +=  spec * falloff;
 	}
 	vec4 texCol = texture(diffuseTexture,texCoord);
-	fragment_color =vec4(col,1) * texCol + vec4(specCol,1);
+	fragment_color = texCol * vec4(col,1) + vec4(specCol,1);
 }

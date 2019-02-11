@@ -14,6 +14,7 @@
 #include "components/StartComponent.h"
 #include "components/MeshComponent.h"
 #include "materials/WobbleMaterial.hpp"
+#include "materials/SpecularMaterial.hpp"
 #include <assert.h>
 #include "LuaState.h"
 #include "components/CameraComponent.h"
@@ -160,8 +161,9 @@ namespace sge {
 		GameObject::Destroy(obj);
 		TextComponent::LoadFont("font.ttf");
 		GameObject* room = new GameObject();
-		room->AddComponent(new MeshComponent("cuberoom.obj",new WobbleMaterial("rustypaint.png")));
-		room->SetWorldPosition(vec3(0,8,-20));
+		room->AddComponent(new MeshComponent("cuberoom.obj",new SpecularMaterial("rustypaint.png","rustypaint_s.png")));
+		room->SetWorldPosition(vec3(1,0,-15));
+		room->AddComponent(new LightComponent(sf::Color::White, 10.f, 0.11f));
 		/*CameraComponent* ccam = new CameraComponent();
 		obj->AddComponent(ccam);
 		obj->SetName("Camera");

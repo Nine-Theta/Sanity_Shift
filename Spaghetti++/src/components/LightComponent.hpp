@@ -21,10 +21,10 @@ enum Lighttype {
 };
 namespace sge {
 	using namespace glm;
-	class LightComponent : ObjectBehaviour
+	class LightComponent : public ObjectBehaviour
 	{
 	public:
-		LightComponent(const std::string& aName = nullptr, const glm::vec3& aPosition = glm::vec3(2.0f, 10.0f, 5.0f), sf::Color color = sf::Color::White, float intensity = 1, float ambient = 0);
+		LightComponent(sf::Color color = sf::Color::White, float intensity = 1, float ambient = 0);
 		virtual ~LightComponent();
 
 		//override set parent to register/deregister light...
@@ -57,32 +57,7 @@ namespace sge {
 			return val / top;
 		}
 
-		GLLight getGLStruct() {
-			GLLight light;
-			light.type = _type;
-			glm::vec3 pos = GetParent()->GetCombinedPosition();
-			light.pos.x = pos.x;
-			light.pos.y = pos.y;
-			light.pos.z = pos.z;
-			glm::mat4 view = CameraComponent::GetMain()->GetView();
-			view = glm::inverse(view);
-			pos = view * glm::vec4(pos, 1);
-			light.cpos.x = pos.x;
-			light.cpos.y = pos.y;
-			light.cpos.z = pos.z;
-			glm::vec3 fwd = glm::normalize(GetParent()->forward());
-			light.dir.x = fwd.x;
-			light.dir.y = fwd.y;
-			light.dir.z = fwd.z;
-			light.color.x = _color.r * 0.0039215686274509803921568627451f;
-			light.color.y = _color.g * 0.0039215686274509803921568627451f;
-			light.color.z = _color.b * 0.0039215686274509803921568627451f;
-			light.color.w = _intensity;
-			light.minRad = _falloffStart;
-			light.ambient = _ambientContrib;
-			light.maxRad = _falloffMax;
-			return light;
-		}
+		GLLight getGLStruct();
 
 	private:
 		static std::vector<LightComponent*> _lights;

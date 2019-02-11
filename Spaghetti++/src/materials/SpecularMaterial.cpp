@@ -111,6 +111,7 @@ namespace sge {
 		//glUniform3f(_lightDir, dir.x, dir.y, dir.z);
 		//glUniform3f(_lightPosC, posC.x, posC.y, posC.z);
 		glUniform1i(_lightsNr, LightComponent::GetLightCount());
+		//std::cout << LightComponent::GetLightCount() << std::endl;
 
 		//	glUniform1f(_time, clock() / 1000.f);
 

@@ -5,20 +5,22 @@ namespace sge {
 	GLLight LightComponent::_glLights[16];
 	GLuint LightComponent::uboLightID;
 
-	LightComponent::LightComponent(const std::string& pName, const glm::vec3& pPosition, sf::Color color, float intensity, float ambient)// :GameObject(pName, pPosition), _color(color), _intensity(intensity), _ambientContrib(ambient)
+	LightComponent::LightComponent(sf::Color color, float intensity, float ambient):ObjectBehaviour(), _color(color), _intensity(intensity), _ambientContrib(ambient)
 	{
+		SetType(Lighttype::POINT);
 		if (_lightsCount == 0) {
-			SetType(Lighttype::DIRECTIONAL);
-			SetAmbient(0.1f);
+			//SetType(Lighttype::DIRECTIONAL);
+			//SetAmbient(0.1f);
 		}
 		else
 			SetType(Lighttype::POINT);
 		_lightsCount++;
-		SetSpotlightAngle(70, 80);
+		SetSpotlightAngle(180, 180);
 	}
 
 	LightComponent::~LightComponent() {
 		_lightsCount--;
+		UnregisterLight(this);
 	}
 
 	//Override setWorldRecursively to make sure we are registered
@@ -65,7 +67,7 @@ namespace sge {
 
 	void LightComponent::UpdateLights()
 	{
-		for (unsigned int i = 0; i < _lights.size(); i++) {
+		for (unsigned int i = 0; i < _lightsCount; i++) {
 			_glLights[i] = _lights.at(i)->getGLStruct();
 		}
 		if (_glLights == NULL) return;
@@ -82,7 +84,7 @@ namespace sge {
 
 	uint LightComponent::GetLightCount()
 	{
-		return _lights.size();
+		return _lightsCount;
 	}
 
 	void LightComponent::SetColor(sf::Color col)
@@ -113,8 +115,37 @@ namespace sge {
 		_falloffMax = glm::cos(glm::radians(maxAngle));
 	}
 
+	GLLight LightComponent::getGLStruct()
+	{
+		GLLight light;
+		light.type = _type;
+		glm::vec3 pos = GetParent()->GetCombinedPosition();
+		light.pos.x = pos.x;
+		light.pos.y = pos.y;
+		light.pos.z = pos.z;
+		glm::mat4 view = CameraComponent::GetMain()->GetView();
+		pos = view * glm::vec4(pos, 1);
+		light.cpos.x = pos.x;
+		light.cpos.y = pos.y;
+		light.cpos.z = pos.z;
+		glm::vec3 fwd = glm::normalize(GetParent()->forward());
+		light.dir.x = fwd.x;
+		light.dir.y = fwd.y;
+		light.dir.z = fwd.z;
+		light.color.x = _color.r * 0.0039215686274509803921568627451f;
+		light.color.y = _color.g * 0.0039215686274509803921568627451f;
+		light.color.z = _color.b * 0.0039215686274509803921568627451f;
+		light.color.w = _intensity;
+		light.minRad = _falloffStart;
+		light.ambient = _ambientContrib;
+		light.maxRad = _falloffMax;
+		return light;
+	}
+
 	void LightComponent::Start()
 	{
+		RegisterLight(this);
+		SetSpotlightAngle(129, 180);
 	}
 
 	void LightComponent::OnDestroy()

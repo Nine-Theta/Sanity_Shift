@@ -14,7 +14,7 @@ pressed = false
 function fixedupdate()
 	--print(parent.getPos())
 	local x, y, z = parent:getPos()
-	print(x .. y .. z)
+	--print(x .. y .. z)
 	if keys.pressed(keys.down) then
 		velY = velY + 10 * time.fixedDelta()
 	end
