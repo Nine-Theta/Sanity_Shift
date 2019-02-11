@@ -1,4 +1,4 @@
-#include "CameraComponent.h"
+#include "components/CameraComponent.h"
 #include "GameObject.h"
 #include <list>
 #include <iostream>

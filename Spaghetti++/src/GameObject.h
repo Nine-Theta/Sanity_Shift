@@ -1,11 +1,11 @@
 #pragma once
 //#include "SFML/Graphics/Transformable.hpp"
 #include <vector>
-#include "ObjectBehaviour.h"
-#include "Collider.h"
-#include "Rigidbody2D.h"
+#include "components/ObjectBehaviour.h"
+#include "components/Collider.h"
+#include "components/Rigidbody2D.h"
 
-#include "TextComponent.h"
+#include "components/TextComponent.h"
 namespace sge {
 	enum GOState { PRE_INIT, ACTIVE, DESTROYED, DELETED };
 	class Rigidbody2D;

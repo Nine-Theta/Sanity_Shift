@@ -33,7 +33,7 @@ namespace sge {
 		if (txt != NULL) {
 			//Should be in update but too little time to fix, works anyway
 			std::string newText = "FPS: ";
-			newText += std::to_string(Time::GetFramerate());
+			newText += std::to_string(TimeH::GetFramerate());
 			newText.append("\nObjects Alive: ");
 			newText += std::to_string((Game::GetInstance().GetObjectCount()));
 			txt->SetText(newText);

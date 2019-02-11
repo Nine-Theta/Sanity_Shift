@@ -279,17 +279,17 @@ namespace sge {
 	}
 	int LuaComponent::getTime(lua_State * state)
 	{
-		lua_pushnumber(state, Time::TimeRunning());
+		lua_pushnumber(state, TimeH::TimeRunning());
 		return 1;
 	}
 	int LuaComponent::deltaTime(lua_State * state)
 	{
-		lua_pushnumber(state, Time::DeltaTime());
+		lua_pushnumber(state, TimeH::DeltaTime());
 		return 1;
 	}
 	int LuaComponent::fixedDelta(lua_State * state)
 	{
-		lua_pushnumber(state, Time::FixedDelta());
+		lua_pushnumber(state, TimeH::FixedDelta());
 		return 1;
 	}
 	int LuaComponent::newObject(lua_State * state)

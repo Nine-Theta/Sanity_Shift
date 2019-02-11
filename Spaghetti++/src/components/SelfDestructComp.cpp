@@ -27,7 +27,7 @@ namespace sge {
 
 	void sge::SelfDestructComp::FixedUpdate()
 	{
-		time -= Time::FixedDelta();
+		time -= TimeH::FixedDelta();
 		//std::cout << time << std::endl;
 		if (time < 0)
 			GameObject::Destroy( p_gameObj);

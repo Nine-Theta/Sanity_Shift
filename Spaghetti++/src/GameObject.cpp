@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "SFML/Graphics/Transformable.hpp"
 #include <iostream>
-#include "LuaComponent.h"
+#include "components/LuaComponent.h"
 
 namespace sge {
 	GameObject::GameObject(GameObject* parent)

@@ -39,7 +39,7 @@ namespace sge {
 			if (rotVel < 0)
 				rotVel = 0;
 		}
-		p_gameObj->setPosition(p_gameObj->getPosition() + velocity * Time::FixedDelta());
+		p_gameObj->setPosition(p_gameObj->getPosition() + velocity * TimeH::FixedDelta());
 		p_gameObj->rotate(rotVel);
 	}
 	void Rigidbody2D::OnRender()

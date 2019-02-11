@@ -1,4 +1,4 @@
-#include "ControlComponent.h"
+#include "components/ControlComponent.h"
 #include <iostream>
 #include "vec2.hpp"
 #include "Time.h"
@@ -27,12 +27,12 @@ namespace sge {
 	{
 		if (rbody == NULL) return;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			rbody->AddAngularVelocity(-3 * Time::FixedDelta());
+			rbody->AddAngularVelocity(-3 * TimeH::FixedDelta());
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			rbody->AddAngularVelocity(3 * Time::FixedDelta());
+			rbody->AddAngularVelocity(3 * TimeH::FixedDelta());
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			vec2 toAdd = vec2(0, 300 * Time::FixedDelta());
+			vec2 toAdd = vec2(0, 300 * TimeH::FixedDelta());
 			//toAdd = rotate(toAdd, p_gameObj->getRotation());
 			if (length(rbody->GetVelocity()) < 250)
 				rbody->AddVelocity(toAdd);

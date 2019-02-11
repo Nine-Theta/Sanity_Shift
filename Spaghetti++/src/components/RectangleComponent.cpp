@@ -1,6 +1,6 @@
 #include "RectangleComponent.h"
-#include "Game.h"
 #include <iostream>
+#include "Game.h"
 
 namespace sge {
 

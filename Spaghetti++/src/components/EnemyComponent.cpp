@@ -1,9 +1,9 @@
-#include "EnemyComponent.h"
+#include "components/EnemyComponent.h"
 #include "vec2.hpp"
-#include "ScoreComponent.h"
+#include "components/ScoreComponent.h"
 #include "Game.h"
-#include "CameraComponent.h"
-#include "StartComponent.h"
+#include "components/CameraComponent.h"
+#include "components/StartComponent.h"
 #include "SoundManager.h"
 
 namespace sge {
@@ -34,7 +34,7 @@ namespace sge {
 	void sge::EnemyComponent::FixedUpdate()
 	{
 		if(wave)
-			p_gameObj->setPosition(p_gameObj->getPosition() + glm::vec2(0, sinf(Time::TimeRunning() * PI) * 5));
+			p_gameObj->setPosition(p_gameObj->getPosition() + glm::vec2(0, sinf(TimeH::TimeRunning() * PI) * 5));
 	}
 
 	void sge::EnemyComponent::OnRender()

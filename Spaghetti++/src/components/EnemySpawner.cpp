@@ -1,9 +1,9 @@
-#include "EnemySpawner.h"
+#include "components/EnemySpawner.h"
 #include <iostream>
 #include "SFML/System.hpp"
-#include "SelfDestructComp.h"
-#include "CircleCollider.h"
-#include "EnemyComponent.h"
+#include "components/SelfDestructComp.h"
+#include "components/CircleCollider.h"
+#include "components/EnemyComponent.h"
 
 namespace sge {
 
@@ -31,7 +31,7 @@ namespace sge {
 	void sge::EnemySpawner::FixedUpdate()
 	{
 		//std::cout << timeUntilSpawn << std::endl;
-		timeUntilSpawn -= sge::Time::FixedDelta();
+		timeUntilSpawn -= sge::TimeH::FixedDelta();
 		if (timeUntilSpawn < 0)
 			spawnNewEnemy();
 	}

@@ -1,11 +1,11 @@
 #pragma once
 #include "SFML/System/Clock.hpp"
 namespace sge {
-	class Time
+	class TimeH
 	{
 	public:
-		Time();
-		~Time();
+		TimeH();
+		~TimeH();
 		static unsigned long MicroTime();
 		static void Update();
 		static float UnscaledDelta();

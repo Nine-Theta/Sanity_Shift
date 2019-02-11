@@ -4,19 +4,19 @@
 #include <assert.h>
 #include "Time.h"
 #include "GameObject.h"
-#include "ObjectBehaviour.h"
-#include "CameraComponent.h"
-#include "SpriteComponent.h"
-#include "Rigidbody2D.h"
-#include "PlayerControls.h"
-#include "CircleCollider.h"
-#include "TextComponent.h"
-#include "StartComponent.h"
+#include "components/ObjectBehaviour.h"
+#include "components/CameraComponent.h"
+#include "components/SpriteComponent.h"
+#include "components/Rigidbody2D.h"
+#include "components/PlayerControls.h"
+#include "components/CircleCollider.h"
+#include "components/TextComponent.h"
+#include "components/StartComponent.h"
 #include <assert.h>
 #include "LuaState.h"
-#include "CameraComponent.h"
+#include "components/CameraComponent.h"
 #include "Settings.h"
-#include "LuaComponent.h"
+#include "components/LuaComponent.h"
 
 namespace sge {
 	sf::CircleShape shape(100.f);
@@ -42,7 +42,7 @@ namespace sge {
 
 	void Game::updateLoop()
 	{
-		sge::Time::Update();
+		sge::TimeH::Update();
 		initNewComponents();
 		sf::Event event;
 		while (pollEvent(event))
@@ -60,7 +60,7 @@ namespace sge {
 				
 			}
 		}
-		while (Time::DoFixedStep()) {
+		while (TimeH::DoFixedStep()) {
 			//std::cout << Time::GetFramerate() << std::endl;
 			doFixedUpdate();
 		}
@@ -116,6 +116,7 @@ namespace sge {
 		//std::cout << "Drawing cameras: " << cameras.size() << std::endl;
 		for (std::list<CameraComponent*>::iterator citr = cameras.begin(), cend = cameras.end(); citr != cend; citr++) {
 			(*citr)->UpdateCamera();
+			(*citr)->OnRender();
 			for (std::list<GameObject*>::iterator itr = _rootObjects.begin(), end = _rootObjects.end(); itr != end; itr++) {
 				if((*itr)->GetObjectState() <= GOState::ACTIVE)
 					(*itr)->OnRender();
