@@ -28,6 +28,7 @@ namespace sge {
 	{
 		_initializeGlew();
 		_printVersionInfo();
+		_initializeOGL();
 		/*_allObjects = new std::list<sge::GameObject*>;
 		_newComponents = new std::list<sge::ObjectBehaviour*>;
 		_rootObjects = new std::list<sge::GameObject*>;
@@ -67,7 +68,6 @@ namespace sge {
 			doFixedUpdate();
 		}
 		doUpdate();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//clear(sf::Color(0x152215FF));
 		doRender();
 		destroyOldObjects();
@@ -115,6 +115,7 @@ namespace sge {
 	void Game::doRender()
 	{
 		std::list<CameraComponent*> cameras = CameraComponent::GetCameras();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//std::cout << "Drawing cameras: " << cameras.size() << std::endl;
 		for (std::list<CameraComponent*>::iterator citr = cameras.begin(), cend = cameras.end(); citr != cend; citr++) {
 			(*citr)->UpdateCamera();
@@ -155,7 +156,7 @@ namespace sge {
 		TextComponent::LoadFont("font.ttf");
 		GameObject* room = new GameObject();
 		room->AddComponent(new MeshComponent("cuberoom.obj",new WobbleMaterial("rustypaint.png")));
-		room->SetWorldPosition(vec3(0,8,-40));
+		room->SetWorldPosition(vec3(0,8,-20));
 		/*CameraComponent* ccam = new CameraComponent();
 		obj->AddComponent(ccam);
 		obj->SetName("Camera");
@@ -270,6 +271,18 @@ namespace sge {
 		//initialize the opengl extension wrangler
 		GLint glewStatus = glewInit();
 		std::cout << "Initialized GLEW, status (1 == OK, 0 == FAILED):" << (glewStatus == GLEW_OK) << std::endl << std::endl;
+	}
+
+	void Game::_initializeOGL() {
+		//make sure we test the depthbuffer
+		glEnable(GL_DEPTH_TEST);
+		glFrontFace(GL_CCW);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glClearColor((float)0x2d / 0xff, (float)0x6b / 0xff, (float)0xce / 0xff, 1.0f);
 	}
 
 	sge::Game& Game::GetInstance()

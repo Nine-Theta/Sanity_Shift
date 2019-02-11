@@ -23,6 +23,7 @@ namespace sge {
 
 		void _printVersionInfo();
 		void _initializeGlew();
+		void _initializeOGL();
 
 		static Game *instance;
 		bool running = false;
