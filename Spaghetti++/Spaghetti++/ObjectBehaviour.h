@@ -4,6 +4,10 @@
 //#include "Game.h"
 #include <vector>
 #include "glm/glm.hpp"
+#include "glm/geometric.hpp"
+#include "glm/common.hpp"
+#include "glm/gtc/functions.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 namespace sge {
 	class GameObject;

@@ -17,6 +17,7 @@ namespace sge {
 		SetSetting("width", settings.GetString("width"));
 		SetSetting("height", settings.GetString("height"));
 		SetSetting("windowname", settings.GetString("windowname"));
+		SetSetting("fov", settings.GetString("fov"));
 	}
 	std::string Settings::GetSetting(std::string key)
 	{

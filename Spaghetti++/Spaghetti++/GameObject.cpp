@@ -146,7 +146,7 @@ namespace sge {
 		else
 			_combinedTransform = _transform;//getTransform();
 		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
-			//(*itr)->Update();
+			(*itr)->Update();
 		}
 		for (std::vector<GameObject*>::iterator itr = _children.begin(), end = _children.end(); itr != end; itr++) {
 			(*itr)->OnUpdate();

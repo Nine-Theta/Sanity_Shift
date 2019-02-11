@@ -53,6 +53,8 @@ namespace sge {
 				//would be better to move this to the renderer
 				//this version implements nonconstrained match viewport scaling
 				std::cout << ("Video mode changed to " + std::to_string(event.size.width) + " - " + std::to_string(event.size.height)) << std::endl;
+				CameraComponent::GetMain()->SetProjection(Settings::GetInt("fov"), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f);//glm::perspective(glm::radians(60.0f), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f));	//fix projection
+				glViewport(0, 0, event.size.width, event.size.height);
 				//_world->getMainCamera()->setProjection(glm::perspective(glm::radians(60.0f), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f));	//fix projection
 				//glViewport(0, 0, event.size.width, event.size.height);
 				
@@ -63,7 +65,8 @@ namespace sge {
 			doFixedUpdate();
 		}
 		doUpdate();
-		clear(sf::Color(0x152215FF));
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//clear(sf::Color(0x152215FF));
 		doRender();
 		destroyOldObjects();
 		assert(_allObjects.size() >= _rootObjects.size());

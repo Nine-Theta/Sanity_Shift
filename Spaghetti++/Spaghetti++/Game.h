@@ -3,9 +3,11 @@
 #include "GameObject.h"
 
 #include "GL/glew.h"
+#include "glm/glm.hpp"
 #include "SFML/Graphics.hpp"
 #include <list>
 namespace sge {
+	using namespace glm;
 	class Game : public sf::RenderWindow
 	{
 	private:

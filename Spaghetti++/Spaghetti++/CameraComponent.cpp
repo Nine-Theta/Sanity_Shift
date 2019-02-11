@@ -7,6 +7,7 @@
 
 namespace sge {
 	std::list<CameraComponent*> CameraComponent::cameras = std::list<CameraComponent*>();
+	CameraComponent* CameraComponent::main = NULL;
 
 	void CameraComponent::OnDestroy()
 	{
@@ -14,6 +15,7 @@ namespace sge {
 	}
 	void CameraComponent::OnRender()
 	{
+		viewM = inverse(p_gameObj->GetCombinedTransform());
 	}
 	void CameraComponent::Start()
 	{
@@ -28,10 +30,22 @@ namespace sge {
 		view.setRotation(p_gameObj->getRotation());
 		Game::GetInstance().setView(view);
 	}
+	void CameraComponent::SetProjection(float fov, float aspect, float near, float far)
+	{
+		projectionM = perspective(radians(fov), aspect, near, far);
+	}
+	void CameraComponent::SetProjection(float width, float height, float far)
+	{
+		projectionM = glm::ortho(0.f, width, 0.f, height, -1.f, far);
+	}
 	CameraComponent::CameraComponent()
 	{
 		width = sge::Settings::GetInt("width");
 		height = sge::Settings::GetInt("height");
+		if (main == NULL) {
+			main = this;
+			this->SetProjection(Settings::GetInt("fov"), width / height, 0.1f, 1000.0f);
+		}
 	}
 
 
@@ -43,6 +57,11 @@ namespace sge {
 	std::list<CameraComponent*> CameraComponent::GetCameras()
 	{
 		return CameraComponent::cameras;
+	}
+
+	CameraComponent * CameraComponent::GetMain()
+	{
+		return main;
 	}
 
 	void CameraComponent::Update()

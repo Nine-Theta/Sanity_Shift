@@ -7,6 +7,7 @@ namespace sge {
 	{
 	private:
 		static std::list<CameraComponent*> cameras;
+		static CameraComponent* main;
 		float nearPlane = 1;
 		float farPlane = 1000;
 		bool ortho = true;
@@ -14,6 +15,8 @@ namespace sge {
 		float height = 1024;
 		float fov = 60;
 		float scale = 1;
+		mat4 projectionM;
+		mat4 viewM;
 		sf::FloatRect viewPort;
 		sf::View view;
 	public:
@@ -21,10 +24,13 @@ namespace sge {
 		void OnRender();
 		void Start();
 		void UpdateCamera();
+		void SetProjection(float fov, float aspect, float near, float far);
+		void SetProjection(float width, float height, float far);
 		CameraComponent();
 		~CameraComponent();
 
 		static std::list<CameraComponent*> GetCameras();
+		static CameraComponent* GetMain();
 
 		// Geerbt über ObjectBehaviour
 		void Update();
