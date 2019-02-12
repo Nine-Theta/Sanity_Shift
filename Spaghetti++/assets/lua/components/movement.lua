@@ -29,9 +29,9 @@ function fixedupdate()
 		parent:rotate(0,1,0,90 * time.fixedDelta())
 	end
 	velY = velY * 0.98
-	z = z + fz * velY * -0.05
-	x = x + fx * velY * -0.05
-	y = y + fy * velY * -0.05
+	z = z + fz * velY * 0.05
+	x = x + fx * velY * 0.05
+	y = y + fy * velY * 0.05
 	parent:setPos(x,y,z)
 end
 	

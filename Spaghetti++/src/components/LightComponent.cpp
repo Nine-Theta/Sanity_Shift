@@ -145,8 +145,8 @@ namespace sge {
 	void LightComponent::Start()
 	{
 		RegisterLight(this);
-		SetType(Lighttype::POINT);
-		SetSpotlightAngle(180, 180);
+		//SetType(Lighttype::POINT);
+		//SetSpotlightAngle(180, 180);
 	}
 
 	void LightComponent::OnDestroy()

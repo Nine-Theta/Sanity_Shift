@@ -16,7 +16,7 @@ namespace sge {
 	}
 	void CameraComponent::OnRender()
 	{
-		viewM = inverse(p_gameObj->GetCombinedTransform());
+		viewM = glm::rotate(mat4(), radians(180.f), vec3(0, 1, 0)) * inverse(p_gameObj->GetCombinedTransform());
 	}
 	void CameraComponent::Start()
 	{
@@ -53,7 +53,7 @@ namespace sge {
 		height = sge::Settings::GetInt("height");
 		if (main == NULL) {
 			main = this;
-			this->SetProjection(Settings::GetInt("fov"), width / height, 0.3f, 1000.0f);
+			this->SetProjection(Settings::GetInt("fov"), width / height, 0.1f, 1000.0f);
 		}
 	}
 
