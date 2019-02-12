@@ -52,12 +52,21 @@ namespace sge {
 
 	void GameObject::SetParent(GameObject * p_parent)
 	{
+		if (p_parent == this) return;
 		if (_p_parent == NULL && p_parent != NULL) {
 			Game::GetInstance().RemoveFromRoot(this);
 		}
-		if (p_parent == this) return;
-		_p_parent = p_parent;
-		_p_parent->AddChild(this);
+		else if (_p_parent != NULL && p_parent == NULL) {
+			Game::GetInstance().AddToRoot(this);
+		}
+		else if (_p_parent != NULL && p_parent != _p_parent) {
+			_p_parent->RemoveChild(this);
+		}
+		if (_p_parent != p_parent) {
+			_p_parent = p_parent;
+			if(_p_parent != NULL)
+			_p_parent->AddChild(this);
+		}
 	}
 
 	void GameObject::SetName(std::string newName)

@@ -59,7 +59,7 @@ namespace sge {
 	{
 		LuaComponent* comp = _components[state];
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
-		GameObject* parent = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		GameObject* parent = comp->GetState()->GetObjectFromStackTop<GameObject>("sge.gameObject");
 		obj->SetParent(parent);
 		return 0;
 	}
@@ -239,8 +239,12 @@ namespace sge {
 	int LuaComponent::setName(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
+		//std::cout << "Stack size before obj: " << comp->GetState()->GetStackSize();
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
-		std::string name = comp->GetState()->GetArgsFromStack()[0];
+		//std::cout << "Stack size after obj: " << comp->GetState()->GetStackSize();
+		std::vector<std::string> args = comp->GetState()->GetArgsFromStack();
+		//std::cout << "Stack size after obj: " << comp->GetState()->GetStackSize();
+		std::string name = args[0];
 		obj->SetName(name);
 		return 0;
 	}
