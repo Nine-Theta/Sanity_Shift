@@ -55,7 +55,9 @@ namespace sge {
 		if (_p_parent == NULL && p_parent != NULL) {
 			Game::GetInstance().RemoveFromRoot(this);
 		}
+		if (p_parent == this) return;
 		_p_parent = p_parent;
+		_p_parent->AddChild(this);
 	}
 
 	void GameObject::SetName(std::string newName)
@@ -202,14 +204,20 @@ namespace sge {
 
 	void GameObject::OnRender()
 	{
-		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
-			(*itr)->OnRender();
-		}
-		//std::cout << "Rendered components: " << _components.size() << std::endl;
-		for (std::vector<GameObject*>::iterator itr = _children.begin(), end = _children.end(); itr != end; itr++) {
-			(*itr)->OnRender();
+		if (_state > GOState::ACTIVE)
+			return;
+		if (_p_parent != NULL)
+			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
+		else
+			_combinedTransform = _transform;//getTransform();
+		for (ObjectBehaviour* comp : _components) {
+			comp->OnRender();
 			//std::cout << "Rendering children: " << _children.size() << std::endl;
 		}
+		for (GameObject* obj : _children) {
+			obj->OnRender();
+		}
+		//std::cout << "Rendered components: " << _components.size() << std::endl;
 	}
 
 	void GameObject::OnCollision(Collider* other)
