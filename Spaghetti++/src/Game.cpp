@@ -165,9 +165,10 @@ namespace sge {
 		TextComponent::LoadFont("font.ttf");
 		GameObject* room = new GameObject();
 		room->AddComponent(new MeshComponent("cuberoom.obj",new SpecularMaterial("rustypaint.png","rustypaint_s.png")));
-		//updateLoop();
+		updateLoop();
 		//GameObject* cam = GameObject::Find("Camera");
-		//GameObject* light = GameObject::Find("FlashLight");
+		GameObject* light = GameObject::Find("FlashLight");
+		light->AddComponent(new MeshComponent("flashlight_test.obj", new SpecularMaterial("white.png", "rustypaint_s.png")));
 		//light->SetParent(cam);
 		//room->AddComponent(new MeshComponent("monkeyhead.obj",new WobbleMaterial("rustypaint.png")));
 		room->SetWorldPosition(vec3(1,1,12));

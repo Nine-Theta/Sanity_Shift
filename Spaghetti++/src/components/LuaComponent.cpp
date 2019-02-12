@@ -88,6 +88,7 @@ namespace sge {
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
 				comp->SetSpotlightAngle(15, 30);
+				comp->SetAmbient(0.05f);
 				obj->AddComponent(comp); break;
 			}
 			default: std::cout << "Component did not exist" << std::endl;
