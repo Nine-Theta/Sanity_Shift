@@ -10,9 +10,9 @@ namespace sge {
 	}
 	MeshComponent::MeshComponent(std::string path, AbstractMaterial* material)
 	{
-		Mesh* mesh = AssetLoader::GetMesh(path);
-		if(mesh == NULL)
-			_mesh = AssetLoader::GetMesh("ERROR.obj");
+		//Mesh* mesh = AssetLoader::GetMesh(path);
+		//if(mesh == NULL)
+			//_mesh = AssetLoader::GetMesh("ERROR.obj");
 		_mesh = Mesh::load(Settings::GetSetting("meshDir") + path);
 		std::cout << _mesh << std::endl;
 		assert(_mesh != NULL);

@@ -139,12 +139,15 @@ namespace sge {
 			if (newObj->GetParent() == NULL) {
 				AddToRoot(newObj);
 			}
+			newObj->UpdateTransform();
 			_allObjects.push_back(newObj);
 		}
 		_newObjects.clear();
 		for (ObjectBehaviour* comp : _newComponents) {
-			if(comp != NULL)
+			if (comp != NULL) {
+				comp->GetParent()->UpdateTransform();
 				comp->Start();
+			}
 		}
 		_newComponents.clear();
 	}

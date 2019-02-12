@@ -46,9 +46,13 @@ namespace sge {
 		void SetName(std::string newName);
 		std::string GetName();
 		glm::vec3 GetCombinedPosition();
+		vec3 GetPosition();
 		Rigidbody2D* GetRigidbody();
 		void SetWorldPosition(glm::vec3 pos);
+		void SetPosition(glm::vec3 pos);
+		void UpdateTransform();
 		void Rotate(glm::vec3 axis, float angle);
+		void SetRotation(glm::vec3 axis, float angle);
 		//Dummies for old SFML-based functions:
 		void setPosition(float x, float y);
 		void setPosition(glm::vec2);

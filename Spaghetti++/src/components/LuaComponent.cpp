@@ -86,7 +86,7 @@ namespace sge {
 			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
-			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(200, 200, 220), std::stoi(args[0]));
+			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
 				comp->SetSpotlightAngle(15, 30);
 				obj->AddComponent(comp); break;
 			}
@@ -105,7 +105,9 @@ namespace sge {
 		{"getPos", getPos},
 		{"getWorldPos", getWorldPos},
 		{"setPos", setPos},
+		{"setWorldPos", setWorldPos},
 		{"rotate", rotate},
+		{"setRotation", setRotation},
 		{"forward", forward},
 		{"right", right},
 		{"up", up},
@@ -311,7 +313,16 @@ namespace sge {
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
-		obj->SetWorldPosition(glm::vec3((float)vals[2],(float)vals[1], (float)vals[0]));
+		obj->SetPosition(glm::vec3((float)vals[2],(float)vals[1], (float)vals[0]));
+		return 0;
+	}
+	int LuaComponent::setWorldPos(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		obj->SetWorldPosition(glm::vec3((float)vals[2], (float)vals[1], (float)vals[0]));
 		return 0;
 	}
 	int LuaComponent::rotate(lua_State * state)
@@ -321,6 +332,17 @@ namespace sge {
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
 		obj->Rotate(glm::vec3((float)vals[3], (float)vals[2], (float)vals[1]), (float)vals[0]);
+		//obj->Rotate(glm::vec3(0, 1, 0), 20);
+		return 0;
+	}
+	int LuaComponent::setRotation(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		obj->SetRotation(glm::vec3((float)vals[3], (float)vals[2], (float)vals[1]), (float)vals[0]);
+		//obj->SetRotation(glm::vec3(1, 0, 0), -40);
 		//obj->Rotate(glm::vec3(0, 1, 0), 20);
 		return 0;
 	}

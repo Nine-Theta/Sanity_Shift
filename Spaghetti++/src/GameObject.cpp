@@ -84,6 +84,11 @@ namespace sge {
 		return _combinedTransform[3];// * glm::vec4(0,0,0,0);
 	}
 
+	vec3 GameObject::GetPosition()
+	{
+		return _transform[3];
+	}
+
 	Rigidbody2D * GameObject::GetRigidbody()
 	{
 		return rigidbody;
@@ -99,9 +104,21 @@ namespace sge {
 			_transform[3] = vec4(pos, 1);
 	}
 
+	void GameObject::SetPosition(glm::vec3 pos)
+	{
+		_transform[3] = vec4(pos, 1);
+	}
+
 	void GameObject::Rotate(glm::vec3 axis, float angle)
 	{
 		_transform = glm::rotate(_transform, radians(angle), axis);
+	}
+
+	void GameObject::SetRotation(glm::vec3 axis, float angle)
+	{
+		vec4 pos = _transform[3];
+		_transform = glm::rotate(mat4(), radians(angle), axis);
+		_transform[3] = pos;
 	}
 
 	void GameObject::setPosition(float x, float y)
@@ -170,10 +187,7 @@ namespace sge {
 	{
 		if (_state > GOState::ACTIVE)
 			return;
-		if (_p_parent != NULL)
-			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
-		else
-			_combinedTransform = _transform;//getTransform();
+		UpdateTransform();
 		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
 			(*itr)->Update();
 		}
@@ -201,6 +215,12 @@ namespace sge {
 		for (ObjectBehaviour* component : _components) {
 			if(component != NULL)
 				component->FixedUpdate();
+			//std::cout << component->GetParent() << " - Updated component with that parent!" << std::endl;
+		}
+
+		for (GameObject* obj : _children) {
+			if (obj != NULL)
+				obj->OnFixedUpdate();
 			//std::cout << component->GetParent() << " - Updated component with that parent!" << std::endl;
 		}
 		/*for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
@@ -353,6 +373,14 @@ namespace sge {
 	{
 		//_children.remove
 		//TODO: make it possible to remove children
+	}
+
+	void GameObject::UpdateTransform()
+	{
+		if (_p_parent != NULL)
+			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
+		else
+			_combinedTransform = _transform;//getTransform();
 	}
 
 	void GameObject::OnDestroy()
