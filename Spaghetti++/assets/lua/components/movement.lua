@@ -15,14 +15,23 @@ function fixedupdate()
 	--print(parent.getPos())
 	local x, y, z = parent:getPos()
 	--print(x .. y .. z)
+	local fx,fy,fz = parent:forward();
 	if keys.pressed(keys.down) then
 		velY = velY + 10 * time.fixedDelta()
 	end
 	if keys.pressed(keys.up) then
 		velY = velY - 10 * time.fixedDelta()
 	end
+	if keys.pressed(keys.right) then
+		parent:rotate(0,1,0,-90 * time.fixedDelta())
+	end
+	if keys.pressed(keys.left) then
+		parent:rotate(0,1,0,90 * time.fixedDelta())
+	end
 	velY = velY * 0.98
-	y = y + velY * 0.05
+	z = z + fz * velY * -0.05
+	x = x + fx * velY * -0.05
+	y = y + fy * velY * -0.05
 	parent:setPos(x,y,z)
 end
 	

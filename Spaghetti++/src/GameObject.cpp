@@ -88,6 +88,11 @@ namespace sge {
 			_transform[3] = vec4(pos, 1);
 	}
 
+	void GameObject::Rotate(glm::vec3 axis, float angle)
+	{
+		_transform = glm::rotate(_transform, radians(angle), axis);
+	}
+
 	void GameObject::setPosition(float x, float y)
 	{
 	}
@@ -108,6 +113,14 @@ namespace sge {
 	vec3 GameObject::forward()
 	{
 		return -_combinedTransform[2];
+	}
+	vec3 GameObject::right()
+	{
+		return _combinedTransform[0];
+	}
+	vec3 GameObject::up()
+	{
+		return _combinedTransform[1];
 	}
 
 	void GameObject::rotate(float rot)

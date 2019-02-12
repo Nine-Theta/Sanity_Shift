@@ -26,7 +26,7 @@ namespace sge {
 	sf::CircleShape shape(100.f);
 
 	Game* Game::instance = NULL;
-	Game::Game() : sf::RenderWindow(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"))
+	Game::Game() : sf::RenderWindow(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), sf::Style::None, sf::ContextSettings(24, 8, 3, 3, 3))
 	{
 		_initializeGlew();
 		_printVersionInfo();
@@ -162,8 +162,9 @@ namespace sge {
 		TextComponent::LoadFont("font.ttf");
 		GameObject* room = new GameObject();
 		room->AddComponent(new MeshComponent("cuberoom.obj",new SpecularMaterial("rustypaint.png","rustypaint_s.png")));
+		//room->AddComponent(new MeshComponent("monkeyhead.obj",new WobbleMaterial("rustypaint.png")));
 		room->SetWorldPosition(vec3(1,0,-15));
-		room->AddComponent(new LightComponent(sf::Color::White, 10.f, 0.11f));
+		//room->AddComponent(new LightComponent(sf::Color::White, 10.f, 0.11f));
 		/*CameraComponent* ccam = new CameraComponent();
 		obj->AddComponent(ccam);
 		obj->SetName("Camera");
@@ -286,6 +287,8 @@ namespace sge {
 		glFrontFace(GL_CCW);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

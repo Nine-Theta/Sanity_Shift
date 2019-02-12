@@ -19,7 +19,7 @@ out vec3 fcNormal;
 void main( void ){
     gl_Position = mvpMatrix * vec4(vertex, 1.f);
 	texCoord = uv;
-	fNormal = (mMatrix * vec4(normal,1.f)).xyz;
+	fNormal = (mMatrix * vec4(normal,0.f)).xyz;
 	fPos = (mMatrix * vec4(vertex,1.f)).xyz;
 	fcPos = (mvMatrix * vec4(vertex,1.f)).xyz;
 	fcNormal = (mvMatrix * vec4(normal,0.f)).xyz;

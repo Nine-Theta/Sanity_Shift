@@ -116,5 +116,7 @@ void main( void ) {
 		specCol +=  spec * falloff;
 	}
 	vec4 texCol = texture(diffuseTexture,texCoord);
-	fragment_color =vec4(col,1) * texCol + vec4(specCol,1);
+	vec3 dir = normalize(wLights[0].pos.xyz - fPos);
+	float falloff = clamp(dot(dir,fNormal),0,1);
+	fragment_color = vec4(fNormal,1);//texCol * vec4(col,1) + vec4(specCol,1);
 }

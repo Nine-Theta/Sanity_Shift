@@ -53,7 +53,7 @@ namespace sge {
 		height = sge::Settings::GetInt("height");
 		if (main == NULL) {
 			main = this;
-			this->SetProjection(Settings::GetInt("fov"), width / height, 0.1f, 1000.0f);
+			this->SetProjection(Settings::GetInt("fov"), width / height, 0.3f, 1000.0f);
 		}
 	}
 

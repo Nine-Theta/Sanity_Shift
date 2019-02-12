@@ -67,7 +67,7 @@ namespace sge {
 		float _intensity;
 		float _ambientContrib;
 		Lighttype _type;
-		float _falloffStart = -1;
+		float _falloffStart = -0.999999999999f;
 		float _falloffMax = -1;
 
 		static unsigned int _lightsCount;

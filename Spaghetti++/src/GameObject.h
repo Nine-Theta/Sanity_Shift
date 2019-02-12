@@ -48,6 +48,7 @@ namespace sge {
 		glm::vec3 GetCombinedPosition();
 		Rigidbody2D* GetRigidbody();
 		void SetWorldPosition(glm::vec3 pos);
+		void Rotate(glm::vec3 axis, float angle);
 		//Dummies for old SFML-based functions:
 		void setPosition(float x, float y);
 		void setPosition(glm::vec2);
@@ -55,6 +56,8 @@ namespace sge {
 		glm::vec2 getPosition();
 
 		vec3 forward();
+		vec3 right();
+		vec3 up();
 		void rotate(float rot);
 		void setScale(float x, float y, float z = 1);
 		float getRotation();

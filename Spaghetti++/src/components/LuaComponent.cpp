@@ -7,6 +7,7 @@
 #include "TextComponent.h"
 #include "PlayerControls.h"
 #include "SoundManager.h"
+#include "LightComponent.hpp"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -85,6 +86,10 @@ namespace sge {
 			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
+			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(200, 200, 220), std::stoi(args[0]));
+				comp->SetSpotlightAngle(15, 19);
+				obj->AddComponent(comp); break;
+			}
 			default: std::cout << "Component did not exist" << std::endl;
 		}
 		return 0;
@@ -100,6 +105,10 @@ namespace sge {
 		{"getPos", getPos},
 		{"getWorldPos", getWorldPos},
 		{"setPos", setPos},
+		{"rotate", rotate},
+		{"forward", forward},
+		{"right", right},
+		{"up", up},
 		{"setParent", setParent},
 		{"sendMessage", sendMessage},
 		{"setText", setText},
@@ -259,6 +268,39 @@ namespace sge {
 		lua_pushnumber(state, vec.z);
 		return 3;
 	}
+	int LuaComponent::forward(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		LuaState* ls = comp->GetState();
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		glm::vec3 vec = obj->forward();
+		lua_pushnumber(state, vec.x);
+		lua_pushnumber(state, vec.y);
+		lua_pushnumber(state, vec.z);
+		return 3;
+	}
+	int LuaComponent::right(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		LuaState* ls = comp->GetState();
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		glm::vec3 vec = obj->right();
+		lua_pushnumber(state, vec.x);
+		lua_pushnumber(state, vec.y);
+		lua_pushnumber(state, vec.z);
+		return 3;
+	}
+	int LuaComponent::up(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		LuaState* ls = comp->GetState();
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		glm::vec3 vec = obj->up();
+		lua_pushnumber(state, vec.x);
+		lua_pushnumber(state, vec.y);
+		lua_pushnumber(state, vec.z);
+		return 3;
+	}
 	int LuaComponent::setPos(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
@@ -266,6 +308,16 @@ namespace sge {
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
 		obj->SetWorldPosition(glm::vec3((float)vals[2],(float)vals[1], (float)vals[0]));
+		return 0;
+	}
+	int LuaComponent::rotate(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		obj->Rotate(glm::vec3((float)vals[3], (float)vals[2], (float)vals[1]), (float)vals[0]);
+		//obj->Rotate(glm::vec3(0, 1, 0), 20);
 		return 0;
 	}
 	int LuaComponent::getWorldPos(lua_State * state)
