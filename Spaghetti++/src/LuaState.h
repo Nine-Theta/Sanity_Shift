@@ -23,6 +23,7 @@ namespace sge {
 		std::vector<std::string> CallFunction(std::string name, std::vector<std::string> args, int returns = 0);
 		std::vector<std::string> GetArgsFromStack();
 		std::vector<double> GetNumbersFromStack();
+		int GetStackSize();
 
 		void RegisterLib(const luaL_Reg lib[], std::string libname);
 		void PushLightUserData(void* object, std::string metatable);
@@ -33,6 +34,8 @@ namespace sge {
 
 		template<class Type>
 		Type* GetObjectFromStack(std::string name);
+		template<class Type>
+		Type* GetObjectFromStackTop(std::string name);
 
 		lua_State* GetState();
 	private:
@@ -44,6 +47,19 @@ namespace sge {
 	{
 		Type* obj = static_cast<Type*>(
 			luaL_checkudata(state, 1, name.c_str()));
+		//if(obj != NULL)
+			//lua_pop(state, 1);
+		//lua_pop(state, 1);
+		return obj;
+	}
+
+	template<class Type>
+	inline Type * LuaState::GetObjectFromStackTop(std::string name)
+	{
+		Type* obj = static_cast<Type*>(
+			luaL_checkudata(state, -1, name.c_str()));
+		if(obj != NULL)
+			lua_pop(state, 1);
 		//lua_pop(state, 1);
 		return obj;
 	}

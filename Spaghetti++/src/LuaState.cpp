@@ -73,6 +73,11 @@ namespace sge {
 		return vals;
 	}
 
+	int LuaState::GetStackSize()
+	{
+		return lua_gettop(state);
+	}
+
 	std::vector<std::string> LuaState::ReadFromTable(std::string table, std::vector<std::string> vars)
 	{
 		lua_getglobal(state, table.c_str());

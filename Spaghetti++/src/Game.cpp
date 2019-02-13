@@ -142,12 +142,15 @@ namespace sge {
 			if (newObj->GetParent() == NULL) {
 				AddToRoot(newObj);
 			}
+			newObj->UpdateTransform();
 			_allObjects.push_back(newObj);
 		}
 		_newObjects.clear();
 		for (ObjectBehaviour* comp : _newComponents) {
-			if(comp != NULL)
+			if (comp != NULL) {
+				comp->GetParent()->UpdateTransform();
 				comp->Start();
+			}
 		}
 		_newComponents.clear();
 	}
@@ -165,8 +168,13 @@ namespace sge {
 		TextComponent::LoadFont("font.ttf");
 		GameObject* room = new GameObject();
 		room->AddComponent(new MeshComponent("cuberoom.obj",new SpecularMaterial("rustypaint.png","rustypaint_s.png")));
+		updateLoop();
+		//GameObject* cam = GameObject::Find("Camera");
+		GameObject* light = GameObject::Find("FlashLight");
+		light->AddComponent(new MeshComponent("flashlight_test.obj", new SpecularMaterial("white.png", "rustypaint_s.png")));
+		//light->SetParent(cam);
 		//room->AddComponent(new MeshComponent("monkeyhead.obj",new WobbleMaterial("rustypaint.png")));
-		room->SetWorldPosition(vec3(1,0,-15));
+		room->SetWorldPosition(vec3(1,1,12));
 		//room->AddComponent(new LightComponent(sf::Color::White, 10.f, 0.11f));
 		/*CameraComponent* ccam = new CameraComponent();
 		obj->AddComponent(ccam);
@@ -212,7 +220,9 @@ namespace sge {
 	}
 
 	GameObject* Game::FindGameObject(std::string name) {
+		std::cout << "Finding: " << name << std::endl;
 		for (GameObject* obj : _allObjects) {
+			std::cout << "Comparing to: " << obj->GetName() << std::endl;
 			if (obj->GetName() == name)
 				return obj;
 		}
