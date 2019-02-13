@@ -59,7 +59,7 @@ namespace sge {
 	{
 		LuaComponent* comp = _components[state];
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
-		GameObject* parent = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		GameObject* parent = comp->GetState()->GetObjectFromStackTop<GameObject>("sge.gameObject");
 		obj->SetParent(parent);
 		return 0;
 	}
@@ -86,8 +86,19 @@ namespace sge {
 			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
-			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(200, 200, 220), std::stoi(args[0]));
-				comp->SetSpotlightAngle(15, 19);
+			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
+				comp->SetSpotlightAngle(180, 180);
+				comp->SetAmbient(0.00f);
+				obj->AddComponent(comp); break;
+			}
+			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
+				comp->SetSpotlightAngle(15, 30);
+				comp->SetAmbient(0.000f);
+				obj->AddComponent(comp); break;
+			}
+			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(9, 9, 13), std::stoi(args[0]));
+				comp->SetSpotlightAngle(180, 180);
+				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
 			}
 			default: std::cout << "Component did not exist" << std::endl;
@@ -105,7 +116,9 @@ namespace sge {
 		{"getPos", getPos},
 		{"getWorldPos", getWorldPos},
 		{"setPos", setPos},
+		{"setWorldPos", setWorldPos},
 		{"rotate", rotate},
+		{"setRotation", setRotation},
 		{"forward", forward},
 		{"right", right},
 		{"up", up},
@@ -239,8 +252,12 @@ namespace sge {
 	int LuaComponent::setName(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
+		//std::cout << "Stack size before obj: " << comp->GetState()->GetStackSize();
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
-		std::string name = comp->GetState()->GetArgsFromStack()[0];
+		//std::cout << "Stack size after obj: " << comp->GetState()->GetStackSize();
+		std::vector<std::string> args = comp->GetState()->GetArgsFromStack();
+		//std::cout << "Stack size after obj: " << comp->GetState()->GetStackSize();
+		std::string name = args[0];
 		obj->SetName(name);
 		return 0;
 	}
@@ -307,7 +324,16 @@ namespace sge {
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
-		obj->SetWorldPosition(glm::vec3((float)vals[2],(float)vals[1], (float)vals[0]));
+		obj->SetPosition(glm::vec3((float)vals[2],(float)vals[1], (float)vals[0]));
+		return 0;
+	}
+	int LuaComponent::setWorldPos(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		obj->SetWorldPosition(glm::vec3((float)vals[2], (float)vals[1], (float)vals[0]));
 		return 0;
 	}
 	int LuaComponent::rotate(lua_State * state)
@@ -317,6 +343,17 @@ namespace sge {
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
 		obj->Rotate(glm::vec3((float)vals[3], (float)vals[2], (float)vals[1]), (float)vals[0]);
+		//obj->Rotate(glm::vec3(0, 1, 0), 20);
+		return 0;
+	}
+	int LuaComponent::setRotation(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		obj->SetRotation(glm::vec3((float)vals[3], (float)vals[2], (float)vals[1]), (float)vals[0]);
+		//obj->SetRotation(glm::vec3(1, 0, 0), -40);
 		//obj->Rotate(glm::vec3(0, 1, 0), 20);
 		return 0;
 	}

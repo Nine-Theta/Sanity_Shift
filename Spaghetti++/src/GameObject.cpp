@@ -52,10 +52,21 @@ namespace sge {
 
 	void GameObject::SetParent(GameObject * p_parent)
 	{
+		if (p_parent == this) return;
 		if (_p_parent == NULL && p_parent != NULL) {
 			Game::GetInstance().RemoveFromRoot(this);
 		}
-		_p_parent = p_parent;
+		else if (_p_parent != NULL && p_parent == NULL) {
+			Game::GetInstance().AddToRoot(this);
+		}
+		else if (_p_parent != NULL && p_parent != _p_parent) {
+			_p_parent->RemoveChild(this);
+		}
+		if (_p_parent != p_parent) {
+			_p_parent = p_parent;
+			if(_p_parent != NULL)
+			_p_parent->AddChild(this);
+		}
 	}
 
 	void GameObject::SetName(std::string newName)
@@ -73,6 +84,11 @@ namespace sge {
 		return _combinedTransform[3];// * glm::vec4(0,0,0,0);
 	}
 
+	vec3 GameObject::GetPosition()
+	{
+		return _transform[3];
+	}
+
 	Rigidbody2D * GameObject::GetRigidbody()
 	{
 		return rigidbody;
@@ -88,9 +104,21 @@ namespace sge {
 			_transform[3] = vec4(pos, 1);
 	}
 
+	void GameObject::SetPosition(glm::vec3 pos)
+	{
+		_transform[3] = vec4(pos, 1);
+	}
+
 	void GameObject::Rotate(glm::vec3 axis, float angle)
 	{
 		_transform = glm::rotate(_transform, radians(angle), axis);
+	}
+
+	void GameObject::SetRotation(glm::vec3 axis, float angle)
+	{
+		vec4 pos = _transform[3];
+		_transform = glm::rotate(mat4(), radians(angle), axis);
+		_transform[3] = pos;
 	}
 
 	void GameObject::setPosition(float x, float y)
@@ -159,10 +187,7 @@ namespace sge {
 	{
 		if (_state > GOState::ACTIVE)
 			return;
-		if (_p_parent != NULL)
-			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
-		else
-			_combinedTransform = _transform;//getTransform();
+		UpdateTransform();
 		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
 			(*itr)->Update();
 		}
@@ -192,6 +217,12 @@ namespace sge {
 				component->FixedUpdate();
 			//std::cout << component->GetParent() << " - Updated component with that parent!" << std::endl;
 		}
+
+		for (GameObject* obj : _children) {
+			if (obj != NULL)
+				obj->OnFixedUpdate();
+			//std::cout << component->GetParent() << " - Updated component with that parent!" << std::endl;
+		}
 		/*for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
 			(*itr)->FixedUpdate();
 		}
@@ -202,14 +233,20 @@ namespace sge {
 
 	void GameObject::OnRender()
 	{
-		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
-			(*itr)->OnRender();
-		}
-		//std::cout << "Rendered components: " << _components.size() << std::endl;
-		for (std::vector<GameObject*>::iterator itr = _children.begin(), end = _children.end(); itr != end; itr++) {
-			(*itr)->OnRender();
+		if (_state > GOState::ACTIVE)
+			return;
+		if (_p_parent != NULL)
+			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
+		else
+			_combinedTransform = _transform;//getTransform();
+		for (ObjectBehaviour* comp : _components) {
+			comp->OnRender();
 			//std::cout << "Rendering children: " << _children.size() << std::endl;
 		}
+		for (GameObject* obj : _children) {
+			obj->OnRender();
+		}
+		//std::cout << "Rendered components: " << _components.size() << std::endl;
 	}
 
 	void GameObject::OnCollision(Collider* other)
@@ -336,6 +373,14 @@ namespace sge {
 	{
 		//_children.remove
 		//TODO: make it possible to remove children
+	}
+
+	void GameObject::UpdateTransform()
+	{
+		if (_p_parent != NULL)
+			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
+		else
+			_combinedTransform = _transform;//getTransform();
 	}
 
 	void GameObject::OnDestroy()
