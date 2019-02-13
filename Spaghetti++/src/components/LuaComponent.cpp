@@ -87,8 +87,18 @@ namespace sge {
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
+				comp->SetSpotlightAngle(180, 180);
+				comp->SetAmbient(0.00f);
+				obj->AddComponent(comp); break;
+			}
+			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
 				comp->SetSpotlightAngle(15, 30);
-				comp->SetAmbient(0.05f);
+				comp->SetAmbient(0.000f);
+				obj->AddComponent(comp); break;
+			}
+			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(9, 9, 13), std::stoi(args[0]));
+				comp->SetSpotlightAngle(180, 180);
+				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
 			}
 			default: std::cout << "Component did not exist" << std::endl;
