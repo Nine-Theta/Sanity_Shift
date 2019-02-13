@@ -7,6 +7,10 @@
 
 namespace sge {
 
+	bool Input::keysPressed[];
+	bool Input::keysDown[];
+	bool Input::keysUp[];
+
 	bool Input::mouseDownLeft;
 	bool Input::mouseDownRight;
 	bool Input::mousePressedLeft;
@@ -17,10 +21,52 @@ namespace sge {
 	glm::ivec2 Input::lastMousePos;
 
 	Input::Input()
-	{	
+	{			
 	}
 
-	bool Input::GetMouseButton(int button)
+	bool Input::GetKey(char key)
+	{
+		return keysPressed[key];
+	}
+
+	bool Input::GetKeyDown(char key)
+	{
+		return keysDown[key];
+	}
+
+	bool Input::GetKeyUp(char key)
+	{
+		return keysUp[key];
+	}
+
+	bool Input::GetAnyKey()
+	{
+		for (char i = 0; i < 100; i++)
+		{
+			if (keysPressed[i]) return true;
+		}
+		return false;
+	}
+
+	bool Input::GetAnyKeyDown()
+	{
+		for (char i = 0; i < 100; i++)
+		{
+			if (keysDown[i]) return true;
+		}
+		return false;
+	}
+
+	bool Input::GetAnyKeyUp()
+	{
+		for (char i = 0; i < 100; i++)
+		{
+			if (keysUp[i]) return true;
+		}
+		return false;
+	}
+
+	bool Input::GetMouseButton(char button)
 	{
 		if (button == 0)
 			return mousePressedLeft;
@@ -28,7 +74,7 @@ namespace sge {
 			return mousePressedRight;
 	}
 
-	bool Input::GetMouseButtonDown(int button)
+	bool Input::GetMouseButtonDown(char button)
 	{
 		if (button == 0)
 			return mouseDownLeft;
@@ -36,7 +82,7 @@ namespace sge {
 			return mouseDownRight;
 	}
 
-	bool Input::GetMouseButtonUp(int button)
+	bool Input::GetMouseButtonUp(char button)
 	{
 		if (button == 0)
 			return mouseUpLeft;
@@ -61,17 +107,33 @@ namespace sge {
 	}
 
 	void Input::OnFixedUpdate()
-	{
-		
+	{		
+		for (char i = 0; i < 100; i++)
+		{
+			if (keysDown[i]) keysDown[i] = false;
+			if (keysUp[i]) keysUp[i] = false;
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(i)))
+			{
+				if (!keysPressed[i]) keysDown[i] = true;
+				keysPressed[i] = true;
+			}
+			else if (keysPressed[i])
+			{
+				keysPressed[i] = false;
+				keysUp[i] = true;
+			}
+		}
+
 		if (mouseUpLeft) mouseUpLeft = false;
 		if (mouseUpRight) mouseUpRight = false;
-		if (mouseDownLeft) mouseDownLeft = false;
 		if (mouseDownRight) mouseDownRight = false;
+		if (mouseDownLeft) mouseDownLeft = false;
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
+		{			
+			if(!mousePressedLeft) mouseDownLeft = true;
 			mousePressedLeft = true;
-			mouseDownLeft = true;
 		}
 		else if (mousePressedLeft)
 		{
@@ -81,8 +143,8 @@ namespace sge {
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 		{
+			if (!mousePressedRight) mouseDownRight = true;
 			mousePressedRight = true;
-			mouseDownRight = true;
 		}
 		else if (mousePressedRight)
 		{

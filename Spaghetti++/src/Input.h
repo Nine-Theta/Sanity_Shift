@@ -8,6 +8,10 @@ namespace sge {
 	class Input
 	{
 	private:
+		static bool keysPressed [100];
+		static bool keysDown [100];
+		static bool keysUp [100];
+
 		static bool mouseDownLeft;
 		static bool mouseDownRight;
 		static bool mousePressedLeft;
@@ -20,9 +24,17 @@ namespace sge {
 	public:
 		Input();
 		~Input();
-		static bool GetMouseButton(int button = 0);
-		static bool GetMouseButtonDown(int button = 0);
-		static bool GetMouseButtonUp(int button =0);
+		static bool GetKey(char key);
+		static bool GetKeyDown(char key);
+		static bool GetKeyUp(char key);
+
+		static bool GetAnyKey();
+		static bool GetAnyKeyDown();
+		static bool GetAnyKeyUp();
+
+		static bool GetMouseButton(char button = 0);
+		static bool GetMouseButtonDown(char button = 0);
+		static bool GetMouseButtonUp(char button = 0);
 		static glm::ivec2 GetMousePosition();
 		static glm::ivec2 MouseDelta();
 
