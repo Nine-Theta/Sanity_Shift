@@ -156,6 +156,12 @@
     <ClCompile Include="..\src\core\Texture.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\components\MouseComponent.cpp">
+      <Filter>Quelldateien\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Input.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -288,6 +294,12 @@
     </ClInclude>
     <ClInclude Include="..\src\core\Texture.hpp">
       <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\MouseComponent.h">
+      <Filter>Headerdateien\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Input.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
