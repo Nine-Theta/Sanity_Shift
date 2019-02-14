@@ -8,9 +8,11 @@ namespace sge {
 	class Input
 	{
 	private:
-		static bool keysPressed [100];
-		static bool keysDown [100];
-		static bool keysUp [100];
+		static std::string keyNames[101];
+
+		static bool keysPressed [101];
+		static bool keysDown [101];
+		static bool keysUp [101];
 
 		static bool mouseDownLeft;
 		static bool mouseDownRight;
@@ -24,6 +26,8 @@ namespace sge {
 	public:
 		Input();
 		~Input();
+		static std::string GetKeyName(char key);
+
 		static bool GetKey(char key);
 		static bool GetKeyDown(char key);
 		static bool GetKeyUp(char key);

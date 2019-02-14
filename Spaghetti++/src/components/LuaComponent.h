@@ -56,7 +56,19 @@ namespace sge {
 		static int findObject(lua_State* state);
 		static int deleteAll(lua_State* state);
 
+		static int isKeyPressed(lua_State* state);
 		static int isKeyDown(lua_State* state);
+		static int isKeyUp(lua_State* state);
+		static int isAnyKeyPressed(lua_State* state);
+		static int isAnyKeyDown(lua_State* state);
+		static int isAnyKeyUp(lua_State* state);
+
+		static int isButtonPressed(lua_State* state);
+		static int isButtonDown(lua_State* state);
+		static int isButtonUp(lua_State* state);
+		static int getMousePos(lua_State* state);
+		static int getMouseDelta(lua_State* state);
+
 		//static const type_info& ParseComponentType(std::string type);
 
 		static const struct luaL_Reg gameObjectMetaLib[];
@@ -64,6 +76,7 @@ namespace sge {
 		static const struct luaL_Reg audioLib[];
 		static const struct luaL_Reg gameObjectLib[];
 		static const struct luaL_Reg keysMetaLib[];
+		static const struct luaL_Reg mouseLib[];
 
 		static std::map <lua_State*, LuaComponent*> _components;
 

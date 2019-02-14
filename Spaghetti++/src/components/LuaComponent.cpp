@@ -8,6 +8,7 @@
 #include "PlayerControls.h"
 #include "SoundManager.h"
 #include "LightComponent.hpp"
+#include "Input.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -35,6 +36,7 @@ namespace sge {
 		_state.RegisterLib(audioLib, "audio");
 		_state.PushMetaLib("sge.keys", keysMetaLib);
 		registerKeys();
+		_state.RegisterLib(mouseLib, "mouse");
 		_state.CallFunction("start");
 //		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;
 		
@@ -151,7 +153,22 @@ namespace sge {
 	};
 
 	const struct luaL_Reg LuaComponent::keysMetaLib[] = {
-		{"pressed", isKeyDown},
+		{"pressed", isKeyPressed},
+		{"Down", isKeyDown},
+		{"Up", isKeyUp},
+		{"anyPressed", isAnyKeyPressed},
+		{"anyDown", isAnyKeyDown},
+		{"anyUp", isAnyKeyUp},
+		{NULL, NULL} // - signals the end of the registry
+	};
+
+	const struct luaL_Reg LuaComponent::mouseLib[] = 
+	{
+		{"buttonPressed", isButtonPressed },
+		{"buttonDown", isButtonDown },
+		{"buttonUp", isButtonUp },
+		{"position", getMousePos },
+		{"delta", getMouseDelta },
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -417,22 +434,98 @@ namespace sge {
 		return 0;
 	}
 
+	int LuaComponent::isKeyPressed(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		lua_pushboolean(state, Input::GetKey(comp->GetState()->GetNumbersFromStack()[0]));
+		return 1;
+	}
+
+	int LuaComponent::isKeyDown(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		lua_pushboolean(state, Input::GetKeyDown(comp->GetState()->GetNumbersFromStack()[0]));
+		return 1;
+	}
+
+	int LuaComponent::isKeyUp(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		lua_pushboolean(state, Input::GetKeyUp(comp->GetState()->GetNumbersFromStack()[0]));
+		return 1;
+	}
+
+	int LuaComponent::isAnyKeyPressed(lua_State * state)
+	{
+		lua_pushboolean(state, Input::GetAnyKey());
+		return 1;
+	}
+
+	int LuaComponent::isAnyKeyDown(lua_State * state)
+	{
+		lua_pushboolean(state, Input::GetAnyKeyDown());
+		return 1;
+	}
+
+	int LuaComponent::isAnyKeyUp(lua_State * state)
+	{
+		lua_pushboolean(state, Input::GetAnyKeyUp());
+		return 1;
+	}
+
+	int LuaComponent::isButtonPressed(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		lua_pushboolean(state, Input::GetMouseButton(comp->GetState()->GetNumbersFromStack()[0]));
+		return 1;
+	}
+
+	int LuaComponent::isButtonDown(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		lua_pushboolean(state, Input::GetMouseButtonDown(comp->GetState()->GetNumbersFromStack()[0]));
+		return 1;
+	}
+
+	int LuaComponent::isButtonUp(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		lua_pushboolean(state, Input::GetMouseButtonUp(comp->GetState()->GetNumbersFromStack()[0]));
+		return 1;
+	}
+
+	int LuaComponent::getMousePos(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		lua_pushinteger(state, Input::GetMousePosition().x);
+		lua_pushinteger(state, Input::GetMousePosition().y);
+		return 2;
+	}
+
+	int LuaComponent::getMouseDelta(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		lua_pushinteger(state, Input::MouseDelta().x);
+		lua_pushinteger(state, Input::MouseDelta().y);
+		return 2;
+	}
+
+	/*
 	int LuaComponent::isKeyDown(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
 		sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>((int)comp->GetState()->GetNumbersFromStack()[0]);
 		lua_pushboolean(state, sf::Keyboard::isKeyPressed(key));
 		return 1;
-	}
+	}*/
 
 	void LuaComponent::registerKeys()
 	{
 		_state.OpenTable("keys");
-		_state.PushToTable("up", sf::Keyboard::Up);
-		_state.PushToTable("down", sf::Keyboard::Down);
-		_state.PushToTable("left", sf::Keyboard::Left);
-		_state.PushToTable("right", sf::Keyboard::Right);
-		_state.PushToTable("space", sf::Keyboard::Space);
+		for (char i = 0; i < sf::Keyboard::KeyCount; i++)
+		{
+			_state.PushToTable(Input::GetKeyName(i), sf::Keyboard::Key(i));
+		}
 		_state.SaveTable("keys","sge.keys");
 	}
 }
