@@ -156,6 +156,12 @@
     <ClCompile Include="..\src\core\Texture.cpp">
       <Filter>Quelldateien\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\core\Physics.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\components\BoxCollider.cpp">
+      <Filter>Quelldateien\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -288,6 +294,12 @@
     </ClInclude>
     <ClInclude Include="..\src\core\Texture.hpp">
       <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Physics.h">
+      <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\BoxCollider.h">
+      <Filter>Headerdateien\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

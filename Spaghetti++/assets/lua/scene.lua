@@ -23,6 +23,12 @@ function init()
 	cam:addComponent("lua","movement.lua")
 	cam:setPos(0,0,0)
 	light:addComponent("spotlight",35)
+	
+	local mesh = gameObject.new()
+	mesh:addComponent("mesh","monkeyhead.obj")
+	mesh:setPos(0,0,10)
+	mesh:setName("PhysicsTest")
+	mesh:addComponent("boxcollider",2,2,2,1)
 	--audio.buffer("LaserBlaster.wav")
 	--audio.buffer("PlayerDeathSound.wav")
 end

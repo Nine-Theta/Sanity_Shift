@@ -50,6 +50,7 @@ namespace sge {
 		Rigidbody2D* GetRigidbody();
 		void SetWorldPosition(glm::vec3 pos);
 		void SetPosition(glm::vec3 pos);
+		void SetWorldTransform(mat4 transform);
 		void UpdateTransform();
 		void Rotate(glm::vec3 axis, float angle);
 		void SetRotation(glm::vec3 axis, float angle);
