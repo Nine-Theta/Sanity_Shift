@@ -41,6 +41,7 @@ namespace sge {
 		static bool GetMouseButtonUp(char button = 0);
 		static glm::ivec2 GetMousePosition();
 		static glm::ivec2 MouseDelta();
+		static bool MouseMoved();
 
 		static void OnUpdate();
 		static void OnFixedUpdate();

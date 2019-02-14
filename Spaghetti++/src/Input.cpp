@@ -113,6 +113,11 @@ namespace sge {
 		return mousePos;
 	}
 
+	bool Input::MouseMoved()
+	{
+		return(MouseDelta().x != 0 || MouseDelta().y != 0);
+	}
+
 	void Input::OnUpdate()
 	{
 		lastMousePos = mousePos;

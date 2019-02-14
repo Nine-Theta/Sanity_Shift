@@ -5,34 +5,46 @@ function start()
 	--print(test.test())
 end
 
-function update() --currently disabled
+--[[function update() --currently disabled
 --	print("Updated lua component") 
-end
+end]]--
 
 velY = 0
+velX = 0
 pressed = false
+
+function update()
+
+	if mouse.moved() then
+		local mX, mY = mouse.delta()
+		parent:rotate(0,1,0,-mX * 10 * time.fixedDelta())
+		--print(mX, mY)
+	end
+end
+
 function fixedupdate()
 	--print(parent.getPos())
 	local x, y, z = parent:getPos()
 	--print(x .. y .. z)
 	local fx,fy,fz = parent:forward();
+	local rx,ry,rz = parent:right();
 	if keys.pressed(keys.S) then
-		velY = velY + 10 * time.fixedDelta()
+		velY = velY + 0.5 * time.fixedDelta()
 	end
 	if keys.pressed(keys.W) then
-		velY = velY - 10 * time.fixedDelta()
+		velY = velY - 0.5 * time.fixedDelta()
 	end
 	if keys.pressed(keys.D) then
-		parent:rotate(0,1,0,-90 * time.fixedDelta())
+		velX = velX - 0.5 * time.fixedDelta()
+		end
+	if keys.pressed(keys.A) then
+		velX = velX + 0.5 * time.fixedDelta()
 	end
-	if mouse.buttonPressed(0) then
-		local mX, mY = mouse.position()
-		print(mX, mY)
-	end
-	velY = velY * 0.98
-	z = z + fz * velY * 0.05
-	x = x + fx * velY * 0.05
-	y = y + fy * velY * 0.05
+	velY = velY * 0.95
+	velX = velX * 0.95
+	z = z + fz * velY + rz * velX
+	x = x + fx * velY + rx * velX
+	y = y + fy * velY + ry * velX
 	parent:setPos(x,y,z)
 end
 	

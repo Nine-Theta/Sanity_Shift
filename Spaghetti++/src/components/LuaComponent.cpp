@@ -169,6 +169,7 @@ namespace sge {
 		{"buttonUp", isButtonUp },
 		{"position", getMousePos },
 		{"delta", getMouseDelta },
+		{"moved", didMouseMove },
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -496,7 +497,6 @@ namespace sge {
 
 	int LuaComponent::getMousePos(lua_State * state)
 	{
-		LuaComponent* comp = _components[state];
 		lua_pushinteger(state, Input::GetMousePosition().x);
 		lua_pushinteger(state, Input::GetMousePosition().y);
 		return 2;
@@ -504,10 +504,15 @@ namespace sge {
 
 	int LuaComponent::getMouseDelta(lua_State * state)
 	{
-		LuaComponent* comp = _components[state];
 		lua_pushinteger(state, Input::MouseDelta().x);
 		lua_pushinteger(state, Input::MouseDelta().y);
 		return 2;
+	}
+
+	int LuaComponent::didMouseMove(lua_State* state)
+	{
+		lua_pushboolean(state, Input::MouseMoved());
+		return 1;
 	}
 
 	/*
