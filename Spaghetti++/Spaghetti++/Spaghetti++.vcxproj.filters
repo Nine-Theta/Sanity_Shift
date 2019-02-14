@@ -162,6 +162,9 @@
     <ClCompile Include="..\src\components\BoxCollider.cpp">
       <Filter>Quelldateien\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\components\MeshCollider.cpp">
+      <Filter>Quelldateien\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -299,6 +302,9 @@
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\components\BoxCollider.h">
+      <Filter>Headerdateien\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\MeshCollider.h">
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
   </ItemGroup>
