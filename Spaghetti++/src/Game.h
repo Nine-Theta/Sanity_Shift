@@ -6,6 +6,7 @@
 #include "glm/glm.hpp"
 #include "SFML/Graphics.hpp"
 #include <list>
+#include "Input.h"
 namespace sge {
 	using namespace glm;
 	class Game : public sf::RenderWindow

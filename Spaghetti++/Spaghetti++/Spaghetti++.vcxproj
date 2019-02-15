@@ -30,6 +30,7 @@
     <ClCompile Include="..\src\components\LightComponent.cpp" />
     <ClCompile Include="..\src\components\LuaComponent.cpp" />
     <ClCompile Include="..\src\components\MeshComponent.cpp" />
+    <ClCompile Include="..\src\components\MouseComponent.cpp" />
     <ClCompile Include="..\src\components\ObjectBehaviour.cpp" />
     <ClCompile Include="..\src\components\PlayerControls.cpp" />
     <ClCompile Include="..\src\components\RectangleComponent.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="..\src\core\Texture.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\GameObject.cpp" />
+    <ClCompile Include="..\src\Input.cpp" />
     <ClCompile Include="..\src\LuaState.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\materials\AbstractMaterial.cpp" />
@@ -76,6 +78,7 @@
     <ClInclude Include="..\src\components\LightComponent.hpp" />
     <ClInclude Include="..\src\components\LuaComponent.h" />
     <ClInclude Include="..\src\components\MeshComponent.h" />
+    <ClInclude Include="..\src\components\MouseComponent.h" />
     <ClInclude Include="..\src\components\ObjectBehaviour.h" />
     <ClInclude Include="..\src\components\PlayerControls.h" />
     <ClInclude Include="..\src\components\RectangleComponent.h" />
@@ -93,6 +96,7 @@
     <ClInclude Include="..\src\core\Texture.hpp" />
     <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\GameObject.h" />
+    <ClInclude Include="..\src\Input.h" />
     <ClInclude Include="..\src\LuaState.h" />
     <ClInclude Include="..\src\materials\AbstractMaterial.hpp" />
     <ClInclude Include="..\src\materials\ColorMaterial.hpp" />
