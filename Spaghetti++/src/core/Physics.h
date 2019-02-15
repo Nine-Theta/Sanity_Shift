@@ -15,6 +15,7 @@ namespace sge {
 		~Physics();
 		static void Init();
 		static int AddBody(btRigidBody* body);
+		static void RemoveBody(btRigidBody* body);
 		static int AddCollision(btCollisionObject* obj);
 		static btTransform GetTransform(int id);
 		static void Update(float dt);

@@ -14,6 +14,7 @@ namespace sge {
 	}
 	MeshCollider::~MeshCollider()
 	{
+		destroyCollider();
 	}
 	btTriangleIndexVertexArray * MeshCollider::meshToBT(Mesh * mesh)
 	{
@@ -42,7 +43,6 @@ namespace sge {
 	}
 
 	void MeshCollider::makeCollider() {
-		btTriangleIndexVertexArray* meshArray;
 		if (cmesh == NULL) {
 			MeshComponent* comp = (MeshComponent*)p_gameObj->GetComponent(typeid(MeshComponent));
 			if (comp == NULL) {
@@ -57,24 +57,29 @@ namespace sge {
 		else
 			meshArray = meshToBTSlow(cmesh);
 		mass = 0.f;
-		btCollisionShape* shape = new btBvhTriangleMeshShape(meshArray, true);
-		btTransform transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
+		shape = new btBvhTriangleMeshShape(meshArray, true);
+		transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
 
 		btVector3 inertia(0, 0, 0);
 		if (mass > 0.f)
 			shape->calculateLocalInertia(mass, inertia);
 
-		btDefaultMotionState* motionState = new btDefaultMotionState(transform);
+		motionState = new btDefaultMotionState(transform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
-		btCollisionObject* cobj = new btCollisionObject();
-		cobj->setCollisionShape(shape);
-		cobj->setWorldTransform(transform);
 		rbody = new btRigidBody(rbInfo);
 		rbody->setRestitution(.6f);
 		rbody->setFriction(0.0f);
 		Physics::AddBody(rbody);
-		//id = Physics::AddCollision(cobj);
 		p_gameObj->SetWorldTransform(Physics::bulletToGlm(rbody->getWorldTransform()));
+	}
+
+	void MeshCollider::destroyCollider()
+	{
+		Physics::RemoveBody(rbody);
+		delete rbody;
+		delete shape;
+		delete motionState;
+		delete meshArray;
 	}
 
 	void MeshCollider::Start()

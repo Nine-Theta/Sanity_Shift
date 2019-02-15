@@ -32,6 +32,10 @@ namespace sge {
 		world->addRigidBody(body);
 		return world->getNumCollisionObjects() - 1;
 	}
+	void Physics::RemoveBody(btRigidBody * body)
+	{
+		world->removeRigidBody(body);
+	}
 	int Physics::AddCollision(btCollisionObject * obj)
 	{
 		world->addCollisionObject(obj);

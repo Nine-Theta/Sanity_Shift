@@ -20,7 +20,14 @@ namespace sge {
 		Mesh* cmesh;
 		float mass;
 
+		//Collider related
+		btTriangleIndexVertexArray* meshArray;
+		btCollisionShape* shape;
+		btTransform transform;
+		btDefaultMotionState* motionState;
+
 		void makeCollider();
+		void destroyCollider();
 
 		btTriangleIndexVertexArray* meshToBT(Mesh* mesh);
 		btTriangleMesh* meshToBTSlow(Mesh* mesh);
