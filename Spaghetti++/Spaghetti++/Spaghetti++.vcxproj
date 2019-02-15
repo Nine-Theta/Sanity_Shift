@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\components\BoxCollider.cpp" />
     <ClCompile Include="..\src\components\CameraComponent.cpp" />
     <ClCompile Include="..\src\components\CircleCollider.cpp" />
     <ClCompile Include="..\src\components\Collider.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="..\src\components\HorizontalPlayerFollower.cpp" />
     <ClCompile Include="..\src\components\LightComponent.cpp" />
     <ClCompile Include="..\src\components\LuaComponent.cpp" />
+    <ClCompile Include="..\src\components\MeshCollider.cpp" />
     <ClCompile Include="..\src\components\MeshComponent.cpp" />
     <ClCompile Include="..\src\components\MouseComponent.cpp" />
     <ClCompile Include="..\src\components\ObjectBehaviour.cpp" />
@@ -43,6 +45,7 @@
     <ClCompile Include="..\src\components\TextComponent.cpp" />
     <ClCompile Include="..\src\core\AssetLoader.cpp" />
     <ClCompile Include="..\src\core\Mesh.cpp" />
+    <ClCompile Include="..\src\core\Physics.cpp" />
     <ClCompile Include="..\src\core\ShaderProgram.cpp" />
     <ClCompile Include="..\src\core\Texture.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
@@ -67,6 +70,7 @@
     <ResourceCompile Include="Spaghetti++.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\components\BoxCollider.h" />
     <ClInclude Include="..\src\components\CameraComponent.h" />
     <ClInclude Include="..\src\components\CircleCollider.h" />
     <ClInclude Include="..\src\components\Collider.h" />
@@ -77,6 +81,7 @@
     <ClInclude Include="..\src\components\HorizontalPlayerFollower.h" />
     <ClInclude Include="..\src\components\LightComponent.hpp" />
     <ClInclude Include="..\src\components\LuaComponent.h" />
+    <ClInclude Include="..\src\components\MeshCollider.h" />
     <ClInclude Include="..\src\components\MeshComponent.h" />
     <ClInclude Include="..\src\components\MouseComponent.h" />
     <ClInclude Include="..\src\components\ObjectBehaviour.h" />
@@ -92,6 +97,7 @@
     <ClInclude Include="..\src\core\AssetLoader.h" />
     <ClInclude Include="..\src\core\GLLight.hpp" />
     <ClInclude Include="..\src\core\Mesh.hpp" />
+    <ClInclude Include="..\src\core\Physics.h" />
     <ClInclude Include="..\src\core\ShaderProgram.hpp" />
     <ClInclude Include="..\src\core\Texture.hpp" />
     <ClInclude Include="..\src\Game.h" />

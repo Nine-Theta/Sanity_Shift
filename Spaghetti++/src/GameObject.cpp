@@ -109,6 +109,16 @@ namespace sge {
 		_transform[3] = vec4(pos, 1);
 	}
 
+	void GameObject::SetWorldTransform(mat4 transform)
+	{
+		if (_p_parent != NULL) {
+			std::cout << "Updating transform of a child in world space not yet supported!" << std::endl;
+		}
+		else {
+			_transform = transform;
+		}
+	}
+
 	void GameObject::Rotate(glm::vec3 axis, float angle)
 	{
 		_transform = glm::rotate(_transform, radians(angle), axis);

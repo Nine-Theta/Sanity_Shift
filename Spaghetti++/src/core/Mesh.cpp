@@ -274,6 +274,14 @@ namespace sge {
 		}
 		glEnd();
 	}
+	std::vector<unsigned int>& Mesh::GetIndices()
+	{
+		return _indices;
+	}
+	std::vector<glm::vec3>& Mesh::GetVertices()
+	{
+		return _vertices;
+	}
 }
 
 

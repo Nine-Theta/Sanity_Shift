@@ -8,6 +8,7 @@
 #include "glm/common.hpp"
 #include "glm/gtc/functions.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "core/AssetLoader.h"
 
 namespace sge {
 	class GameObject;
