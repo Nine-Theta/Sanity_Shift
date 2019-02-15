@@ -32,6 +32,9 @@ namespace sge {
 		 */
 		void drawDebugInfo(const glm::mat4& pModelMatrix, const glm::mat4& pViewMatrix, const glm::mat4& pProjectionMatrix);
 
+		std::vector<unsigned int> &GetIndices();
+		std::vector<glm::vec3> &GetVertices();
+
 	protected:
 		Mesh();
 		virtual ~Mesh();
@@ -48,7 +51,7 @@ namespace sge {
 		std::vector<glm::vec2> _uvs;            //vec2 for uv
 
 		//references to the vertices/normals & uvs in previous vectors
-		std::vector<unsigned> _indices;
+		std::vector<unsigned int> _indices;
 
 		//buffer vertices, normals, and uv's
 		void _buffer();

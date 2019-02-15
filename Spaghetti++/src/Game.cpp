@@ -2,7 +2,7 @@
 #include <iostream>
 #include <list>
 #include <assert.h>
-#include "Time.h"
+#include "TimeH.h"
 #include "GameObject.h"
 #include "components/ObjectBehaviour.h"
 #include "components/CameraComponent.h"
@@ -13,8 +13,10 @@
 #include "components/TextComponent.h"
 #include "components/StartComponent.h"
 #include "components/MeshComponent.h"
+#include "components/BoxCollider.h"
 #include "materials/WobbleMaterial.hpp"
 #include "materials/SpecularMaterial.hpp"
+#include "components/MeshCollider.h"
 #include <assert.h>
 #include "LuaState.h"
 #include "components/CameraComponent.h"
@@ -26,12 +28,13 @@ namespace sge {
 	sf::CircleShape shape(100.f);
 
 	Game* Game::instance = NULL;
-	Game::Game() : sf::RenderWindow(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), sf::Style::None, sf::ContextSettings(24, 8, 3, 3, 3))
+	Game::Game() : sf::RenderWindow(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), sf::Style::Default, sf::ContextSettings(24, 8, 3, 3, 3))
 	{
 		_initializeGlew();
 		_printVersionInfo();
 		_initializeOGL();
 		LightComponent::GenLightUBO();
+		Physics::Init();
 		/*_allObjects = new std::list<sge::GameObject*>;
 		_newComponents = new std::list<sge::ObjectBehaviour*>;
 		_rootObjects = new std::list<sge::GameObject*>;
@@ -58,18 +61,13 @@ namespace sge {
 				return;
 			}
 			if (event.type == sf::Event::Resized) {
-				//would be better to move this to the renderer
-				//this version implements nonconstrained match viewport scaling
 				std::cout << ("Video mode changed to " + std::to_string(event.size.width) + " - " + std::to_string(event.size.height)) << std::endl;
 				CameraComponent::GetMain()->SetProjection(Settings::GetInt("fov"), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f);//glm::perspective(glm::radians(60.0f), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f));	//fix projection
 				glViewport(0, 0, event.size.width, event.size.height);
-				//_world->getMainCamera()->setProjection(glm::perspective(glm::radians(60.0f), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f));	//fix projection
-				//glViewport(0, 0, event.size.width, event.size.height);
-				
 			}
 		}
 		while (TimeH::DoFixedStep()) {
-			//std::cout << Time::GetFramerate() << std::endl;
+			//std::cout << TimeH::GetFramerate() << std::endl;
 			doFixedUpdate();
 		}
 		doUpdate();
@@ -109,6 +107,7 @@ namespace sge {
 			(*itr)->OnFixedUpdate();
 			std::cout << "Updating an object" << std::endl;
 		}*/
+		Physics::Update(TimeH::FixedDelta());
 		for (GameObject* obj : _rootObjects)
 		{
 			obj->OnFixedUpdate();
@@ -164,14 +163,24 @@ namespace sge {
 		GameObject::Destroy(obj);
 		TextComponent::LoadFont("font.ttf");
 		GameObject* room = new GameObject();
-		room->AddComponent(new MeshComponent("cuberoom.obj",new SpecularMaterial("rustypaint.png","rustypaint_s.png")));
+		room->AddComponent(new MeshComponent("CollisionBox.obj",new SpecularMaterial("rustypaint.png","rustypaint_s.png")));
+		room->AddComponent(new MeshCollider("CollisionBox.obj",0.f));
+		room->SetWorldPosition(vec3(1,1,-4));
 		updateLoop();
 		//GameObject* cam = GameObject::Find("Camera");
 		GameObject* light = GameObject::Find("FlashLight");
 		light->AddComponent(new MeshComponent("flashlight_test.obj", new SpecularMaterial("white.png", "rustypaint_s.png")));
 		//light->SetParent(cam);
 		//room->AddComponent(new MeshComponent("monkeyhead.obj",new WobbleMaterial("rustypaint.png")));
-		room->SetWorldPosition(vec3(1,1,12));
+
+		//PhysicsTest
+		GameObject* pTest = GameObject::Find("PhysicsTest");
+		//pTest->AddComponent(new BoxCollider(vec3(1, 1, 1), 5));
+		
+		GameObject* floor = new GameObject();
+		floor->SetWorldPosition(vec3(0, -4.12f, 0));
+		floor->SetRotation(vec3(0, 0, 1), 20);
+		//floor->AddComponent(new BoxCollider(vec3(20, 1, 20), 0));
 		//room->AddComponent(new LightComponent(sf::Color::White, 10.f, 0.11f));
 		/*CameraComponent* ccam = new CameraComponent();
 		obj->AddComponent(ccam);
@@ -302,7 +311,7 @@ namespace sge {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glClearColor((float)0x2d / 0xff, (float)0x6b / 0xff, (float)0xce / 0xff, 1.0f);
+		glClearColor(0.02f, 0.02f, 0.04f, 1.0f);
 	}
 
 	sge::Game& Game::GetInstance()

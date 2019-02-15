@@ -8,6 +8,9 @@
 #include "PlayerControls.h"
 #include "SoundManager.h"
 #include "LightComponent.hpp"
+#include "MeshComponent.h"
+#include "BoxCollider.h"
+#include "materials/SpecularMaterial.hpp"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -86,6 +89,7 @@ namespace sge {
 			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
+			case hash("mesh"): obj->AddComponent(new MeshComponent(args[0],new SpecularMaterial("white.png","white.png"))); break;
 			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
@@ -99,6 +103,9 @@ namespace sge {
 			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(9, 9, 13), std::stoi(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
+				obj->AddComponent(comp); break;
+			}
+			case hash("boxcollider"): { BoxCollider* comp = new BoxCollider(vec3(std::stoi(args[3]), std::stoi(args[2]), std::stoi(args[1])), std::stoi(args[0]));
 				obj->AddComponent(comp); break;
 			}
 			default: std::cout << "Component did not exist" << std::endl;
