@@ -69,6 +69,8 @@ namespace sge {
 		static int getMousePos(lua_State* state);
 		static int getMouseDelta(lua_State* state);
 		static int didMouseMove(lua_State* state);
+		static int setMouseLock(lua_State* state);
+		static int toggleMouseLock(lua_State* state);
 
 		//static const type_info& ParseComponentType(std::string type);
 

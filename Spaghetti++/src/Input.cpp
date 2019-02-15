@@ -28,6 +28,8 @@ namespace sge {
 	glm::ivec2 Input::mousePos;
 	glm::ivec2 Input::lastMousePos;
 
+	bool Input::lockMousePos = true;
+
 	Input::Input()
 	{			
 	}
@@ -118,14 +120,54 @@ namespace sge {
 		return(MouseDelta().x != 0 || MouseDelta().y != 0);
 	}
 
+	void Input::setMouseLock(bool active)
+	{
+		Input::lockMousePos = active;
+		Game::GetInstance().setMouseCursorVisible(!active);
+	}
+	
+	void Input::toggleMouseLock()
+	{
+		Input::lockMousePos = !lockMousePos;
+		Game::GetInstance().setMouseCursorVisible(!lockMousePos);
+	}
+
 	void Input::OnUpdate()
 	{
 		lastMousePos = mousePos;
+		/*
+		if (sf::Mouse::getPosition().x <= 0)
+		{
+			sf::Mouse::setPosition(sf::Vector2i(1918, sf::Mouse::getPosition().y));
+			lastMousePos.x = 1918;
+		}
+		if (sf::Mouse::getPosition().x >= 1919)
+		{
+			sf::Mouse::setPosition(sf::Vector2i(1, sf::Mouse::getPosition().y));
+			lastMousePos.x = 1;
+		}
+
+		if (sf::Mouse::getPosition().y <= 0)
+		{
+			sf::Mouse::setPosition(sf::Vector2i(sf::Mouse::getPosition().x, 1078));
+			lastMousePos.y = 1078;
+		}
+		if (sf::Mouse::getPosition().y >= 1079)
+		{
+			sf::Mouse::setPosition(sf::Vector2i(sf::Mouse::getPosition().x, 1));
+			lastMousePos.y = 1;
+		}
+		*/
 		mousePos = glm::ivec2(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+		if (lockMousePos)
+		{
+			sf::Mouse::setPosition(sf::Vector2i(959, 539));
+			lastMousePos = glm::ivec2(959, 539);
+		}
 	}
 
 	void Input::OnFixedUpdate()
-	{		
+	{	
 		for (char i = 0; i < sf::Keyboard::KeyCount; i++)
 		{
 			if (keysDown[i]) keysDown[i] = false;

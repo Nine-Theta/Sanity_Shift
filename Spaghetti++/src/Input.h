@@ -23,6 +23,8 @@ namespace sge {
 		static glm::ivec2 mousePos;
 		static glm::ivec2 lastMousePos;
 
+		static bool lockMousePos;
+
 	public:
 		Input();
 		~Input();
@@ -42,6 +44,9 @@ namespace sge {
 		static glm::ivec2 GetMousePosition();
 		static glm::ivec2 MouseDelta();
 		static bool MouseMoved();
+
+		static void setMouseLock(bool active);
+		static void toggleMouseLock();
 
 		static void OnUpdate();
 		static void OnFixedUpdate();

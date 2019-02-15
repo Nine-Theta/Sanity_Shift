@@ -11,6 +11,7 @@ end]]--
 
 velY = 0
 velX = 0
+velZ = 0
 pressed = false
 
 function update()
@@ -28,6 +29,7 @@ function fixedupdate()
 	--print(x .. y .. z)
 	local fx,fy,fz = parent:forward();
 	local rx,ry,rz = parent:right();
+	local ux,uy,uz = parent:up();
 	if keys.pressed(keys.S) then
 		velY = velY + 0.5 * time.fixedDelta()
 	end
@@ -40,11 +42,31 @@ function fixedupdate()
 	if keys.pressed(keys.A) then
 		velX = velX + 0.5 * time.fixedDelta()
 	end
+	
+	if keys.pressed(keys.Space) then
+		velZ = velZ + 0.5 * time.fixedDelta()
+	end
+	
+	if keys.pressed(keys.LeftControl) then
+		velZ = velZ - 0.5 * time.fixedDelta()
+	end
+	
+	if keys.pressed(keys.LeftShift) then
+		velY = velY * 1.04
+		velX = velX * 1.04
+		velZ = velZ * 1.04
+	end
+	
+	if keys.down(keys.L) then
+		mouse.toggleLock()
+	end
+	
 	velY = velY * 0.95
 	velX = velX * 0.95
-	z = z + fz * velY + rz * velX
-	x = x + fx * velY + rx * velX
-	y = y + fy * velY + ry * velX
+	velZ = velZ * 0.95
+	z = z + fz * velY + rz * velX + uz * velZ
+	x = x + fx * velY + rx * velX + ux * velZ
+	y = y + fy * velY + ry * velX + uy * velZ
 	parent:setPos(x,y,z)
 end
 	

@@ -154,8 +154,8 @@ namespace sge {
 
 	const struct luaL_Reg LuaComponent::keysMetaLib[] = {
 		{"pressed", isKeyPressed},
-		{"Down", isKeyDown},
-		{"Up", isKeyUp},
+		{"down", isKeyDown},
+		{"up", isKeyUp},
 		{"anyPressed", isAnyKeyPressed},
 		{"anyDown", isAnyKeyDown},
 		{"anyUp", isAnyKeyUp},
@@ -170,6 +170,8 @@ namespace sge {
 		{"position", getMousePos },
 		{"delta", getMouseDelta },
 		{"moved", didMouseMove },
+		{"setLock", setMouseLock },
+		{"toggleLock", toggleMouseLock },
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -435,6 +437,8 @@ namespace sge {
 		return 0;
 	}
 
+#pragma region Mouse/Keyboard Input
+
 	int LuaComponent::isKeyPressed(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
@@ -515,6 +519,19 @@ namespace sge {
 		return 1;
 	}
 
+	int LuaComponent::setMouseLock(lua_State* state)
+	{
+		LuaComponent* comp = _components[state];
+		Input::setMouseLock((bool)(comp->GetState()->GetNumbersFromStack()[0]));
+		return 0;
+	}
+
+	int LuaComponent::toggleMouseLock(lua_State* state)
+	{
+		Input::toggleMouseLock();
+		return 0;
+	}
+
 	/*
 	int LuaComponent::isKeyDown(lua_State * state)
 	{
@@ -533,4 +550,5 @@ namespace sge {
 		}
 		_state.SaveTable("keys","sge.keys");
 	}
+#pragma endregion
 }

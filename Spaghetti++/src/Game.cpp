@@ -98,7 +98,7 @@ namespace sge {
 
 	void Game::doUpdate()
 	{
-		Input::OnUpdate();
+		if (Game::hasFocus()) Input::OnUpdate();
 		for (std::list<GameObject*>::iterator itr = _rootObjects.begin(), end = _rootObjects.end(); itr != end; itr++) {
 			(*itr)->OnUpdate();
 		}
@@ -107,7 +107,6 @@ namespace sge {
 	void Game::doFixedUpdate()
 	{
 		Input::OnFixedUpdate();
-		if (Input::GetMouseButton(0)) std::cout << Input::MouseDelta().x << std::endl;
 		/*for (std::list<GameObject*>::iterator itr = _rootObjects.begin(), end = _rootObjects.end(); itr != end; itr++) {
 			(*itr)->OnFixedUpdate();
 			std::cout << "Updating an object" << std::endl;
