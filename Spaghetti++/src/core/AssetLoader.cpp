@@ -17,7 +17,8 @@ namespace sge {
 	Mesh* sge::AssetLoader::GetMesh(std::string path) //keeps pointers to texture objects. Todo: Remember how many components use them to delete if unused
 	{
 		BufferMesh(path);
-		std::cout << _cached[path];
+		if (_cached[path] == NULL)
+			return GetMesh("error.obj");
 		return _cached[path];
 	}
 
@@ -31,9 +32,12 @@ namespace sge {
 		}
 		_cached.insert(std::make_pair(path, mesh));
 	}
+
 	Texture * AssetLoader::GetTexture(std::string path)
 	{
 		BufferTexture(path);
+		if (_cachedT[path] == NULL)
+			return GetTexture("error.png");
 		return _cachedT[path];
 	}
 	void AssetLoader::BufferTexture(std::string path)

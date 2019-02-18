@@ -131,6 +131,13 @@ namespace sge {
 		_transform[3] = pos;
 	}
 
+	void GameObject::SetRotation(quat rotation)
+	{
+		vec4 pos = _transform[3];
+		_transform = glm::toMat4(rotation);
+		_transform[3] = pos;
+	}
+
 	void GameObject::setPosition(float x, float y)
 	{
 	}

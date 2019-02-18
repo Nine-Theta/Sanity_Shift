@@ -164,7 +164,7 @@ namespace sge {
 		lua->GetState()->CallFunction("init");
 		GameObject::Destroy(obj);
 		TextComponent::LoadFont("font.ttf");
-		GameObject* room = new GameObject();
+		/*GameObject* room = new GameObject();
 		room->AddComponent(new MeshComponent("CollisionBox.obj",new SpecularMaterial("rustypaint.png","rustypaint_s.png")));
 		room->AddComponent(new MeshCollider("CollisionBox.obj",0.f));
 		room->SetWorldPosition(vec3(1,1,-4));
@@ -176,12 +176,10 @@ namespace sge {
 		//room->AddComponent(new MeshComponent("monkeyhead.obj",new WobbleMaterial("rustypaint.png")));
 
 		//PhysicsTest
-		GameObject* pTest = GameObject::Find("PhysicsTest");
-		//pTest->AddComponent(new BoxCollider(vec3(1, 1, 1), 5));
 		
 		GameObject* floor = new GameObject();
 		floor->SetWorldPosition(vec3(0, -4.12f, 0));
-		floor->SetRotation(vec3(0, 0, 1), 20);
+		floor->SetRotation(vec3(0, 0, 1), 20);*/
 		//floor->AddComponent(new BoxCollider(vec3(20, 1, 20), 0));
 		//room->AddComponent(new LightComponent(sf::Color::White, 10.f, 0.11f));
 		/*CameraComponent* ccam = new CameraComponent();

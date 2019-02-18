@@ -10,6 +10,7 @@
 #include "LightComponent.hpp"
 #include "MeshComponent.h"
 #include "BoxCollider.h"
+#include "MeshCollider.h"
 #include "materials/SpecularMaterial.hpp"
 #include "Input.h"
 namespace sge {
@@ -91,7 +92,10 @@ namespace sge {
 			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
-			case hash("mesh"): obj->AddComponent(new MeshComponent(args[0],new SpecularMaterial("white.png","white.png"))); break;
+			case hash("mesh"): { 
+				obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1]))); 
+				break;
+			}
 			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
@@ -108,6 +112,9 @@ namespace sge {
 				obj->AddComponent(comp); break;
 			}
 			case hash("boxcollider"): { BoxCollider* comp = new BoxCollider(vec3(std::stoi(args[3]), std::stoi(args[2]), std::stoi(args[1])), std::stoi(args[0]));
+				obj->AddComponent(comp); break;
+			}
+			case hash("meshcollider"): { MeshCollider* comp = new MeshCollider(args[0]);
 				obj->AddComponent(comp); break;
 			}
 			default: std::cout << "Component did not exist" << std::endl;
@@ -128,6 +135,7 @@ namespace sge {
 		{"setWorldPos", setWorldPos},
 		{"rotate", rotate},
 		{"setRotation", setRotation},
+		{"setRotationQ", setRotationQ},
 		{"forward", forward},
 		{"right", right},
 		{"up", up},
@@ -380,6 +388,17 @@ namespace sge {
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
 		obj->SetRotation(glm::vec3((float)vals[3], (float)vals[2], (float)vals[1]), (float)vals[0]);
+		//obj->SetRotation(glm::vec3(1, 0, 0), -40);
+		//obj->Rotate(glm::vec3(0, 1, 0), 20);
+		return 0;
+	}
+	int LuaComponent::setRotationQ(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		obj->SetRotation(quat((float)vals[3], (float)vals[2], (float)vals[1], (float)vals[0]));
 		//obj->SetRotation(glm::vec3(1, 0, 0), -40);
 		//obj->Rotate(glm::vec3(0, 1, 0), 20);
 		return 0;

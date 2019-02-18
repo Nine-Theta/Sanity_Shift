@@ -4,9 +4,9 @@
 //#include "Game.h"
 #include <vector>
 #include "glm/glm.hpp"
-#include "glm/geometric.hpp"
+//#include "glm/geometric.hpp"
+#include "glm/gtx/quaternion.hpp"
 #include "glm/common.hpp"
-#include "glm/gtc/functions.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "core/AssetLoader.h"
 
