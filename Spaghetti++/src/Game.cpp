@@ -35,6 +35,7 @@ namespace sge {
 		_initializeGlew();
 		_printVersionInfo();
 		_initializeOGL();
+		Sound::InitHRTF();
 		LightComponent::GenLightUBO();
 		Physics::Init();
 		/*_allObjects = new std::list<sge::GameObject*>;

@@ -5,27 +5,23 @@
 
 #include "core/Sound.hpp"
 namespace sge {
+	ALuint Sound::GetBuffer()
+	{
+		return buffer;
+	}
 	Sound::Sound(std::string pFilename)
 	{
-		InitHRTF();
 		
-		if (!alutInitWithoutContext(0, NULL))
-		{
-			ALenum error = alutGetError();
-			fprintf(stderr, "%s\n", alutGetErrorString(error));
-			exit(EXIT_FAILURE);
-		}
 		buffer = alutCreateBufferFromFile(pFilename.c_str());
 		if (buffer == AL_NONE)
 		{
 			ALenum error = alutGetError();
 			fprintf(stderr, "Error loading file: '%s'\n",
 				alutGetErrorString(error));
-			alutExit();
+			//alutExit();
 			//exit(EXIT_FAILURE);
 		}
-		printf("Playing audio file as a test\n");
-		soundTest();
+		//soundTest();
 	}
 
 	Sound::~Sound()
@@ -36,6 +32,22 @@ namespace sge {
 	static void* alcGetStringiSOFT;
 	static void* alcResetDeviceSOFT;
 
+
+	Sound * Sound::load(std::string pFilename)
+	{
+		Sound* snd = new Sound();
+		snd->buffer = alutCreateBufferFromFile(pFilename.c_str());
+		if (snd->buffer == AL_NONE)
+		{
+			ALenum error = alutGetError();
+			fprintf(stderr, "Error loading file: '%s'\n",
+				alutGetErrorString(error));
+			delete snd;
+			return NULL;
+			//exit(EXIT_FAILURE);
+		}
+		return snd;
+	}
 
 	void Sound::InitHRTF()
 	{
@@ -138,6 +150,17 @@ namespace sge {
 			const ALchar *name = alcGetString(device, ALC_HRTF_SPECIFIER_SOFT);
 			printf("HRTF enabled, using %s\n", name);
 		}
+
+		if (!alutInitWithoutContext(0, NULL))
+		{
+			ALenum error = alutGetError();
+			fprintf(stderr, "%s\n", alutGetErrorString(error));
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	Sound::Sound() : buffer(0)
+	{
 	}
 
 	void Sound::soundTest()

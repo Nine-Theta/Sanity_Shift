@@ -21,6 +21,7 @@ namespace sge {
 		SetSetting("meshDir", settings.GetString("meshDir"));
 		SetSetting("texDir", settings.GetString("texDir"));
 		SetSetting("shaderDir", settings.GetString("shaderDir"));
+		SetSetting("sndDir", settings.GetString("sndDir"));
 	}
 	std::string Settings::GetSetting(std::string key)
 	{

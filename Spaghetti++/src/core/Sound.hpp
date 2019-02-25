@@ -26,10 +26,11 @@ namespace sge {
 		Sound(std::string pFilename);
 		virtual ~Sound();
 
-		void InitHRTF();
+		static Sound* load(std::string pFilename);
+		static void InitHRTF();
 
 	protected:
-
+		Sound();
 		void soundTest();
 		ALuint buffer;
 	};

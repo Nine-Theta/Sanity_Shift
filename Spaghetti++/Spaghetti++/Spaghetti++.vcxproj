@@ -40,6 +40,7 @@
     <ClCompile Include="..\src\components\ScoreComponent.cpp" />
     <ClCompile Include="..\src\components\SelfDestructComp.cpp" />
     <ClCompile Include="..\src\components\ShootComponent.cpp" />
+    <ClCompile Include="..\src\components\SoundComponent.cpp" />
     <ClCompile Include="..\src\components\SpriteComponent.cpp" />
     <ClCompile Include="..\src\components\StartComponent.cpp" />
     <ClCompile Include="..\src\components\TextComponent.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="..\src\components\ScoreComponent.h" />
     <ClInclude Include="..\src\components\SelfDestructComp.h" />
     <ClInclude Include="..\src\components\ShootComponent.h" />
+    <ClInclude Include="..\src\components\SoundComponent.h" />
     <ClInclude Include="..\src\components\SpriteComponent.h" />
     <ClInclude Include="..\src\components\StartComponent.h" />
     <ClInclude Include="..\src\components\TextComponent.h" />

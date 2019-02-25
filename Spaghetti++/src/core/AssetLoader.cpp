@@ -13,6 +13,7 @@ namespace sge {
 	}
 	std::map<std::string, Mesh*> AssetLoader::_cached;
 	std::map<std::string, Texture*> AssetLoader::_cachedT;
+	std::map<std::string, Sound*> AssetLoader::_cachedS;
 
 	Mesh* sge::AssetLoader::GetMesh(std::string path) //keeps pointers to texture objects. Todo: Remember how many components use them to delete if unused
 	{
@@ -47,6 +48,25 @@ namespace sge {
 		Texture* tex = Texture::load(Settings::GetSetting("texDir") + path);
 		if (tex == NULL) {
 			std::cout << "Error loading Texture: " << path << std::endl;
+			return;
+		}
+		_cachedT.insert(std::make_pair(path, tex));
+	}
+
+	Sound * AssetLoader::GetSound(std::string path)
+	{
+		BufferTexture(path);
+		if (_cachedS[path] == NULL)
+			return GetSound("error.wav");
+		return _cachedS[path];
+	}
+	void AssetLoader::BufferSound(std::string path)
+	{
+		if (_cachedS.find(path) != _cachedS.end())
+			return;// _cached[path];
+		Texture* tex = Texture::load(Settings::GetSetting("sndDir") + path);
+		if (tex == NULL) {
+			std::cout << "Error loading Sound: " << path << std::endl;
 			return;
 		}
 		_cachedT.insert(std::make_pair(path, tex));
