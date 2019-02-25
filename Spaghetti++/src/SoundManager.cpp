@@ -3,7 +3,7 @@
 
 
 namespace sge {
-	SoundManager::SoundManager()
+	SoundManager::SoundManager() 
 	{
 	}
 

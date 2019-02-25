@@ -47,6 +47,7 @@
     <ClCompile Include="..\src\core\Mesh.cpp" />
     <ClCompile Include="..\src\core\Physics.cpp" />
     <ClCompile Include="..\src\core\ShaderProgram.cpp" />
+    <ClCompile Include="..\src\core\Sound.cpp" />
     <ClCompile Include="..\src\core\Texture.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\GameObject.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="..\src\core\Mesh.hpp" />
     <ClInclude Include="..\src\core\Physics.h" />
     <ClInclude Include="..\src\core\ShaderProgram.hpp" />
+    <ClInclude Include="..\src\core\Sound.hpp" />
     <ClInclude Include="..\src\core\Texture.hpp" />
     <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\GameObject.h" />
@@ -184,13 +186,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)../lib/openal-soft/include;$(ProjectDir)../src;$(ProjectDir)../lib/lua/include;$(ProjectDir)../lib/bullet3_x64-windows/include;$(ProjectDir)../lib/SFML-2.5.0/include;$(ProjectDir)../lib/misc/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)../lib/openal-soft/include;$(ProjectDir)../lib/freealut/include;$(ProjectDir)../src;$(ProjectDir)../lib/lua/include;$(ProjectDir)../lib/bullet3_x64-windows/include;$(ProjectDir)../lib/SFML-2.5.0/include;$(ProjectDir)../lib/misc/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)../lib/openal-soft/lib;$(ProjectDir)../lib/lua;$(ProjectDir)../lib/misc;$(ProjectDir)../lib/SFML-2.5.0/lib;$(ProjectDir)../lib/bullet3_x64-windows/Debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-main-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;liblua53.a;opengl32.lib;glew32d.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;Bullet3Common_Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;BulletInverseDynamics_Debug.lib;BulletSoftBody_Debug.lib;LinearMath_Debug.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)../lib/freealut/lib;$(ProjectDir)../lib/openal-soft/lib;$(ProjectDir)../lib/lua;$(ProjectDir)../lib/misc;$(ProjectDir)../lib/SFML-2.5.0/lib;$(ProjectDir)../lib/bullet3_x64-windows/Debug/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-main-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;liblua53.a;opengl32.lib;glew32d.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;Bullet3Common_Debug.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;BulletInverseDynamics_Debug.lib;BulletSoftBody_Debug.lib;LinearMath_Debug.lib;OpenAL32.lib;alut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -215,14 +217,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\lib\openal-soft\include;$(ProjectDir)../lib/bullet3_x64-windows/include;$(ProjectDir)../src;$(ProjectDir)../lib/lua/include;$(ProjectDir)../lib/SFML-2.5.0/include;$(ProjectDir)../lib/misc/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)../lib/openal-soft/include;$(ProjectDir)../lib/freealut/include;$(ProjectDir)../src;$(ProjectDir)../lib/lua/include;$(ProjectDir)../lib/bullet3_x64-windows/include;$(ProjectDir)../lib/SFML-2.5.0/include;$(ProjectDir)../lib/misc/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)../lib/lua;$(ProjectDir)../lib/misc;$(ProjectDir)../lib/SFML-2.5.0/lib;$(ProjectDir)../lib/bullet3_x64-windows/lib;$(ProjectDir)../lib/openal-soft/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-main.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;liblua53.a;opengl32.lib;glew32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;Bullet3Common.lib;BulletCollision.lib;BulletDynamics.lib;BulletInverseDynamics.lib;BulletSoftBody.lib;LinearMath.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)../lib/lua;$(ProjectDir)../lib/misc;$(ProjectDir)../lib/SFML-2.5.0/lib;$(ProjectDir)../lib/freealut/lib;$(ProjectDir)../lib/bullet3_x64-windows/lib;$(ProjectDir)../lib/openal-soft/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-main.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;liblua53.a;opengl32.lib;glew32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;Bullet3Common.lib;BulletCollision.lib;BulletDynamics.lib;BulletInverseDynamics.lib;BulletSoftBody.lib;LinearMath.lib;OpenAL32.lib;alut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -171,6 +171,9 @@
     <ClCompile Include="..\src\Input.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\core\Sound.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -318,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="..\src\Input.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Sound.hpp">
+      <Filter>Headerdateien\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
