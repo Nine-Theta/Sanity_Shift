@@ -26,6 +26,8 @@ namespace sge {
 		Sound(std::string pFilename);
 		virtual ~Sound();
 
+		void InitHRTF();
+
 	protected:
 
 		void soundTest();
