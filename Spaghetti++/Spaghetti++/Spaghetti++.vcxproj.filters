@@ -165,6 +165,18 @@
     <ClCompile Include="..\src\components\MeshCollider.cpp">
       <Filter>Quelldateien\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\components\MouseComponent.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Input.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\Sound.cpp">
+      <Filter>Quelldateien\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\components\SoundComponent.cpp">
+      <Filter>Quelldateien\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -305,6 +317,18 @@
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\src\components\MeshCollider.h">
+      <Filter>Headerdateien\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\MouseComponent.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Input.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\Sound.hpp">
+      <Filter>Headerdateien\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\SoundComponent.h">
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
   </ItemGroup>

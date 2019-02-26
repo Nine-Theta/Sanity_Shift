@@ -13,6 +13,8 @@
 #include "MeshCollider.h"
 #include "materials/SpecularMaterial.hpp"
 #include "Input.h"
+
+#include "SoundComponent.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -115,6 +117,9 @@ namespace sge {
 				obj->AddComponent(comp); break;
 			}
 			case hash("meshcollider"): { MeshCollider* comp = new MeshCollider(args[0]);
+				obj->AddComponent(comp); break;
+			}
+			case hash("sound"): { SoundComponent* comp = new SoundComponent(args[0]);
 				obj->AddComponent(comp); break;
 			}
 			default: std::cout << "Component did not exist" << std::endl;

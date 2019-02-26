@@ -6,3 +6,4 @@ fov=45
 meshDir="models/"
 texDir="textures/"
 shaderDir="shaders/"
+sndDir="sounds/"
