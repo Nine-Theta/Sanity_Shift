@@ -47,7 +47,8 @@ namespace sge {
 			ALuint snd = _snd->GetBuffer();
 			alSourcePlay(source);
 		}
-		alSource3f(source, AL_POSITION, 2, 0, 0.0f);
+		vec3 pos = CameraComponent::GetMain()->GetView() * vec4(p_gameObj->GetCombinedPosition(),1);
+		alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
 	}
 
 	void sge::SoundComponent::OnRender()

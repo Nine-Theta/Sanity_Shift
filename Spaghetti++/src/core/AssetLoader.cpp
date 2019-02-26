@@ -55,7 +55,7 @@ namespace sge {
 
 	Sound * AssetLoader::GetSound(std::string path)
 	{
-		BufferTexture(path);
+		BufferSound(path);
 		if (_cachedS[path] == NULL)
 			return GetSound("error.wav");
 		return _cachedS[path];
@@ -64,11 +64,11 @@ namespace sge {
 	{
 		if (_cachedS.find(path) != _cachedS.end())
 			return;// _cached[path];
-		Texture* tex = Texture::load(Settings::GetSetting("sndDir") + path);
-		if (tex == NULL) {
+		Sound* snd = Sound::load(Settings::GetSetting("sndDir") + path);
+		if (snd == NULL) {
 			std::cout << "Error loading Sound: " << path << std::endl;
 			return;
 		}
-		_cachedT.insert(std::make_pair(path, tex));
+		_cachedS.insert(std::make_pair(path, snd));
 	}
 }

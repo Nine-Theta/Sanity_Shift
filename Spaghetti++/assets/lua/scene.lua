@@ -37,5 +37,6 @@ function init()
 	obj1:setRotationQ(1,0,0,0)
 	obj1:addComponent("boxcollider","1.3","1.3","1.3","20")
 	obj1:addComponent("mesh","13cube.obj","Diffuse.png","Specular.png","Normal.png")
+	obj1:addComponent("sound","cheese.wav")
 
 end
