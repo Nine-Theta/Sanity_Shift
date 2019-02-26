@@ -46,6 +46,7 @@ namespace sge {
 		static int setPos(lua_State* state);
 		static int addForce(lua_State* state);
 		static int rotate(lua_State* state);
+		static int setWorldRotation(lua_State* state);
 		static int setRotation(lua_State* state);
 		static int setRotationQ(lua_State* state);
 		static int getWorldPos(lua_State* state);

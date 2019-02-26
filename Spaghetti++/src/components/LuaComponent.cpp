@@ -15,6 +15,7 @@
 #include "Input.h"
 
 #include "SoundComponent.h"
+#include "SphereCollider.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -116,6 +117,9 @@ namespace sge {
 			case hash("boxcollider"): { BoxCollider* comp = new BoxCollider(vec3(std::stoi(args[3]), std::stoi(args[2]), std::stoi(args[1])), std::stoi(args[0]));
 				obj->AddComponent(comp); break;
 			}
+			case hash("spherecollider"): { SphereCollider* comp = new SphereCollider(std::stoi(args[1]), std::stoi(args[0]));
+				obj->AddComponent(comp); break;
+			}
 			case hash("meshcollider"): { MeshCollider* comp = new MeshCollider(args[0]);
 				obj->AddComponent(comp); break;
 			}
@@ -140,6 +144,7 @@ namespace sge {
 		{"setWorldPos", setWorldPos},
 		{"rotate", rotate},
 		{"setRotation", setRotation},
+		{"setWorldRotation", setWorldRotation},
 		{"setRotationQ", setRotationQ},
 		{"forward", forward},
 		{"right", right},
@@ -396,6 +401,17 @@ namespace sge {
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
 		obj->Rotate(glm::vec3((float)vals[3], (float)vals[2], (float)vals[1]), (float)vals[0]);
+		//obj->Rotate(glm::vec3(0, 1, 0), 20);
+		return 0;
+	}
+	int LuaComponent::setWorldRotation(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		obj->SetWorldRotation(glm::vec3((float)vals[3], (float)vals[2], (float)vals[1]), (float)vals[0]);
+		//obj->SetRotation(glm::vec3(1, 0, 0), -40);
 		//obj->Rotate(glm::vec3(0, 1, 0), 20);
 		return 0;
 	}

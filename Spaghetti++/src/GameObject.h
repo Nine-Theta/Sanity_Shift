@@ -53,6 +53,7 @@ namespace sge {
 		void SetWorldTransform(mat4 transform);
 		void UpdateTransform();
 		void Rotate(glm::vec3 axis, float angle);
+		void SetWorldRotation(glm::vec3 axis, float angle);
 		void SetRotation(glm::vec3 axis, float angle);
 		void SetRotation(quat rotation);
 		//Dummies for old SFML-based functions:

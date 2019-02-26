@@ -180,6 +180,9 @@
     <ClCompile Include="..\src\components\AbstractCollider.cpp">
       <Filter>Quelldateien\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\components\SphereCollider.cpp">
+      <Filter>Quelldateien\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -335,6 +338,9 @@
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\src\components\AbstractCollider.h">
+      <Filter>Headerdateien\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\SphereCollider.h">
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
   </ItemGroup>

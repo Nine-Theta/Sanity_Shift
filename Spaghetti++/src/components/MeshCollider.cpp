@@ -67,8 +67,8 @@ namespace sge {
 		motionState = new btDefaultMotionState(transform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
 		rbody = new btRigidBody(rbInfo);
-		rbody->setRestitution(.6f);
-		rbody->setFriction(0.0f);
+		rbody->setRestitution(.8f);
+		rbody->setFriction(0.3f);
 		Physics::AddBody(rbody);
 		p_gameObj->SetWorldTransform(Physics::bulletToGlm(rbody->getWorldTransform()));
 	}

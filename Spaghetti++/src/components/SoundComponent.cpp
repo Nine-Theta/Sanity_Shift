@@ -48,10 +48,12 @@ namespace sge {
 			alSourcePlay(source);
 		}
 		vec3 pos = CameraComponent::GetMain()->GetView() * vec4(p_gameObj->GetCombinedPosition(),1);
-		vec3 diff = pos - lastPos;
-		lastPos = pos;
+		vec3 vpos = p_gameObj->GetCombinedPosition() - CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
+		vec3 diff = vpos - lastPos;
+		lastPos = vpos;
+		diff /= TimeH::FixedDelta();
 		alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
-		alSource3f(source, AL_VELOCITY, diff.x * 30,diff.y * 30,diff.z * 30);
+		alSource3f(source, AL_VELOCITY, diff.x,diff.y,diff.z);
 		//alDopplerFactor(1);
 		//alDopplerVelocity(343);
 	}

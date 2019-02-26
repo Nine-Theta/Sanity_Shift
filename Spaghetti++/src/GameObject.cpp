@@ -124,6 +124,17 @@ namespace sge {
 		_transform = glm::rotate(_transform, radians(angle), axis);
 	}
 
+	void GameObject::SetWorldRotation(glm::vec3 axis, float angle)
+	{
+		vec4 pos = _combinedTransform[3];
+		_combinedTransform = glm::rotate(mat4(), radians(angle), axis);
+		_combinedTransform[3] = pos;
+		if (GetParent() != NULL)
+			_transform = inverse(GetParent()->GetCombinedTransform()) * _combinedTransform;
+		else
+			_transform = _combinedTransform;
+	}
+
 	void GameObject::SetRotation(glm::vec3 axis, float angle)
 	{
 		vec4 pos = _transform[3];
