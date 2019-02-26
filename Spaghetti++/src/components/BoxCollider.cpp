@@ -16,7 +16,7 @@ namespace sge {
 	{
 		btCollisionShape* shape = new btBoxShape(btVector3(1, 1, 1));
 		btTransform transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
-
+		shape->setMargin(0.01);
 		btVector3 inertia(0, 0, 0);
 		if (mass > 0.f)
 			shape->calculateLocalInertia(mass, inertia);

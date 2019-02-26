@@ -325,7 +325,7 @@ namespace sge {
 		LuaComponent* comp = _components[state];
 		LuaState* ls = comp->GetState();
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
-		glm::vec3 vec = obj->GetCombinedPosition();
+		glm::vec3 vec = obj->GetPosition();
 		lua_pushnumber(state, vec.x);
 		lua_pushnumber(state, vec.y);
 		lua_pushnumber(state, vec.z);

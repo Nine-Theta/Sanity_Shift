@@ -25,6 +25,7 @@ function init()
 				obj4:setRotationQ(1,0,0,0)
 				obj4:setParent(obj3)
 				obj4:addComponent("spotlight","40.32")
+				obj4:addComponent("lua","flashlightMove.lua")
 
 	local obj1 = gameObject.new()
 	obj1:setName("default")

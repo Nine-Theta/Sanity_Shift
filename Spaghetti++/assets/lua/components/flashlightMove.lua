@@ -4,6 +4,7 @@ function start()
 	print("Initialised test lua component")
 	--print(test.test())
 	offX,offY,offZ = parent:getPos()
+	print(offY)
 end
 
 function update() --currently disabled
@@ -18,6 +19,7 @@ function fixedupdate()
 	parent:setRotation(0,1,0,x * 35)
 	parent:rotate(1,0,0,y * 35)
 	parent:setPos(x+ offX,y + offY,offZ)
+	--print(offY)
 end
 	
 function ondestroy()

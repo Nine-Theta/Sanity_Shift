@@ -16,6 +16,7 @@ namespace sge {
 	{
 		btCollisionShape* shape = new btSphereShape(radius);
 		btTransform transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
+		shape->setMargin(0.01f);
 
 		btVector3 inertia(0, 0, 0);
 		if (mass > 0.f)
@@ -25,9 +26,9 @@ namespace sge {
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
 		rbody = new btRigidBody(rbInfo);
 		rbody->setRestitution(.3f);
-		rbody->setDamping(0.79f, 10.96f);
-		rbody->setRollingFriction(.96f);
-		rbody->setFriction(.96f);
+		rbody->setDamping(0.79f, .66f);
+		rbody->setRollingFriction(.76f);
+		rbody->setFriction(.66f);
 		id = Physics::AddBody(rbody);
 	}
 	void SphereCollider::OnDestroy()

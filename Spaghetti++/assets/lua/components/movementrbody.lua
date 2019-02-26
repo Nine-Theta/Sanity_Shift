@@ -15,7 +15,7 @@ velX = 0
 velZ = 0
 pressed = false
 
-force = 800
+force = 600
 function fixedupdate()
 	--print(parent.getPos())
 	--print(x .. y .. z)
@@ -37,18 +37,18 @@ function fixedupdate()
 		z = z + force * -fz
 	end
 	if keys.pressed(keys.D) then
-		x = x + force * -rx
-		y = y + force * -ry
-		z = z + force * -rz
+		x = x + force * -rx * 0.5
+		y = y + force * -ry * 0.5
+		z = z + force * -rz * 0.5
 		end
 	if keys.pressed(keys.A) then
-		x = x + force * rx
-		y = y + force * ry
-		z = z + force * rz
+		x = x + force * rx * 0.5
+		y = y + force * ry * 0.5
+		z = z + force * rz * 0.5
 	end
 	
 	if keys.pressed(keys.Space) then
-		--velZ = velZ + 0.5 * time.fixedDelta()
+		parent:addForce(0,1500,0)
 	end
 	
 	if keys.pressed(keys.LeftControl) then
@@ -56,11 +56,11 @@ function fixedupdate()
 	end
 	
 	if keys.pressed(keys.LeftShift) then
-		force = 1200
-	else
 		force = 800
+	else
+		force = 600
 	end
-	
+	--print("Applying force: " .. x .. y .. z)
 	parent:addForce(x,y,z)
 end
 	
