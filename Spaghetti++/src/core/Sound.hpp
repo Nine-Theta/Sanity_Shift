@@ -9,6 +9,7 @@
 #include "AL/alc.h"
 #include "AL/alext.h"
 #include "AL/alut.h"
+#include "AL/efx.h"
 #include "common/alhelpers.h"
 
 class World;

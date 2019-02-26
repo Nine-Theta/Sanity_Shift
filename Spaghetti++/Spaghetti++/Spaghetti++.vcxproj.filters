@@ -177,6 +177,9 @@
     <ClCompile Include="..\src\components\SoundComponent.cpp">
       <Filter>Quelldateien\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\components\AbstractCollider.cpp">
+      <Filter>Quelldateien\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -329,6 +332,9 @@
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\components\SoundComponent.h">
+      <Filter>Headerdateien\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\AbstractCollider.h">
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
   </ItemGroup>

@@ -48,7 +48,12 @@ namespace sge {
 			alSourcePlay(source);
 		}
 		vec3 pos = CameraComponent::GetMain()->GetView() * vec4(p_gameObj->GetCombinedPosition(),1);
+		vec3 diff = pos - lastPos;
+		lastPos = pos;
 		alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
+		alSource3f(source, AL_VELOCITY, diff.x * 30,diff.y * 30,diff.z * 30);
+		//alDopplerFactor(1);
+		//alDopplerVelocity(343);
 	}
 
 	void sge::SoundComponent::OnRender()

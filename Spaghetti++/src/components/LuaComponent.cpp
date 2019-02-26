@@ -147,6 +147,7 @@ namespace sge {
 		{"setParent", setParent},
 		{"sendMessage", sendMessage},
 		{"setText", setText},
+		{"addForce", addForce},
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -365,6 +366,18 @@ namespace sge {
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
 		obj->SetPosition(glm::vec3((float)vals[2],(float)vals[1], (float)vals[0]));
+		return 0;
+	}
+	int LuaComponent::addForce(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		//obj->SetPosition(glm::vec3((float)vals[2], (float)vals[1], (float)vals[0]));
+		AbstractCollider* col = obj->GetComponent<AbstractCollider>();
+		if (col != NULL)
+			col->GetRigidbody()->applyCentralForce(btVector3((float)vals[2], (float)vals[1], (float)vals[0]));
 		return 0;
 	}
 	int LuaComponent::setWorldPos(lua_State * state)

@@ -14,6 +14,7 @@ namespace sge {
 	private:
 		Sound* _snd;
 		ALuint source;
+		vec3 lastPos;
 
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;

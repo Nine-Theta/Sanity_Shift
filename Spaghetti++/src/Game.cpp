@@ -162,8 +162,10 @@ namespace sge {
 		running = true;
 		GameObject* obj = new GameObject();
 		obj->AddComponent(new LuaComponent("../scene.lua"));
+		//obj->AddComponent(new BoxCollider(vec3(1, 1, 1), 0));
 		updateLoop();
 		LuaComponent* lua = (LuaComponent*)obj->GetComponent(typeid(LuaComponent));
+		//std::cout << "Found test component: " << obj->GetComponent<BoxCollider>() << std::endl;
 		lua->GetState()->CallFunction("init");
 		GameObject::Destroy(obj);
 		TextComponent::LoadFont("font.ttf");

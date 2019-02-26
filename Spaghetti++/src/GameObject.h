@@ -79,7 +79,14 @@ namespace sge {
 		//template <typename T, typename = enable_if<is_base_of<ObjectBehaviour, T>::value>::type>
 		ObjectBehaviour* GetComponent(const type_info& type); //Please use typeid of object type, not pointer type
 		template<class T>
-		T* GetComponent(); //Please use typeid of object type, not pointer type
+		inline T* GetComponent() {
+			for (ObjectBehaviour* comp : _components) {
+				T* ccomp = dynamic_cast<T*>(comp);
+				if(ccomp != NULL)
+					return ccomp;
+			}
+			return NULL;
+		}//Bit slower but polymorphism supported
 		std::vector<ObjectBehaviour*> GetComponents();
 		void AddComponent(ObjectBehaviour * p_component);
 		void RemoveComponent(ObjectBehaviour* p_component, bool toDelete);

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\components\AbstractCollider.cpp" />
     <ClCompile Include="..\src\components\BoxCollider.cpp" />
     <ClCompile Include="..\src\components\CameraComponent.cpp" />
     <ClCompile Include="..\src\components\CircleCollider.cpp" />
@@ -72,6 +73,7 @@
     <ResourceCompile Include="Spaghetti++.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\components\AbstractCollider.h" />
     <ClInclude Include="..\src\components\BoxCollider.h" />
     <ClInclude Include="..\src\components\CameraComponent.h" />
     <ClInclude Include="..\src\components\CircleCollider.h" />
