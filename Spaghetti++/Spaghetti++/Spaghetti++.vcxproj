@@ -22,6 +22,7 @@
     <ClCompile Include="..\src\components\AbstractCollider.cpp" />
     <ClCompile Include="..\src\components\BoxCollider.cpp" />
     <ClCompile Include="..\src\components\CameraComponent.cpp" />
+    <ClCompile Include="..\src\components\CapsuleCollider.cpp" />
     <ClCompile Include="..\src\components\CircleCollider.cpp" />
     <ClCompile Include="..\src\components\Collider.cpp" />
     <ClCompile Include="..\src\components\ControlComponent.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="..\src\components\AbstractCollider.h" />
     <ClInclude Include="..\src\components\BoxCollider.h" />
     <ClInclude Include="..\src\components\CameraComponent.h" />
+    <ClInclude Include="..\src\components\CapsuleCollider.h" />
     <ClInclude Include="..\src\components\CircleCollider.h" />
     <ClInclude Include="..\src\components\Collider.h" />
     <ClInclude Include="..\src\components\ControlComponent.h" />

@@ -1,20 +1,20 @@
 #include "components/CircleCollider.h"
 #include "vec2.hpp"
-#include "SphereCollider.h"
+#include "CapsuleCollider.h"
 
 namespace sge {
-	SphereCollider::SphereCollider() : AbstractCollider(1)
+	CapsuleCollider::CapsuleCollider() : AbstractCollider(1)
 	{
 	}
-	SphereCollider::SphereCollider(float pRadius, float pMass) : AbstractCollider(pMass), radius(pRadius)
+	CapsuleCollider::CapsuleCollider(float pRadius, float pHeight, float pMass) : AbstractCollider(pMass), radius(pRadius), height(pHeight)
 	{
 	}
-	SphereCollider::~SphereCollider()
+	CapsuleCollider::~CapsuleCollider()
 	{
 	}
-	void SphereCollider::Start()
+	void CapsuleCollider::Start()
 	{
-		btCollisionShape* shape = new btSphereShape(radius);
+		btCollisionShape* shape = new btCapsuleShape(radius,height);
 		btTransform transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
 		shape->setMargin(0.01f);
 
@@ -35,19 +35,19 @@ namespace sge {
 		rbody->setAngularFactor(angularfactor);
 		id = Physics::AddBody(rbody);
 	}
-	void SphereCollider::OnDestroy()
+	void CapsuleCollider::OnDestroy()
 	{
 	}
-	void SphereCollider::Update()
+	void CapsuleCollider::Update()
 	{
 	}
-	void SphereCollider::OnRender()
+	void CapsuleCollider::OnRender()
 	{
 	}
-	void SphereCollider::OnCollision(Collider * other)
+	void CapsuleCollider::OnCollision(Collider * other)
 	{
 	}
-	void SphereCollider::OnTrigger(Collider * other)
+	void CapsuleCollider::OnTrigger(Collider * other)
 	{
 	}
 }

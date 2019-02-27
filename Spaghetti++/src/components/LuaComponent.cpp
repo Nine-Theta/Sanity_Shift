@@ -16,6 +16,7 @@
 
 #include "SoundComponent.h"
 #include "SphereCollider.h"
+#include "CapsuleCollider.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -118,6 +119,9 @@ namespace sge {
 				obj->AddComponent(comp); break;
 			}
 			case hash("spherecollider"): { SphereCollider* comp = new SphereCollider(std::stoi(args[1]), std::stoi(args[0]));
+				obj->AddComponent(comp); break;
+			}
+			case hash("capsulecollider"): { CapsuleCollider* comp = new CapsuleCollider(std::stoi(args[2]), std::stoi(args[1]), std::stoi(args[0]));
 				obj->AddComponent(comp); break;
 			}
 			case hash("meshcollider"): { MeshCollider* comp = new MeshCollider(args[0]);

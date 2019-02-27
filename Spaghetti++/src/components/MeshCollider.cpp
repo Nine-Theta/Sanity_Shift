@@ -66,6 +66,7 @@ namespace sge {
 			shape->calculateLocalInertia(mass, inertia);
 
 		motionState = new btDefaultMotionState(transform);
+		//btCollisionObject::
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
 		rbody = new btRigidBody(rbInfo);
 		rbody->setRestitution(.8f);
