@@ -58,7 +58,7 @@ namespace sge {
 			meshArray = meshToBTSlow(cmesh);
 		mass = 0.f;
 		shape = new btBvhTriangleMeshShape(meshArray, true);
-		shape->setMargin(0.07f);
+		shape->setMargin(0.2f);
 		transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
 
 		btVector3 inertia(0, 0, 0);

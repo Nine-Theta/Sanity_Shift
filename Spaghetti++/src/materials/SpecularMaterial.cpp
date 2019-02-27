@@ -18,17 +18,20 @@ namespace sge {
 	GLint SpecularMaterial::_lightsNr = 0;
 	GLint SpecularMaterial::_uDiffuseTexture = 0;
 	GLint SpecularMaterial::_uSpecularTexture = 0;
+	GLint SpecularMaterial::_uNormalTexture = 0;
 	//GLint TextureMaterial::_time = 0.f;
 
 	GLint SpecularMaterial::_aVertex = 0;
 	GLint SpecularMaterial::_aNormal = 0;
+	GLint SpecularMaterial::_aTangent = 0;
 	GLint SpecularMaterial::_aUV = 0;
 
 	unsigned int SpecularMaterial::block_index = 0;
 
-	SpecularMaterial::SpecularMaterial(std::string diffuse, std::string specular){
+	SpecularMaterial::SpecularMaterial(std::string diffuse, std::string specular, std::string normal){
 		_diffuseTexture = AssetLoader::GetTexture(diffuse);
 		_specularTexture = AssetLoader::GetTexture(specular);
+		_normalTexture = AssetLoader::GetTexture(normal);
 		_lazyInitializeShader();
 	}
 
@@ -37,8 +40,8 @@ namespace sge {
 	void SpecularMaterial::_lazyInitializeShader() {
 		if (!_shader) {
 			_shader = new ShaderProgram();
-			_shader->addShader(GL_VERTEX_SHADER, "specular.vs");
-			_shader->addShader(GL_FRAGMENT_SHADER,"specular.fs");
+			_shader->addShader(GL_VERTEX_SHADER, "litsn.vs");
+			_shader->addShader(GL_FRAGMENT_SHADER,"litsn.fs");
 			_shader->finalize();
 
 			//cache all the uniform and attribute indexes
@@ -50,6 +53,7 @@ namespace sge {
 			_lightsNr = _shader->getUniformLocation("lightsNr");
 			_uDiffuseTexture = _shader->getUniformLocation("diffuseTexture");
 			_uSpecularTexture = _shader->getUniformLocation("specularTexture");
+			_uNormalTexture = _shader->getUniformLocation("normalTexture");
 			//	_time		= _shader->getUniformLocation("time");
 
 			block_index = glGetUniformBlockIndex(_shader->getProgramID(), "Lights");
@@ -61,6 +65,7 @@ namespace sge {
 			std::cout << "GL buffer data: " << block_index << std::endl;
 			_aVertex = _shader->getAttribLocation("vertex");
 			_aNormal = _shader->getAttribLocation("normal");
+			_aTangent = _shader->getAttribLocation("tangent");
 			_aUV = _shader->getAttribLocation("uv");
 		}
 	}
@@ -93,6 +98,12 @@ namespace sge {
 		//tell the shader the texture slot for the diffuse texture is slot 0
 		glUniform1i(_uSpecularTexture, 1);
 
+		glActiveTexture(GL_TEXTURE2);
+		//bind the texture to the current active slot
+		glBindTexture(GL_TEXTURE_2D, _normalTexture->getId());
+		//tell the shader the texture slot for the diffuse texture is slot 0
+		glUniform1i(_uNormalTexture, 2);
+
 		//pass in a precalculate mvp matrix (see texture material for the opposite)
 		mat4 mMatrix = mesh->GetParent()->GetCombinedTransform();
 		mat4 vMatrix = cam->GetView();
@@ -116,7 +127,9 @@ namespace sge {
 		//	glUniform1f(_time, clock() / 1000.f);
 
 			//now inform mesh of where to stream its data
-		mesh->GetMesh()->streamToOpenGL(_aVertex, _aNormal, _aUV);
+		mesh->GetMesh()->streamToOpenGL(_aVertex, _aNormal, _aTangent, _aUV);
+		//mesh->GetMesh()->drawDebugInfo(mMatrix, vMatrix, pMatrix);
+		//mesh->GetMesh()->streamToOpenGL(_aVertex, _aNormal, _aUV);
 	}
 
 }

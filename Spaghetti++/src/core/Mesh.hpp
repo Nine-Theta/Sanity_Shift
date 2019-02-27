@@ -4,6 +4,7 @@
 #include <vector>
 #include <GL/glew.h>
 #include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtc/type_ptr.hpp>
 
 class World;
@@ -26,6 +27,7 @@ namespace sge {
 		 * Streams the mesh to opengl using the given indexes for the different attributes
 		 */
 		void streamToOpenGL(GLint pVerticesAttrib, GLint pNormalsAttrib, GLint pUVsAttrib);
+		void streamToOpenGL(GLint pVerticesAttrib, GLint pNormalsAttrib, GLint pTangentAttrib, GLint pUVsAttrib);
 
 		/**
 		 * Draws debug info (normals) for the mesh using the given matrices)
@@ -43,11 +45,13 @@ namespace sge {
 		GLuint _indexBufferId;
 		GLuint _vertexBufferId;
 		GLuint _normalBufferId;
+		GLuint _tangentBufferId;
 		GLuint _uvBufferId;
 
 		//the actual data
 		std::vector<glm::vec3> _vertices;       //vec3 with 3d coords for all vertices
 		std::vector<glm::vec3> _normals;        //vec3 with 3d normal data
+		std::vector<glm::vec3> _tangents;        //vec3 with 3d tangent data
 		std::vector<glm::vec2> _uvs;            //vec2 for uv
 
 		//references to the vertices/normals & uvs in previous vectors
@@ -55,6 +59,8 @@ namespace sge {
 
 		//buffer vertices, normals, and uv's
 		void _buffer();
+
+		void _makeTangents();
 
 		//Please read the "load" function documentation on the .obj file format first.
 		//FaceVertexTriplet  is a helper class for loading and converting to obj file to

@@ -105,7 +105,7 @@ namespace sge {
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			case hash("mesh"): { 
-				obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1]))); 
+				obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0]))); 
 				break;
 			}
 			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
