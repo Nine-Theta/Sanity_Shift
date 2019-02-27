@@ -14,12 +14,10 @@ namespace sge {
 		}
 		else
 			SetType(Lighttype::POINT);
-		_lightsCount++;
 		SetSpotlightAngle(180, 180);
 	}
 
 	LightComponent::~LightComponent() {
-		_lightsCount--;
 		UnregisterLight(this);
 	}
 
@@ -49,15 +47,17 @@ namespace sge {
 
 	void LightComponent::RegisterLight(LightComponent * light)
 	{
-		std::cout << "Registering light " << light->GetParent()->GetName() << std::endl;
+		//std::cout << "Registering light " << light->GetParent()->GetName() << std::endl;
 		_lights.push_back(light);
+		_lightsCount++;
 	}
 
 	void LightComponent::UnregisterLight(LightComponent * light)
 	{
-		std::cout << "Unregistering light " << light->GetParent()->GetName() << std::endl;
+		//std::cout << "Unregistering light " << light->GetParent()->GetName() << std::endl;
 		if (_lights.size() == 0) return;
 		_lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
+		_lightsCount--;
 	}
 
 	GLLight * LightComponent::GetLights()
@@ -140,6 +140,19 @@ namespace sge {
 		light.ambient = _ambientContrib;
 		light.maxRad = _falloffMax;
 		return light;
+	}
+
+	void LightComponent::SetEnabled(bool pActive)
+	{
+		if (pActive == enabled)
+			return;
+		enabled = pActive;
+		if (!enabled)
+			UnregisterLight(this);
+		else if (enabled)
+			RegisterLight(this);
+
+		//std::cout << "Changed light state: " << enabled << std::endl;
 	}
 
 	void LightComponent::Start()

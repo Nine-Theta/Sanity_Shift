@@ -74,6 +74,14 @@ namespace sge {
 		return 0;
 	}
 
+	int LuaComponent::setActive(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		obj->SetActive(comp->GetState()->GetBoolsFromStack()[0]);
+		return 0;
+	}
+
 	int LuaComponent::addComponent(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
@@ -154,6 +162,7 @@ namespace sge {
 		{"right", right},
 		{"up", up},
 		{"setParent", setParent},
+		{"setActive", setActive},
 		{"sendMessage", sendMessage},
 		{"setText", setText},
 		{"addForce", addForce},

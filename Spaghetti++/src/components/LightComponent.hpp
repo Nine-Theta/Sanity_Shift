@@ -72,6 +72,7 @@ namespace sge {
 
 		static unsigned int _lightsCount;
 
+		void SetEnabled(bool pActive) override;
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;
 		virtual void OnDestroy() override;

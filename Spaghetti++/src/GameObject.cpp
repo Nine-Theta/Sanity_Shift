@@ -166,6 +166,20 @@ namespace sge {
 		return _transform[3];
 	}
 
+	void GameObject::SetActive(bool pEnabled)
+	{
+		if (enabled == pEnabled) return;
+		enabled = pEnabled;
+		for (ObjectBehaviour* comp : _components) {
+			comp->SetEnabled(enabled);
+		}
+	}
+
+	bool GameObject::IsActive()
+	{
+		return enabled;
+	}
+
 	vec3 GameObject::forward()
 	{
 		return -_combinedTransform[2];
@@ -268,11 +282,13 @@ namespace sge {
 		else
 			_combinedTransform = _transform;//getTransform();
 		for (ObjectBehaviour* comp : _components) {
-			comp->OnRender();
+			if(comp->IsEnabled())
+				comp->OnRender();
 			//std::cout << "Rendering children: " << _children.size() << std::endl;
 		}
 		for (GameObject* obj : _children) {
-			obj->OnRender();
+			if(obj->IsActive())
+				obj->OnRender();
 		}
 		//std::cout << "Rendered components: " << _components.size() << std::endl;
 	}

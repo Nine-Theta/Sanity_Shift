@@ -24,6 +24,7 @@ namespace sge {
 		sge::Collider* _collider = NULL;
 		bool isstatic = true;
 		Rigidbody2D* rigidbody = NULL;
+		bool enabled = true;
 		void SetObjectState(GOState state);
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);
@@ -61,6 +62,9 @@ namespace sge {
 		void setPosition(glm::vec2);
 		void setRotation(float rot);
 		glm::vec2 getPosition();
+
+		void SetActive(bool pEnabled);
+		bool IsActive();
 
 		vec3 forward();
 		vec3 right();

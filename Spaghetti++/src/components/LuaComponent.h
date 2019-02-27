@@ -31,6 +31,7 @@ namespace sge {
 		static int stopStream(lua_State* state);
 		static int getLParent(lua_State* state);
 		static int setParent(lua_State* state);
+		static int setActive(lua_State* state);
 		static int sendMessage(lua_State* state);
 		static int setText(lua_State* state);
 		static int addComponent(lua_State* state);

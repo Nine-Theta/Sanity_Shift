@@ -37,6 +37,16 @@ namespace sge {
 		return p_gameObj;
 	}
 
+	void ObjectBehaviour::SetEnabled(bool pEnabled)
+	{
+		enabled = pEnabled;
+	}
+
+	bool ObjectBehaviour::IsEnabled()
+	{
+		return enabled;
+	}
+
 	void ObjectBehaviour::OnDestroy()
 	{
 	}

@@ -22,6 +22,7 @@ namespace sge {
 		std::vector<std::string> CallFunction(std::string name, int returns = 0);
 		std::vector<std::string> CallFunction(std::string name, std::vector<std::string> args, int returns = 0);
 		std::vector<std::string> GetArgsFromStack();
+		std::vector<bool> GetBoolsFromStack();
 		std::vector<double> GetNumbersFromStack();
 		int GetStackSize();
 

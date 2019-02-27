@@ -56,6 +56,23 @@ namespace sge {
 		return vals;
 	}
 
+	std::vector<bool> LuaState::GetBoolsFromStack() {
+		std::vector<bool> vals;
+		int n = lua_gettop(state);
+		//std::cout << n << " elements on stack" << std::endl;
+		for (int i = 1; i <= n; i++) {
+			if (!lua_isnil(state, -1) && !lua_isfunction(state, -1) && !lua_islightuserdata(state, -1) && !lua_istable(state, -1)) {
+				bool s = lua_toboolean(state, -1);
+				//std::cout << "Arg " << i << ": " << s << std::endl;
+				vals.push_back(s);
+				lua_pop(state, 1);
+			}
+			else
+				break; //once function or lightuserdata is hit, assume we've read all string args
+		}
+		return vals;
+	}
+
 	std::vector<double> LuaState::GetNumbersFromStack() {
 		std::vector<double> vals;
 		int n = lua_gettop(state);

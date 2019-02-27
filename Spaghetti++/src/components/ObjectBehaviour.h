@@ -19,6 +19,7 @@ namespace sge {
 	{
 	protected:
 		GameObject* p_gameObj = NULL;
+		bool enabled = true;
 		static inline float randf() //Quick way of making a random float between 0 and 1 available to all components
 		{
 			return (float)rand() / (float)RAND_MAX;
@@ -28,6 +29,8 @@ namespace sge {
 		~ObjectBehaviour();
 		void SetParent(GameObject* p_parent);
 		GameObject* GetParent();
+		virtual void SetEnabled(bool pEnabled);
+		bool IsEnabled();
 		virtual void Start() = 0;
 		virtual void OnDestroy() = 0;
 		virtual void Update() = 0;
