@@ -39,8 +39,8 @@ namespace sge {
 		_lastDelta = (float)(newTime - _lastUpdate) * 0.000001f;
 		_lastUpdate = newTime;
 		_fixedTimeToComplete += UnscaledDelta();
-		_stepsToComplete = (int)(_fixedTimeToComplete / (_fixedDelta * _timeScale));
-		_fixedTimeToComplete -= _stepsToComplete * (_fixedDelta * _timeScale);
+		_stepsToComplete = (int)(_fixedTimeToComplete / _fixedDelta);
+		_fixedTimeToComplete -= _stepsToComplete * _fixedDelta;
 		_frameRate = (int)(1.f / _lastDelta);
 		_frame++;
 	}

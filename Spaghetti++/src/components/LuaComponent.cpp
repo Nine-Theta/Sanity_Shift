@@ -480,7 +480,7 @@ namespace sge {
 
 	int LuaComponent::setTimeScale(lua_State* state) {
 		LuaComponent* comp = _components[state];
-		TimeH::SetTimeScale(comp->GetState()->GetNumbersFromStack[0]);
+		TimeH::SetTimeScale(comp->GetState()->GetNumbersFromStack()[0]);
 		return 0;
 	}
 
