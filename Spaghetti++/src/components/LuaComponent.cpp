@@ -173,6 +173,8 @@ namespace sge {
 		{"seconds", getTime},
 		{"deltaTime", deltaTime},
 		{"fixedDelta", fixedDelta},
+		{"settimescale", setTimeScale },
+		{"gettimescale", getTimeScale },
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -475,6 +477,19 @@ namespace sge {
 		lua_pushnumber(state, TimeH::FixedDelta());
 		return 1;
 	}
+
+	int LuaComponent::setTimeScale(lua_State* state) {
+		LuaComponent* comp = _components[state];
+		TimeH::SetTimeScale(comp->GetState()->GetNumbersFromStack[0]);
+		return 0;
+	}
+
+	int LuaComponent::getTimeScale(lua_State* state)
+	{
+		lua_pushnumber(state, TimeH::GetTimeScale());
+		return 1;
+	}
+
 	int LuaComponent::newObject(lua_State * state)
 	{
 		GameObject* obj = new GameObject();
