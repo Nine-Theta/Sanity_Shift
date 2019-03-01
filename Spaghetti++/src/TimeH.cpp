@@ -15,6 +15,7 @@ namespace sge {
 	float TimeH::_lastDeltaPhys = 0;
 	float TimeH::_fixedDelta = 0.00833333333f;
 	float TimeH::_maxGap = 0.2f;
+	float TimeH::_timeScale = 1.0f;
 	int TimeH::_frameRate = 0;
 
 	unsigned long TimeH::_frame = 0;
@@ -22,12 +23,11 @@ namespace sge {
 	int TimeH::_stepsToComplete = 0;
 	float TimeH::_fixedTimeToComplete = 0;
 
-
 	static float _speedMult = 1;
+
 	TimeH::TimeH()
 	{
 	}
-
 
 	TimeH::~TimeH()
 	{
@@ -45,6 +45,11 @@ namespace sge {
 		_frame++;
 	}
 
+	void TimeH::SetTimeScale(float scale = 1.0f)
+	{
+		if(scale >= 0) _timeScale = scale;
+	}
+
 	float TimeH::UnscaledDelta()
 	{
 		float delta = _lastDelta;
@@ -53,7 +58,12 @@ namespace sge {
 	}
 
 	float TimeH::FixedDelta() {
-		return TimeH::_fixedDelta;
+		return (TimeH::_fixedDelta * _timeScale);
+	}
+
+	float TimeH::GetTimeScale()
+	{
+		return _timeScale;
 	}
 
 	bool TimeH::DoFixedStep() {

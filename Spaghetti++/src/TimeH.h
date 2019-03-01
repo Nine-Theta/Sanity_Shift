@@ -8,6 +8,7 @@ namespace sge {
 		~TimeH();
 		static unsigned long MicroTime();
 		static void Update();
+		static void SetTimeScale(float scale);
 		static float UnscaledDelta();
 		static bool DoFixedStep();
 		static int GetFramerate();
@@ -15,6 +16,7 @@ namespace sge {
 		static float FixedDelta();
 		static float TimeRunning();
 		static unsigned GetFrame();
+		static float GetTimeScale();
 		/*protected:
 			static unsigned long _timeStarted;
 			static unsigned long _lastUpdate;*/
@@ -25,6 +27,7 @@ namespace sge {
 		static float _lastDeltaPhys;// = 0;
 		static float _fixedDelta;// = 0.01;
 		static float _maxGap;// = 0.2;
+		static float _timeScale; // = 1.0f;
 		static int _frameRate;// = 0;
 
 		static unsigned long _frame;// = 0;
