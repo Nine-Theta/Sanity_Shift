@@ -173,6 +173,7 @@ namespace sge {
 		for (ObjectBehaviour* comp : _components) {
 			comp->SetEnabled(enabled);
 		}
+		//TODO: Implement parent override
 	}
 
 	bool GameObject::IsActive()

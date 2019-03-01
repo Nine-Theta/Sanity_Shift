@@ -78,4 +78,8 @@ namespace sge {
 	float TimeH::TimeRunning() {
 		return TimeH::MicroTime()*0.000001f;
 	}
+	unsigned TimeH::GetFrame()
+	{
+		return _frame;
+	}
 }

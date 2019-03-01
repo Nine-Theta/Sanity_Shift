@@ -31,6 +31,7 @@
     <ClCompile Include="..\src\components\EnemySpawner.cpp" />
     <ClCompile Include="..\src\components\HorizontalPlayerFollower.cpp" />
     <ClCompile Include="..\src\components\LightComponent.cpp" />
+    <ClCompile Include="..\src\components\LightFluorComp.cpp" />
     <ClCompile Include="..\src\components\LuaComponent.cpp" />
     <ClCompile Include="..\src\components\MeshCollider.cpp" />
     <ClCompile Include="..\src\components\MeshComponent.cpp" />
@@ -60,6 +61,7 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\materials\AbstractMaterial.cpp" />
     <ClCompile Include="..\src\materials\ColorMaterial.cpp" />
+    <ClCompile Include="..\src\materials\FluorescentMaterial.cpp" />
     <ClCompile Include="..\src\materials\LitMaterial.cpp" />
     <ClCompile Include="..\src\materials\SpecularMaterial.cpp" />
     <ClCompile Include="..\src\materials\TerrainMaterial.cpp" />
@@ -87,6 +89,7 @@
     <ClInclude Include="..\src\components\EnemySpawner.h" />
     <ClInclude Include="..\src\components\HorizontalPlayerFollower.h" />
     <ClInclude Include="..\src\components\LightComponent.hpp" />
+    <ClInclude Include="..\src\components\LightFluorComp.h" />
     <ClInclude Include="..\src\components\LuaComponent.h" />
     <ClInclude Include="..\src\components\MeshCollider.h" />
     <ClInclude Include="..\src\components\MeshComponent.h" />
@@ -116,6 +119,7 @@
     <ClInclude Include="..\src\LuaState.h" />
     <ClInclude Include="..\src\materials\AbstractMaterial.hpp" />
     <ClInclude Include="..\src\materials\ColorMaterial.hpp" />
+    <ClInclude Include="..\src\materials\FluorescentMaterial.hpp" />
     <ClInclude Include="..\src\materials\LitMaterial.hpp" />
     <ClInclude Include="..\src\materials\SpecularMaterial.hpp" />
     <ClInclude Include="..\src\materials\TerrainMaterial.hpp" />

@@ -243,7 +243,7 @@ namespace sge {
 			float rd1 = -acos(dot(uvd1, vec2(0, 1)));
 			mat3 mrot;
 			mrot[2] = normal1;
-			mrot[0] = normalize(cross(mrot[2], mrot[2].y == 1 ? vec3(0, 0.9, -0.05) : vec3(0,1,0)));
+			mrot[0] = normalize(cross(mrot[2], mrot[2].y == 1 || mrot[2].y == -1 ? vec3(0, 0.9, -0.05) : vec3(0,1,0)));
 			mrot[1] = normalize(cross(mrot[2], mrot[0]));
 			tan1 = inverse(mrot) * tan1;
 			float sign = dot(uvd1, vec2(1, 0)) < 0 ? 1 : -1;
@@ -260,7 +260,7 @@ namespace sge {
 			float rd2 = -acos(dot(uvd2, vec2(0, 1)));
 			mrot;
 			mrot[2] = normal1;
-			mrot[0] = normalize(cross(mrot[2], mrot[2].y == 1 ? vec3(0, 0.9, -0.05) : vec3(0, 1, 0)));
+			mrot[0] = normalize(cross(mrot[2], mrot[2].y == 1 || mrot[2].y == -1 ? vec3(0, 0.9, -0.05) : vec3(0, 1, 0)));
 			mrot[1] = normalize(cross(mrot[2], mrot[0]));
 			tan2 = inverse(mrot) * tan2;
 			sign = dot(uvd2, vec2(1, 0)) < 0 ? 1 : -1;
@@ -274,7 +274,7 @@ namespace sge {
 			float rd3 = -acos(dot(uvd3, vec2(0, 1)));
 			mrot;
 			mrot[2] = normal1;
-			mrot[0] = normalize(cross(mrot[2], mrot[2].y == 1 ? vec3(0, 0.9, -0.05) : vec3(0, 1, 0)));
+			mrot[0] = normalize(cross(mrot[2], mrot[2].y == 1 || mrot[2].y == -1 ? vec3(0, 0.9, -0.05) : vec3(0, 1, 0)));
 			mrot[1] = normalize(cross(mrot[2], mrot[0]));
 			tan3 = inverse(mrot) * tan3;
 			sign = dot(uvd3, vec2(1, 0)) < 0 ? 1 : -1;
@@ -361,7 +361,7 @@ namespace sge {
 
 	void Mesh::drawDebugInfo(const glm::mat4& pModelMatrix, const glm::mat4& pViewMatrix, const glm::mat4& pProjectionMatrix) {
 		//demo of how to render some debug info using the good ol' direct rendering mode...
-		if (_indices.size() > 5000) return;
+		if (_indices.size() > 500000) return;
 		glUseProgram(0);
 		glMatrixMode(GL_PROJECTION);
 		glLoadMatrixf(glm::value_ptr(pProjectionMatrix));

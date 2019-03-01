@@ -186,6 +186,12 @@
     <ClCompile Include="..\src\components\CapsuleCollider.cpp">
       <Filter>Quelldateien\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\materials\FluorescentMaterial.cpp">
+      <Filter>Quelldateien\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\components\LightFluorComp.cpp">
+      <Filter>Quelldateien\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -347,6 +353,12 @@
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\src\components\CapsuleCollider.h">
+      <Filter>Headerdateien\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\materials\FluorescentMaterial.hpp">
+      <Filter>Headerdateien\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\LightFluorComp.h">
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
   </ItemGroup>

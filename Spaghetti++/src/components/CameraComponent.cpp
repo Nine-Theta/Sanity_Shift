@@ -21,6 +21,7 @@ namespace sge {
 	void CameraComponent::Start()
 	{
 		CameraComponent::cameras.push_back(this);
+		//std::cout << "Spawned camera on object: " << p_gameObj->GetName() << std::endl;
 	}
 	void CameraComponent::UpdateCamera()
 	{

@@ -130,6 +130,7 @@ namespace sge {
 		for (std::list<CameraComponent*>::iterator citr = cameras.begin(), cend = cameras.end(); citr != cend; citr++) {
 			(*citr)->UpdateCamera();
 			(*citr)->OnRender();
+			//std::cout << "Rendering camera on frame: " << TimeH::GetFrame() << std::endl;
 			for (std::list<GameObject*>::iterator itr = _rootObjects.begin(), end = _rootObjects.end(); itr != end; itr++) {
 				if((*itr)->GetObjectState() <= GOState::ACTIVE)
 					(*itr)->OnRender();

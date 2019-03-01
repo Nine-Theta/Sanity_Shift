@@ -114,11 +114,11 @@ namespace sge {
 				obj->AddComponent(comp); break;
 			}
 			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
-				comp->SetSpotlightAngle(15, 30);
+				comp->SetSpotlightAngle(10, 20);
 				comp->SetAmbient(0.000f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(9, 9, 13), std::stoi(args[0]));
+			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(3, 3, 4), std::stoi(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
@@ -391,8 +391,6 @@ namespace sge {
 		LuaComponent* comp = _components[state];
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
-		//std::cout << "Test: " << vals.size() << std::endl;
-		//obj->SetPosition(glm::vec3((float)vals[2], (float)vals[1], (float)vals[0]));
 		AbstractCollider* col = obj->GetComponent<AbstractCollider>();
 		if (col != NULL)
 			col->GetRigidbody()->applyCentralForce(btVector3((float)vals[2], (float)vals[1], (float)vals[0]));
