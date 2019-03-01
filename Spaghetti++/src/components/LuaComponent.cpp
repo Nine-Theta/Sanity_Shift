@@ -12,11 +12,13 @@
 #include "BoxCollider.h"
 #include "MeshCollider.h"
 #include "materials/SpecularMaterial.hpp"
+#include "materials/FluorescentMaterial.hpp"
 #include "Input.h"
 
 #include "SoundComponent.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
+#include "LightFluorComp.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -103,9 +105,17 @@ namespace sge {
 			case hash("collider"): obj->AddComponent(new CircleCollider(std::stoi(args[0]))); break;
 			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
+			case hash("glowcontroller"): obj->AddComponent(new LightFluorComp()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			case hash("mesh"): { 
-				obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0]))); 
+				if(args.size() == 5)
+					obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0]))); 
+				else {
+					if(args[4] == "specular")
+						obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0])));
+					else if(args[4] == "glow")
+						obj->AddComponent(new MeshComponent(args[3], new FluorescentMaterial(args[2], args[1], args[0])));
+				}
 				break;
 			}
 			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
@@ -114,11 +124,11 @@ namespace sge {
 				obj->AddComponent(comp); break;
 			}
 			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
-				comp->SetSpotlightAngle(15, 30);
+				comp->SetSpotlightAngle(10, 20);
 				comp->SetAmbient(0.000f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(9, 9, 13), std::stoi(args[0]));
+			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(3, 3, 4), std::stoi(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
@@ -393,8 +403,6 @@ namespace sge {
 		LuaComponent* comp = _components[state];
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
-		//std::cout << "Test: " << vals.size() << std::endl;
-		//obj->SetPosition(glm::vec3((float)vals[2], (float)vals[1], (float)vals[0]));
 		AbstractCollider* col = obj->GetComponent<AbstractCollider>();
 		if (col != NULL)
 			col->GetRigidbody()->applyCentralForce(btVector3((float)vals[2], (float)vals[1], (float)vals[0]));

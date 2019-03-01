@@ -3,18 +3,19 @@
 #include "SFML/Graphics.hpp"
 #include "core/Mesh.hpp"
 #include "materials/AbstractMaterial.hpp"
+#include "materials/FluorescentMaterial.hpp"
 namespace sge {
-	class MeshComponent : public ObjectBehaviour
+	class LightFluorComp : public ObjectBehaviour
 	{
 	public:
-		Mesh* GetMesh();
-		MeshComponent(std::string filepath, AbstractMaterial* material);
-		~MeshComponent();
-
-		AbstractMaterial* GetMaterial();
+		LightFluorComp();
+		~LightFluorComp();
 	private:
-		Mesh* _mesh;
-		AbstractMaterial* _material;
+		vec4 glow = vec4(0,0.4f,0.1f,1.0f);
+		float chargePerSec = 0.40f;
+		float dischargePerSec = 0.15f;
+
+		FluorescentMaterial* material;
 
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;

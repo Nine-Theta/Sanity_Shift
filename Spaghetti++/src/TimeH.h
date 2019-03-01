@@ -15,6 +15,7 @@ namespace sge {
 		static float DeltaTime();
 		static float FixedDelta();
 		static float TimeRunning();
+		static unsigned GetFrame();
 		static float GetTimeScale();
 		/*protected:
 			static unsigned long _timeStarted;
