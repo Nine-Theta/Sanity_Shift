@@ -123,7 +123,7 @@ namespace sge {
 				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
+			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(180, 180, 140), std::stoi(args[0]));
 				comp->SetSpotlightAngle(10, 20);
 				comp->SetAmbient(0.000f);
 				obj->AddComponent(comp); break;

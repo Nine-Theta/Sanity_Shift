@@ -39,7 +39,7 @@ namespace sge {
 	{
 		sf::RenderStates state = sf::RenderStates::Default;
 //		state.transform = p_gameObj->GetCombinedTransform(); //TODO: Port to GLM
-		sge::Game::GetInstance().draw(rect, state);
+//		sge::Game::GetInstance().draw(rect, state);
 	}
 
 	void RectangleComponent::OnCollision(Collider* other)

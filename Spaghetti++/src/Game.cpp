@@ -30,7 +30,7 @@ namespace sge {
 	sf::CircleShape shape(100.f);
 
 	Game* Game::instance = NULL;
-	Game::Game() : sf::RenderWindow(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), sf::Style::Default, sf::ContextSettings(24, 8, 3, 3, 3))
+	Game::Game() : sf::Window(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), sf::Style::Default, sf::ContextSettings(24, 8, 3, 3, 3))
 	{
 		_initializeGlew();
 		_printVersionInfo();

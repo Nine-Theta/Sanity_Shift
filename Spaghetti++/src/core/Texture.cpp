@@ -38,10 +38,11 @@ Texture* Texture::load(const std::string& pFilename)
         //create a wrapper for the id (texture is nothing more than that) and
         //load corresponding data into opengl using this id
         Texture * texture = new Texture();
-
+		glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 		texture->SetSize(glm::vec2(image.getSize().x, image.getSize().y));
         glBindTexture (GL_TEXTURE_2D, texture->getId());
-        glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, image.getSize().x, image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
+		//glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, image.getSize().x, image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
+        glTexImage2D (GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA, image.getSize().x, image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr()); //Use when low on memory, slow!
 		glGenerateMipmap(GL_TEXTURE_2D);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

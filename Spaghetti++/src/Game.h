@@ -9,7 +9,7 @@
 #include "Input.h"
 namespace sge {
 	using namespace glm;
-	class Game : public sf::RenderWindow
+	class Game : public sf::Window
 	{
 	private:
 		Game();

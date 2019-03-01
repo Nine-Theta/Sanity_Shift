@@ -40,7 +40,7 @@ namespace sge {
 	{
 		sf::RenderStates state = sf::RenderStates::Default;
 //		state.transform = p_gameObj->GetCombinedTransform();
-		sge::Game::GetInstance().draw(_sprite, state); //not setting transform. TODO: port to use GLM and GLSL instead of SFML
+//		sge::Game::GetInstance().draw(_sprite, state); //not setting transform. TODO: port to use GLM and GLSL instead of SFML
 	}
 
 	void SpriteComponent::OnCollision(Collider* other)

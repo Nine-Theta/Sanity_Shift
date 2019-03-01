@@ -37,7 +37,7 @@ namespace sge {
 		sf::RenderStates state = sf::RenderStates::Default;
 //		state.transform = p_gameObj->GetCombinedTransform(); //TODO: port to GLM instead of SFML
 		//std::cout << "Rendering text " << std::endl;
-		sge::Game::GetInstance().draw(text, state);
+		//sge::Game::GetInstance().draw(text, state);
 	}
 
 	void sge::TextComponent::OnCollision(Collider * other)
