@@ -52,9 +52,12 @@ namespace sge {
 		static int setRotationQ(lua_State* state);
 		static int getWorldPos(lua_State* state);
 		static int setWorldPos(lua_State* state);
+
 		static int getTime(lua_State* state);
 		static int deltaTime(lua_State* state);
 		static int fixedDelta(lua_State* state);
+		static int setTimeScale(lua_State* state);
+		static int getTimeScale(lua_State* state);
 
 		static int newObject(lua_State* state);
 		static int findObject(lua_State* state);

@@ -7,12 +7,21 @@ function start()
 	--also controls the flashlight now, so slightly misleading name but if it works...
 end
 
+rotation = 0
+verticalSensitivity = 10 --default: 10
+upperLimit = 45
+lowerLimit = -45
+
 enabled = true
 function update()
 
 	if mouse.moved() then
 		local mX, mY = mouse.delta()
-		parent:rotate(1,0,0, mY * 10 * time.fixedDelta())
+		
+		if (rotation < upperLimit and mY > 0) or (rotation > lowerLimit and mY < 0) then
+		rotation = rotation + mY * verticalSensitivity * time.fixedDelta()
+		end
+		parent:setRotation(1,0,0,rotation)
 		--print(mX, mY)
 	end
 	
