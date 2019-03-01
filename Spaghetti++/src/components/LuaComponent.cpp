@@ -18,6 +18,7 @@
 #include "SoundComponent.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
+#include "LightFluorComp.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -104,6 +105,7 @@ namespace sge {
 			case hash("collider"): obj->AddComponent(new CircleCollider(std::stoi(args[0]))); break;
 			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
+			case hash("glowcontroller"): obj->AddComponent(new LightFluorComp()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			case hash("mesh"): { 
 				if(args.size() == 5)

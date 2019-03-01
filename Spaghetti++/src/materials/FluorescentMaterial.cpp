@@ -127,7 +127,7 @@ namespace sge {
 		//glm::vec3 posC = vMatrix * glm::vec4(dir, 1.0f);
 		//std::cout << "Relative to cam: " << posC << std::endl;
 		//glUniform3f(_lightDir, dir.x, dir.y, dir.z);
-		glUniform4f(_aGlowCol, _glowCol.x, _glowCol.y, _glowCol.z, _glowCol.w);
+		glUniform4f(_aGlowCol, _glowCol.x, _glowCol.y, _glowCol.z, _glowCol.w * _glowCol.w);
 		glUniform1i(_lightsNr, LightComponent::GetLightCount());
 		//std::cout << LightComponent::GetLightCount() << std::endl;
 

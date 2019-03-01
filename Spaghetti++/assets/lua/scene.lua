@@ -402,5 +402,6 @@ function init()
 	obj1:setPos(4.49,0.27,-81.09)
 	obj1:setRotationQ(0.9260682,0,-0.377356,0)
 	obj1:addComponent("mesh","glow","M_LQ.obj","Mannequin/diffuseGlow.png","Mannequin/specular.png","Mannequin/normal.png")
+	obj1:addComponent("glowcontroller")
 
 end
