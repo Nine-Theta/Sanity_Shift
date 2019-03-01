@@ -12,6 +12,7 @@
 #include "BoxCollider.h"
 #include "MeshCollider.h"
 #include "materials/SpecularMaterial.hpp"
+#include "materials/FluorescentMaterial.hpp"
 #include "Input.h"
 
 #include "SoundComponent.h"
@@ -105,7 +106,14 @@ namespace sge {
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			case hash("mesh"): { 
-				obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0]))); 
+				if(args.size() == 5)
+					obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0]))); 
+				else {
+					if(args[4] == "specular")
+						obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0])));
+					else if(args[4] == "glow")
+						obj->AddComponent(new MeshComponent(args[3], new FluorescentMaterial(args[2], args[1], args[0])));
+				}
 				break;
 			}
 			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));

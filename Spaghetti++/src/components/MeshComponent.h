@@ -10,6 +10,8 @@ namespace sge {
 		Mesh* GetMesh();
 		MeshComponent(std::string filepath, AbstractMaterial* material);
 		~MeshComponent();
+
+		AbstractMaterial* GetMaterial();
 	private:
 		Mesh* _mesh;
 		AbstractMaterial* _material;

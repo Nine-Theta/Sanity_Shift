@@ -41,8 +41,8 @@ namespace sge {
 	void FluorescentMaterial::_lazyInitializeShader() {
 		if (!_shader) {
 			_shader = new ShaderProgram();
-			_shader->addShader(GL_VERTEX_SHADER, "litsn.vs");
-			_shader->addShader(GL_FRAGMENT_SHADER,"litsn.fs");
+			_shader->addShader(GL_VERTEX_SHADER, "litsnfluor.vs");
+			_shader->addShader(GL_FRAGMENT_SHADER,"litsnfluor.fs");
 			_shader->finalize();
 
 			//cache all the uniform and attribute indexes
@@ -67,7 +67,7 @@ namespace sge {
 			_aVertex = _shader->getAttribLocation("vertex");
 			_aNormal = _shader->getAttribLocation("normal");
 			_aTangent = _shader->getAttribLocation("tangent");
-			_aGlowCol = _shader->getAttribLocation("glow");
+			_aGlowCol = _shader->getUniformLocation("glow");
 			_aUV = _shader->getAttribLocation("uv");
 		}
 	}

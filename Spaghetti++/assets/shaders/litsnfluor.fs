@@ -92,7 +92,7 @@ const float pi = 3.14159265;
 vec4 specularTex = texture(specularTexture,texCoord); 
 
 vec3 blinnPhongCol(Light lt){
-	float shininess = 1 + specularTex.a * 255;
+	float shininess = 2 + specularTex.a * 1024;
 	float energyConservation = ( 8.0 + shininess ) / ( 8.0 * pi ); 
 	vec3 distS 	= lt.cpos.xyz - fcPos;
 	vec3 ray 	= normalize(distS);
@@ -121,6 +121,8 @@ void main( void ) {
 	ftNormal = normalize(fBTN * (vec3(texture(normalTexture,texCoord) * 2 - 1)));
 	vec3 col = vec3(0,0,0);
 	vec3 specCol = vec3(0,0,0);
+	vec4 glowCol;
+	vec4 texCol = texture(diffuseTexture,texCoord);
 	for(int i = 0; i < lightsNr; i++){
 		vec3 spec 	= blinnPhongCol(wLights[i]);// * distFalloff;
 		vec3 lCol 	= diffuseCol(wLights[i]);
@@ -131,8 +133,8 @@ void main( void ) {
 		col += diffuseLightCol;
 		specCol +=  spec * falloff;
 		
-		vec3 glowCol = clamp(glow - (specCol + diffuseLightCol), vec4(0,0,0,0), vec4(1,1,1,1)) * glow.w;
+		//glowCol = vec4(vec3(glow),1);
 	}
-	vec4 texCol = texture(diffuseTexture,texCoord);
-	fragment_color = vec4(col,1) * texCol + vec4(specCol,1) + glowCol;
+	glowCol = clamp(glow - vec4((specCol + col),1) * 4, vec4(0,0,0,0), vec4(1,1,1,1)) * glow.w * (1 - texCol.a);
+	fragment_color = vec4(col,1) * texCol + vec4(specCol,1) + vec4(vec3(glowCol),1);
 }

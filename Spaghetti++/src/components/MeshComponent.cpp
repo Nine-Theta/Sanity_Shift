@@ -26,6 +26,11 @@ namespace sge {
 	{
 	}
 
+	AbstractMaterial * MeshComponent::GetMaterial()
+	{
+		return _material;
+	}
+
 	void sge::MeshComponent::Start()
 	{
 	}

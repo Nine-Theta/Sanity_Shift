@@ -49,7 +49,7 @@ namespace sge {
 
 		static unsigned int block_index;
 
-		vec4 _glowCol;
+		vec4 _glowCol = vec4(0, 0.4f, 0.1f, 0.3f);;
 		Texture* _diffuseTexture;
 		Texture* _specularTexture;
 		Texture* _normalTexture;

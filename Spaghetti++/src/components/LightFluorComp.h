@@ -10,7 +10,7 @@ namespace sge {
 		LightFlourComp();
 		~LightFlourComp();
 	private:
-		vec4 glow = vec4(0,0.4f,0.1f,0.0f);
+		vec4 glow = vec4(0,0.4f,0.1f,1.0f);
 		float chargePerSec = 0.25f;
 		float dischargePerSec = 0.1f;
 
