@@ -394,7 +394,7 @@ function init()
 		obj2:setPos(0,0,0)
 		obj2:setRotationQ(1,0,0,0)
 		obj2:setParent(obj1)
-		obj2:addComponent("mesh","specular","ReceptionRoom_LQ.obj","ReceptionRoom_LQ/diffuse.png","ReceptionRoom_LQ/specular.png","ReceptionRoom_LQ/normal.png")
+		obj2:addComponent("mesh","specular","ReceptionRoom_LQ.obj","ReceptionRoom_LQ/diffuse.dds","ReceptionRoom_LQ/specular.dds","ReceptionRoom_LQ/normal.dds")
 		obj2:addComponent("meshcollider","ReceptionRoom_LQ.obj")
 
 	local obj1 = gameObject.new()
