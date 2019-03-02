@@ -14,7 +14,7 @@ namespace sge {
 		//if(mesh == NULL)
 			//_mesh = AssetLoader::GetMesh("ERROR.obj");
 		_mesh = AssetLoader::GetMesh(path);//Mesh::load(Settings::GetSetting("meshDir") + path);
-		std::cout << _mesh << std::endl;
+		//std::cout << _mesh << std::endl;
 		assert(_mesh != NULL);
 		_material = material;
 		//_mesh.setOrigin(_mesh.getTexture()->getSize().x * 0.5f, _mesh.getTexture()->getSize().y * 0.5f);

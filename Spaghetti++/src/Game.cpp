@@ -233,9 +233,9 @@ namespace sge {
 	}
 
 	GameObject* Game::FindGameObject(std::string name) {
-		std::cout << "Finding: " << name << std::endl;
+		//std::cout << "Finding: " << name << std::endl;
 		for (GameObject* obj : _allObjects) {
-			std::cout << "Comparing to: " << obj->GetName() << std::endl;
+			//std::cout << "Comparing to: " << obj->GetName() << std::endl;
 			if (obj->GetName() == name)
 				return obj;
 		}

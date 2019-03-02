@@ -18,6 +18,8 @@ class Texture
 	protected:
 	    Texture();
 		virtual ~Texture();
+		static Texture* loadDDS(const std::string& pFilename);
+		static Texture* loadPNG(const std::string& pTexturePath);
 
         static Texture* _loadFromFile(const std::string pTexturePath);
 

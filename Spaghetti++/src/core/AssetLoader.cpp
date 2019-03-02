@@ -38,7 +38,7 @@ namespace sge {
 	{
 		BufferTexture(path);
 		if (_cachedT[path] == NULL)
-			return GetTexture("error.png");
+			return GetTexture("error.dds");
 		return _cachedT[path];
 	}
 	void AssetLoader::BufferTexture(std::string path)
