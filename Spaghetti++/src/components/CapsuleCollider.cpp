@@ -26,7 +26,7 @@ namespace sge {
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
 		rbody = new btRigidBody(rbInfo);
 		rbody->setRestitution(.3f);
-		rbody->setDamping(0.12f, .66f);
+		rbody->setDamping(0.9745f, .66f);
 		rbody->setRollingFriction(.96f);
 		rbody->setFriction(.996f);
 		rbody->setSpinningFriction(.9f);

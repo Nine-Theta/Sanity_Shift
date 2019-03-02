@@ -16,6 +16,7 @@ namespace sge {
 	}
 	void CameraComponent::OnRender()
 	{
+		p_gameObj->UpdateTransform();
 		viewM = glm::rotate(mat4(), radians(180.f), vec3(0, 1, 0)) * inverse(p_gameObj->GetCombinedTransform());
 	}
 	void CameraComponent::Start()
@@ -30,7 +31,7 @@ namespace sge {
 		view.zoom(scale);
 		//view.setCenter(p_gameObj->GetCombinedPosition()); //TODO: Port to GLM
 		view.setRotation(p_gameObj->getRotation());
-		Game::GetInstance().setView(view);
+//		Game::GetInstance().setView(view);		//Port to GLM too
 	}
 	void CameraComponent::SetProjection(float fov, float aspect, float near, float far)
 	{

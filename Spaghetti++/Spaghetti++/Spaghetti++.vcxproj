@@ -50,6 +50,7 @@
     <ClCompile Include="..\src\components\TextComponent.cpp" />
     <ClCompile Include="..\src\core\AssetLoader.cpp" />
     <ClCompile Include="..\src\core\Mesh.cpp" />
+    <ClCompile Include="..\src\core\nv_dds.cpp" />
     <ClCompile Include="..\src\core\Physics.cpp" />
     <ClCompile Include="..\src\core\ShaderProgram.cpp" />
     <ClCompile Include="..\src\core\Sound.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="..\src\core\AssetLoader.h" />
     <ClInclude Include="..\src\core\GLLight.hpp" />
     <ClInclude Include="..\src\core\Mesh.hpp" />
+    <ClInclude Include="..\src\core\nv_dds.h" />
     <ClInclude Include="..\src\core\Physics.h" />
     <ClInclude Include="..\src\core\ShaderProgram.hpp" />
     <ClInclude Include="..\src\core\Sound.hpp" />
