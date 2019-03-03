@@ -1,12 +1,12 @@
 #pragma once
 #include "bullet/btBulletDynamicsCommon.h"
-#include "core/Mesh.hpp"
-#include "core/Texture.hpp"
-#include "Settings.h"
+#include "GameObject.h"
+
+//#include "components/ObjectBehaviour.h"
 #include <map>
 #include <string>
 #include <iterator>
-#include "TimeH.h"
+
 namespace sge {
 	class Physics
 	{
@@ -59,5 +59,8 @@ namespace sge {
 		static btBroadphaseInterface* overlappingPairCache;
 		static btSequentialImpulseConstraintSolver* solver;
 		static btDiscreteDynamicsWorld* world;
+
+		//static bool customContactDestroyedCallback(void* userData);
+		//static bool customContactAddedCallback(btManifoldPoint &cp, const btCollisionObjectWrapper *colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper *colObj1Wrap, int partId1, int index1);
 	};
 }

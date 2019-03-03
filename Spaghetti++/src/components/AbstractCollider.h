@@ -17,10 +17,14 @@ namespace sge {
 	protected:
 		AbstractCollider(float pMass = 0);
 		AbstractCollider();
+		void destroyCollider();
 		int id;
 		btRigidBody* rbody;
 		float mass;
 
+		btCollisionShape* shape;
+		btTransform transform;
+		btDefaultMotionState* motionState;
 
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;

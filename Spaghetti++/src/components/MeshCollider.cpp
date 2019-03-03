@@ -73,6 +73,7 @@ namespace sge {
 		rbody->setFriction(0.3f);
 		Physics::AddBody(rbody);
 		p_gameObj->SetWorldTransform(Physics::bulletToGlm(rbody->getWorldTransform()));
+		rbody->setUserPointer(this);
 	}
 
 	void MeshCollider::destroyCollider()

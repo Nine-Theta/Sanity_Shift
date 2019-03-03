@@ -2,6 +2,7 @@
 #include "vec2.hpp"
 #include "AbstractCollider.h"
 
+
 namespace sge {
 	AbstractCollider::AbstractCollider()
 	{
@@ -11,6 +12,7 @@ namespace sge {
 	}
 	AbstractCollider::~AbstractCollider()
 	{
+		destroyCollider();
 	}
 	btRigidBody * AbstractCollider::GetRigidbody()
 	{
@@ -32,8 +34,18 @@ namespace sge {
 		rbody->setDamping(0.8f, 0.3f);
 		id = Physics::AddBody(rbody);
 	}
+
+	void AbstractCollider::destroyCollider()
+	{
+		Physics::RemoveBody(rbody);
+		delete rbody;
+		delete shape;
+		delete motionState;
+	}
+
 	void AbstractCollider::OnDestroy()
 	{
+		Physics::RemoveBody(rbody);
 	}
 	void AbstractCollider::Update()
 	{
