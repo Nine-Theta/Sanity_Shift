@@ -112,7 +112,9 @@ namespace sge {
 	void GameObject::SetWorldTransform(mat4 transform)
 	{
 		if (_p_parent != NULL) {
-			std::cout << "Updating transform of a child in world space not yet supported!" << std::endl;
+			_combinedTransform = transform;
+			_transform = inverse(_p_parent->_combinedTransform) * transform;
+			//std::cout << "Updating transform of a child in world space not yet supported!" << std::endl;
 		}
 		else {
 			_transform = transform;
@@ -294,10 +296,17 @@ namespace sge {
 		//std::cout << "Rendered components: " << _components.size() << std::endl;
 	}
 
+	void GameObject::OnCollisionStay(const Collision &col)
+	{
+		for (ObjectBehaviour* component : _components) {
+			component->OnCollisionStay(col);
+		}
+	}
+
 	void GameObject::OnCollision(Collider* other)
 	{
 		for (ObjectBehaviour* component : _components) {
-			component->OnCollision(other);
+		//	component->OnCollision(other);
 		}
 	}
 

@@ -18,6 +18,10 @@ namespace sge {
 	{
 		return rbody;
 	}
+	bool AbstractCollider::isTrigger()
+	{
+		return rbody->getCollisionFlags() & btCollisionObject::CF_NO_CONTACT_RESPONSE;
+	}
 	void AbstractCollider::Start()
 	{
 		btCollisionShape* shape = new btBoxShape(btVector3(1, 1, 1));
@@ -61,6 +65,9 @@ namespace sge {
 	{
 	}
 	void AbstractCollider::OnCollision(Collider * other)
+	{
+	}
+	void AbstractCollider::OnCollisionStay(const Collision & col)
 	{
 	}
 	void AbstractCollider::OnTrigger(Collider * other)

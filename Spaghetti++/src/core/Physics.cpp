@@ -2,8 +2,9 @@
 #include <iostream>
 //#include <map>
 //#include "SFML/Audio.hpp"
-//#include "components/AbstractCollider.h"
+#include "components/AbstractCollider.h"
 #include "Physics.h"
+#include "GameObject.h"
 //extern ContactDestroyedCallback gContactDestroyedCallback;// = ::gContactDestroyedCallback;// = Physics::customContactDestroyedCallback;
 	//extern ContactAddedCallback gContactAddedCallback = ::gContactAddedCallback;// = Physics::customContactDestroyedCallback;
 	//extern int wololo = 45;
@@ -58,13 +59,38 @@ namespace sge {
 		world->stepSimulation(dt, 10, TimeH::FixedDelta());
 		int cols = 0;
 		int contacts = world->getDispatcher()->getNumManifolds();
+		float pulse = 0;
 		for (int i = 0; i < contacts; i++) {
 			btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
 			const btCollisionObject* obA = contactManifold->getBody0();
 			const btCollisionObject* obB = contactManifold->getBody1();
 
 			int numContacts = contactManifold->getNumContacts();
-			cols += numContacts;
+
+			if (numContacts > 0) {
+				Collision col;
+				col.collider = (AbstractCollider*)obB->getUserPointer();
+				col.otherCollider = (AbstractCollider*)obA->getUserPointer();
+				col.contactPoints = numContacts;
+
+				col.otherCollider->GetParent()->OnCollisionStay(col);
+
+				Collision col2;
+				col2.collider = (AbstractCollider*)obA->getUserPointer();
+				col2.otherCollider = (AbstractCollider*)obB->getUserPointer();
+				col2.contactPoints = numContacts;
+
+				col2.otherCollider->GetParent()->OnCollisionStay(col2);
+			}
+			/*for (int j = 0; j < numContacts; j++)
+			{
+				btManifoldPoint& pt = contactManifold->getContactPoint(j);
+				pulse += pt.getAppliedImpulse();
+				if (pt.getDistance() < 0.f)
+				{
+				}
+				cols++;
+			}*/
 		}
 	}
 

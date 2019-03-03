@@ -53,6 +53,10 @@ namespace sge {
 	void CapsuleCollider::OnCollision(Collider * other)
 	{
 	}
+	void CapsuleCollider::OnCollisionStay(const Collision &other)
+	{
+		//std::cout << "Player currently colliding with: " << other.collider->GetParent()->GetName() << std::endl;
+	}
 	void CapsuleCollider::OnTrigger(Collider * other)
 	{
 	}

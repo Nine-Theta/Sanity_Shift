@@ -1,6 +1,6 @@
 #pragma once
 #include "bullet/btBulletDynamicsCommon.h"
-#include "GameObject.h"
+//#include "GameObject.h"
 
 //#include "components/ObjectBehaviour.h"
 #include <map>
@@ -8,6 +8,15 @@
 #include <iterator>
 
 namespace sge {
+	class AbstractCollider;
+
+
+	struct Collision {
+		AbstractCollider*	collider;
+		AbstractCollider*	otherCollider;
+//		vec3				appliedForce;
+		unsigned			contactPoints;
+	};
 	class Physics
 	{
 	public:
@@ -63,4 +72,5 @@ namespace sge {
 		//static bool customContactDestroyedCallback(void* userData);
 		//static bool customContactAddedCallback(btManifoldPoint &cp, const btCollisionObjectWrapper *colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper *colObj1Wrap, int partId1, int index1);
 	};
+
 }

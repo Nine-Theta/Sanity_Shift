@@ -108,6 +108,10 @@ namespace sge {
 	void MeshCollider::OnCollision(Collider * other)
 	{
 	}
+	void MeshCollider::OnCollisionStay(const Collision & col)
+	{
+		//std::cout << col.otherCollider->GetParent()->GetName() << " got hit by " << col.collider->GetParent()->GetName() << std::endl;
+	}
 	void MeshCollider::OnTrigger(Collider * other)
 	{
 	}

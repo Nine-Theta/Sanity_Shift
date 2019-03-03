@@ -30,6 +30,7 @@ namespace sge {
 		virtual void OnRender() override;
 
 		virtual void OnCollision(Collider * other) override;
+		virtual void OnCollisionStay(const Collision &col) override;
 
 		virtual void OnTrigger(Collider * other) override;
 

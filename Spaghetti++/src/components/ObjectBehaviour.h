@@ -10,6 +10,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtc/type_ptr.hpp>
 #include "core/AssetLoader.h"
+#include "core/Physics.h"
 
 namespace sge {
 	class GameObject;
@@ -37,8 +38,9 @@ namespace sge {
 		virtual void Update() = 0;
 		virtual void FixedUpdate() = 0;
 		virtual void OnRender() = 0;
-		virtual void OnCollision(Collider* other) = 0;
-		virtual void OnTrigger(Collider* other) = 0;
+		virtual void OnCollisionStay(const Collision &col);
+		virtual void OnTrigger(Collider* other);
+		virtual void OnCollision(Collider* other);
 	};
 
 }

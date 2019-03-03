@@ -79,6 +79,7 @@ namespace sge {
 		void OnUpdate();
 		void OnFixedUpdate();
 		void OnRender();
+		void OnCollisionStay(const Collision &col);
 		void OnCollision(Collider* other);
 		void OnTrigger(Collider* other);
 		//template <typename T, typename = enable_if<is_base_of<ObjectBehaviour, T>::value>::type>
