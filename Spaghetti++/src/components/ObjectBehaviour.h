@@ -39,6 +39,12 @@ namespace sge {
 		virtual void FixedUpdate() = 0;
 		virtual void OnRender() = 0;
 		virtual void OnCollisionStay(const Collision &col);
+		virtual void OnCollisionEnter(const Collision &col);
+		virtual void OnCollisionExit(const Collision &col);
+
+		virtual void OnTriggerStay(const Collision &col);
+		virtual void OnTriggerEnter(const Collision &col);
+		virtual void OnTriggerExit(const Collision &col);
 		virtual void OnTrigger(Collider* other);
 		virtual void OnCollision(Collider* other);
 	};

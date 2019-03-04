@@ -8,12 +8,17 @@
 //extern ContactDestroyedCallback gContactDestroyedCallback;// = ::gContactDestroyedCallback;// = Physics::customContactDestroyedCallback;
 	//extern ContactAddedCallback gContactAddedCallback = ::gContactAddedCallback;// = Physics::customContactDestroyedCallback;
 	//extern int wololo = 45;
+
+
 namespace sge {
 	btDefaultCollisionConfiguration* Physics::collisionConfig;
 	btCollisionDispatcher* Physics::dispatcher;
 	btBroadphaseInterface* Physics::overlappingPairCache;
 	btSequentialImpulseConstraintSolver* Physics::solver;
 	btDiscreteDynamicsWorld* Physics::world;
+
+
+	std::unordered_map<ColliderPair, int, collider_hash> Physics::_collisionPairs;
 
 	Physics::Physics()
 	{
@@ -81,16 +86,64 @@ namespace sge {
 				col2.contactPoints = numContacts;
 
 				col2.otherCollider->GetParent()->OnCollisionStay(col2);
+
+				ColliderPair pair;
+				pair.colA = col.otherCollider;
+				pair.colB = col.collider;
+
+
+				_collisionPairs[pair] = _collisionPairs[pair] == NULL ? -TimeH::GetFixedFrame() : TimeH::GetFixedFrame();
 			}
 			/*for (int j = 0; j < numContacts; j++)
 			{
 				btManifoldPoint& pt = contactManifold->getContactPoint(j);
-				pulse += pt.getAppliedImpulse();
-				if (pt.getDistance() < 0.f)
-				{
-				}
-				cols++;
 			}*/
+		}
+		updateCollisions();
+	}
+
+	void Physics::updateCollisions()
+	{
+		//std::cout << "Checking collisions: " << _collisionPairs.size() << " - " << std::endl;
+		std::vector<ColliderPair> oldCols;
+		for (auto i = _collisionPairs.begin(); i != _collisionPairs.end(); i++) {
+			//std::cout << i->first << " : " << i->second << '\n';
+			AbstractCollider* colA = i->first.colA;
+			AbstractCollider* colB = i->first.colB;
+
+			int step = i->second;
+
+			//std::cout << "Checking collisions on frame: " << TimeH::GetFixedFrame() << " - " << step << std::endl;
+			if (step < 0) {
+				Collision col;
+				col.collider = colB;
+				col.otherCollider = colA;
+
+				col.otherCollider->GetParent()->OnCollisionEnter(col);
+
+				Collision col2;
+				col2.collider = colA;
+				col2.otherCollider = colB;
+
+				col2.otherCollider->GetParent()->OnCollisionEnter(col2);
+			}
+			if (abs(step) != TimeH::GetFixedFrame()) {
+				Collision col;
+				col.collider = colB;
+				col.otherCollider = colA;
+
+				col.otherCollider->GetParent()->OnCollisionExit(col);
+
+				Collision col2;
+				col2.collider = colA;
+				col2.otherCollider = colB;
+
+				col2.otherCollider->GetParent()->OnCollisionExit(col2);
+				oldCols.push_back(i->first);
+			}
+		}
+		for (ColliderPair pair : oldCols) {
+			_collisionPairs.erase(pair);
 		}
 	}
 

@@ -112,6 +112,14 @@ namespace sge {
 	{
 		//std::cout << col.otherCollider->GetParent()->GetName() << " got hit by " << col.collider->GetParent()->GetName() << std::endl;
 	}
+	void MeshCollider::OnCollisionEnter(const Collision & col)
+	{
+		std::cout << col.otherCollider->GetParent()->GetName() << " got hit by " << col.collider->GetParent()->GetName() << std::endl;
+	}
+	void MeshCollider::OnCollisionExit(const Collision & col)
+	{
+		std::cout << col.otherCollider->GetParent()->GetName() << " no longer touching " << col.collider->GetParent()->GetName() << std::endl;
+	}
 	void MeshCollider::OnTrigger(Collider * other)
 	{
 	}

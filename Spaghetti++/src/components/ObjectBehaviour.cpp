@@ -63,6 +63,26 @@ namespace sge {
 	{
 	}
 
+	void ObjectBehaviour::OnCollisionEnter(const Collision & col)
+	{
+	}
+
+	void ObjectBehaviour::OnCollisionExit(const Collision & col)
+	{
+	}
+
+	void ObjectBehaviour::OnTriggerStay(const Collision & col)
+	{
+	}
+
+	void ObjectBehaviour::OnTriggerEnter(const Collision & col)
+	{
+	}
+
+	void ObjectBehaviour::OnTriggerExit(const Collision & col)
+	{
+	}
+
 	void ObjectBehaviour::OnTrigger(Collider * other)
 	{
 	}

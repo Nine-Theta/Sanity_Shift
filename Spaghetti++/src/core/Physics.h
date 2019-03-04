@@ -6,11 +6,50 @@
 #include <map>
 #include <string>
 #include <iterator>
+#include <unordered_map>
+
+
 
 namespace sge {
+
 	class AbstractCollider;
 
 
+
+	struct ColliderPair {
+		AbstractCollider* colA;
+		AbstractCollider* colB;
+
+
+		bool operator==(const ColliderPair& other) const{
+			return (int)colA + (int)colB == (int)other.colA + (int)other.colB;
+		}
+		bool operator<(const ColliderPair& other) const{
+			return (int)colA + (int)colB < (int)other.colA + (int)other.colB;
+		}
+
+		size_t operator()(const ColliderPair& k) const
+		{
+			// Compute individual hash values for two data members and combine them using XOR and bit shifting
+			return (int)k.colA + (int)+k.colB;
+		}
+	};
+
+	struct collider_hash
+	{
+		size_t operator()(const ColliderPair& k) const
+		{
+			// Compute individual hash values for two data members and combine them using XOR and bit shifting
+			return (int)k.colA + (int)+k.colB;
+		}
+	};
+
+	inline size_t hashCols(const ColliderPair& k) 
+	{
+		// Compute individual hash values for two data members and combine them using XOR and bit shifting
+		return (int)k.colA + (int)+k.colB;
+	}
+	
 	struct Collision {
 		AbstractCollider*	collider;
 		AbstractCollider*	otherCollider;
@@ -68,6 +107,16 @@ namespace sge {
 		static btBroadphaseInterface* overlappingPairCache;
 		static btSequentialImpulseConstraintSolver* solver;
 		static btDiscreteDynamicsWorld* world;
+
+		static void updateCollisions();
+		//typedef std::pair<AbstractCollider*, AbstractCollider*> ColliderPair;
+		/*struct hash_colliderpair {
+			size_t operator() (const ColliderPair &pColliderPair) const
+			{
+				return (int)pColliderPair.first + (int)+pColliderPair.second;
+			}
+		};*/
+		static std::unordered_map<ColliderPair, int, collider_hash> _collisionPairs;
 
 		//static bool customContactDestroyedCallback(void* userData);
 		//static bool customContactAddedCallback(btManifoldPoint &cp, const btCollisionObjectWrapper *colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper *colObj1Wrap, int partId1, int index1);

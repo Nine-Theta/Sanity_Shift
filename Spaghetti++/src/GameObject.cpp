@@ -303,6 +303,41 @@ namespace sge {
 		}
 	}
 
+	void GameObject::OnCollisionEnter(const Collision & col)
+	{
+		for (ObjectBehaviour* component : _components) {
+			component->OnCollisionEnter(col);
+		}
+	}
+
+	void GameObject::OnCollisionExit(const Collision & col)
+	{
+		for (ObjectBehaviour* component : _components) {
+			component->OnCollisionExit(col);
+		}
+	}
+
+	void GameObject::OnTriggerStay(const Collision &col)
+	{
+		for (ObjectBehaviour* component : _components) {
+			component->OnTriggerStay(col);
+		}
+	}
+
+	void GameObject::OnTriggerEnter(const Collision & col)
+	{
+		for (ObjectBehaviour* component : _components) {
+			component->OnTriggerEnter(col);
+		}
+	}
+
+	void GameObject::OnTriggerExit(const Collision & col)
+	{
+		for (ObjectBehaviour* component : _components) {
+			component->OnTriggerExit(col);
+		}
+	}
+
 	void GameObject::OnCollision(Collider* other)
 	{
 		for (ObjectBehaviour* component : _components) {
