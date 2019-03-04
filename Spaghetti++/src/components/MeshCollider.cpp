@@ -5,11 +5,11 @@
 #include "MeshComponent.h"
 
 namespace sge {
-	MeshCollider::MeshCollider(std::string mesh, float pMass) : mass(pMass)
+	MeshCollider::MeshCollider(std::string mesh, float pMass) : AbstractCollider(pMass)
 	{
 		cmesh = AssetLoader::GetMesh(mesh);
 	}
-	MeshCollider::MeshCollider(float pMass) : mass(pMass)
+	MeshCollider::MeshCollider(float pMass) : AbstractCollider(pMass)
 	{
 	}
 	MeshCollider::~MeshCollider()
@@ -88,6 +88,7 @@ namespace sge {
 	void MeshCollider::Start()
 	{
 		makeCollider();
+		SetTrigger(true);
 	}
 	void MeshCollider::OnDestroy()
 	{
@@ -115,6 +116,10 @@ namespace sge {
 	void MeshCollider::OnCollisionEnter(const Collision & col)
 	{
 		std::cout << col.otherCollider->GetParent()->GetName() << " got hit by " << col.collider->GetParent()->GetName() << std::endl;
+	}
+	void MeshCollider::OnTriggerEnter(const Collision & col)
+	{
+		std::cout << col.otherCollider->GetParent()->GetName() << " got trrrrrriggered by " << col.collider->GetParent()->GetName() << std::endl;
 	}
 	void MeshCollider::OnCollisionExit(const Collision & col)
 	{

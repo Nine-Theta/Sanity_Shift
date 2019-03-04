@@ -119,26 +119,40 @@ namespace sge {
 				col.collider = colB;
 				col.otherCollider = colA;
 
-				col.otherCollider->GetParent()->OnCollisionEnter(col);
+				bool trigger = col.otherCollider->isTrigger() || col.collider->isTrigger();
+				if(trigger)
+					col.otherCollider->GetParent()->OnTriggerEnter(col);
+				else
+					col.otherCollider->GetParent()->OnCollisionEnter(col);
 
 				Collision col2;
 				col2.collider = colA;
 				col2.otherCollider = colB;
 
-				col2.otherCollider->GetParent()->OnCollisionEnter(col2);
+				if(trigger)
+					col2.otherCollider->GetParent()->OnTriggerEnter(col2);
+				else
+					col2.otherCollider->GetParent()->OnCollisionEnter(col2);
 			}
 			if (abs(step) != TimeH::GetFixedFrame()) {
 				Collision col;
 				col.collider = colB;
 				col.otherCollider = colA;
 
-				col.otherCollider->GetParent()->OnCollisionExit(col);
+				bool trigger = col.otherCollider->isTrigger() || col.collider->isTrigger();
+				if (trigger)
+					col.otherCollider->GetParent()->OnTriggerExit(col);
+				else
+					col.otherCollider->GetParent()->OnCollisionExit(col);
 
 				Collision col2;
 				col2.collider = colA;
 				col2.otherCollider = colB;
 
-				col2.otherCollider->GetParent()->OnCollisionExit(col2);
+				if (trigger)
+					col2.otherCollider->GetParent()->OnTriggerExit(col2);
+				else
+					col2.otherCollider->GetParent()->OnCollisionExit(col2);
 				oldCols.push_back(i->first);
 			}
 		}

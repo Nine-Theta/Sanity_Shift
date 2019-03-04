@@ -6,7 +6,7 @@
 #include "bullet/btBulletDynamicsCommon.h"
 #include "core/Physics.h"
 namespace sge {
-	class MeshCollider : public ObjectBehaviour//all it does is keep track and control bullet colliders
+	class MeshCollider : public AbstractCollider//all it does is keep track and control bullet colliders
 	{
 	public:
 		MeshCollider(std::string mesh, float pMass = 0);
@@ -15,10 +15,7 @@ namespace sge {
 
 		// Geerbt über Collider
 	private:
-		int id;
-		btRigidBody* rbody;
 		Mesh* cmesh;
-		float mass;
 
 		//Collider related
 		btTriangleIndexVertexArray* meshArray;
@@ -46,6 +43,7 @@ namespace sge {
 
 		virtual void OnCollisionStay(const Collision &col) override;
 		virtual void OnCollisionEnter(const Collision &col) override;
+		virtual void OnTriggerEnter(const Collision &col) override;
 		virtual void OnCollisionExit(const Collision &col) override;
 
 		virtual void OnTrigger(Collider * other) override;

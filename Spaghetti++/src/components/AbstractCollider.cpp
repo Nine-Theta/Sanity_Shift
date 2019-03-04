@@ -22,6 +22,10 @@ namespace sge {
 	{
 		return rbody->getCollisionFlags() & btCollisionObject::CF_NO_CONTACT_RESPONSE;
 	}
+	void AbstractCollider::SetTrigger(bool trigger)
+	{
+		rbody->setCollisionFlags((rbody->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE) | (trigger ? btCollisionObject::CF_NO_CONTACT_RESPONSE : 0));
+	}
 	void AbstractCollider::Start()
 	{
 		btCollisionShape* shape = new btBoxShape(btVector3(1, 1, 1));
