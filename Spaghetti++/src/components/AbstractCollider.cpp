@@ -20,11 +20,15 @@ namespace sge {
 	}
 	bool AbstractCollider::isTrigger()
 	{
-		return rbody->getCollisionFlags() & btCollisionObject::CF_NO_CONTACT_RESPONSE;
+		if(rbody != NULL)
+			return rbody->getCollisionFlags() & btCollisionObject::CF_NO_CONTACT_RESPONSE;
+		return trigger;
 	}
-	void AbstractCollider::SetTrigger(bool trigger)
+	void AbstractCollider::SetTrigger(bool ptrigger)
 	{
-		rbody->setCollisionFlags((rbody->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE) | (trigger ? btCollisionObject::CF_NO_CONTACT_RESPONSE : 0));
+		if(rbody != NULL)
+			rbody->setCollisionFlags((rbody->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE) | (trigger ? btCollisionObject::CF_NO_CONTACT_RESPONSE : 0));
+		trigger = ptrigger;
 	}
 	void AbstractCollider::Start()
 	{

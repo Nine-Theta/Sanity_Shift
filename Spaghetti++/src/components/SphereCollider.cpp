@@ -34,6 +34,8 @@ namespace sge {
 		btVector3 angularfactor(0, 1, 0);
 		rbody->setAngularFactor(angularfactor);
 		id = Physics::AddBody(rbody);
+
+		SetTrigger(trigger);
 	}
 	void SphereCollider::OnDestroy()
 	{

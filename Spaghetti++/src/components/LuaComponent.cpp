@@ -85,6 +85,16 @@ namespace sge {
 		return 0;
 	}
 
+	int LuaComponent::setTrigger(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		AbstractCollider* col = obj->GetComponent<AbstractCollider>();
+		if(col != NULL)
+			col->SetTrigger(comp->GetState()->GetBoolsFromStack()[0]);
+		return 0;
+	}
+
 	int LuaComponent::addComponent(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
@@ -175,7 +185,9 @@ namespace sge {
 		{"up", up},
 		{"setParent", setParent},
 		{"setActive", setActive},
+		{"setTrigger", setTrigger},
 		{"sendMessage", sendMessage},
+		{"callFunction", callFunction},
 		{"setText", setText},
 		{"addForce", addForce},
 		{NULL, NULL} // - signals the end of the registry
@@ -374,6 +386,19 @@ namespace sge {
 		if (receiver != NULL) {
 			lua_getglobal(receiver->_state.GetState(), "onmessage");
 			lua_pushstring(receiver->_state.GetState(), message.c_str());
+			lua_pcall(receiver->_state.GetState(), 1, 1, 0);
+		}
+		return 0;
+	}
+	int LuaComponent::callFunction(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::string message = comp->GetState()->GetArgsFromStack()[0];
+		LuaComponent* receiver = (LuaComponent*)obj->GetComponent(typeid(LuaComponent));
+		if (receiver != NULL) {
+			lua_getglobal(receiver->_state.GetState(), message.c_str());
+			receiver->GetState()->PushLightUserData(obj->GetParent());
 			lua_pcall(receiver->_state.GetState(), 1, 1, 0);
 		}
 		return 0;
