@@ -618,7 +618,7 @@ namespace sge {
 	int LuaComponent::setMouseLock(lua_State* state)
 	{
 		LuaComponent* comp = _components[state];
-		Input::setMouseLock((bool)(comp->GetState()->GetNumbersFromStack()[0]));
+		Input::setMouseLock(comp->GetState()->GetBoolsFromStack()[0]);
 		return 0;
 	}
 

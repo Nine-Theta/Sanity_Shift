@@ -122,6 +122,7 @@ namespace sge {
 
 	void Input::setMouseLock(bool active)
 	{
+		std::cout << "called: " << active << std::endl;
 		Input::lockMousePos = active;
 		Game::GetInstance().setMouseCursorVisible(!active);
 	}
@@ -161,8 +162,12 @@ namespace sge {
 		mousePos = glm::ivec2(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 		if (lockMousePos)
 		{
-			sf::Mouse::setPosition(sf::Vector2i(959, 539));
-			lastMousePos = glm::ivec2(959, 539);
+			sf::Vector2i pos = sge::Game::GetInstance().getPosition();
+			sf::Vector2u size = sge::Game::GetInstance().getSize();
+			int x = size.x*0.5 - 1 + pos.x;
+			int y = size.y*0.5 - 1 + pos.y;
+			sf::Mouse::setPosition(sf::Vector2i(x, y));
+			lastMousePos = glm::ivec2(x, y);
 		}
 	}
 
