@@ -219,6 +219,7 @@ namespace sge {
 		{"buttonDown", isButtonDown },
 		{"buttonUp", isButtonUp },
 		{"position", getMousePos },
+		{"relativePosition", getMouseRelativePos },
 		{"delta", getMouseDelta },
 		{"moved", didMouseMove },
 		{"setLock", setMouseLock },
@@ -597,8 +598,15 @@ namespace sge {
 
 	int LuaComponent::getMousePos(lua_State * state)
 	{
-		lua_pushinteger(state, Input::GetMousePosition().x);
-		lua_pushinteger(state, Input::GetMousePosition().y);
+		lua_pushinteger(state, Input::GetMouseScreenPosition().x);
+		lua_pushinteger(state, Input::GetMouseScreenPosition().y);
+		return 2;
+	}
+
+	int LuaComponent::getMouseRelativePos(lua_State * state)
+	{
+		lua_pushinteger(state, Input::GetMouseRelativePosition().x);
+		lua_pushinteger(state, Input::GetMouseRelativePosition().y);
 		return 2;
 	}
 

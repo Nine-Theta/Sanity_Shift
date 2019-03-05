@@ -149,6 +149,7 @@ public:
         F14,          ///< The F14 key
         F15,          ///< The F15 key
         Pause,        ///< The Pause key
+		Any,		  ///< Absolute Heresy
 
         KeyCount,     ///< Keep last -- the total number of keyboard keys
 

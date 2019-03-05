@@ -74,6 +74,7 @@ namespace sge {
 		static int isButtonDown(lua_State* state);
 		static int isButtonUp(lua_State* state);
 		static int getMousePos(lua_State* state);
+		static int getMouseRelativePos(lua_State* state);
 		static int getMouseDelta(lua_State* state);
 		static int didMouseMove(lua_State* state);
 		static int setMouseLock(lua_State* state);
