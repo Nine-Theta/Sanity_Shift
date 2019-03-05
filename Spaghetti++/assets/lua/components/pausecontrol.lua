@@ -1,4 +1,5 @@
---parent is component's parent gameObject. It supports functions 
+--parent is component's parent gameObject. It supports functions
+--this is pausecontrol to major Tom
 
 function start()
 screen = gameObject.find("PauseScreen") 
