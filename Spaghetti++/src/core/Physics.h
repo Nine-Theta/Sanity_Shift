@@ -58,8 +58,8 @@ namespace sge {
 	};
 
 	struct RaycastHit {
-		vec3 point;
-		vec3 normal;
+		glm::vec3 point;
+		glm::vec3 normal;
 		bool hit;
 		AbstractCollider* collider;
 	};
@@ -76,7 +76,7 @@ namespace sge {
 		static void Update(float dt);
 
 		//static std::vector<RaycastHit> RaycastAll(vec3 dir);
-		static RaycastHit Raycast(vec3 start, vec3 dir, float length);
+		static RaycastHit Raycast(glm::vec3 start, glm::vec3 dir, float length = 0);
 
 		static glm::mat4 bulletToGlm(const btTransform& t) {
 			glm::mat4 m;

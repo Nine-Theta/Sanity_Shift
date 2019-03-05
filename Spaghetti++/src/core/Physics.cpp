@@ -102,7 +102,7 @@ namespace sge {
 		updateCollisions();
 	}
 
-	RaycastHit Physics::Raycast(vec3 start, vec3 dir, float length = 0)
+	RaycastHit Physics::Raycast(vec3 start, vec3 dir, float length)
 	{
 		btVector3 startBt = btVector3(start.x, start.y, start.z);
 		vec3 end = start + (length > 0 ? dir * length : dir * FLT_MAX);
@@ -113,8 +113,10 @@ namespace sge {
 		RaycastHit hit;
 		hit.hit = RayCallback.hasHit();
 		if (hit.hit) {
-			hit.point = vec3(RayCallback.m_hitPointWorld.x, RayCallback.m_hitPointWorld.y, RayCallback.m_hitPointWorld.z);
-			hit.normal = vec3(RayCallback.m_hitNormalWorld.x, RayCallback.m_hitNormalWorld.y, RayCallback.m_hitNormalWorld.z);
+			btVector3 v3 = RayCallback.m_hitPointWorld;
+			hit.point = glm::vec3((float)v3.x(), (float)v3.y(), (float)v3.z());
+			v3 = RayCallback.m_hitNormalWorld;
+			hit.normal = glm::vec3((float)v3.x(), (float)v3.y(), (float)v3.z());
 			hit.collider = (AbstractCollider*)RayCallback.m_collisionObject->getUserPointer();
 		}
 		return hit;
