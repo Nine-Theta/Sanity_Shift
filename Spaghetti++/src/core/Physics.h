@@ -56,6 +56,13 @@ namespace sge {
 //		vec3				appliedForce;
 		unsigned			contactPoints;
 	};
+
+	struct RaycastHit {
+		vec3 point;
+		vec3 normal;
+		bool hit;
+		AbstractCollider* collider;
+	};
 	class Physics
 	{
 	public:
@@ -67,6 +74,9 @@ namespace sge {
 		static int AddCollision(btCollisionObject* obj);
 		static btTransform GetTransform(int id);
 		static void Update(float dt);
+
+		//static std::vector<RaycastHit> RaycastAll(vec3 dir);
+		static RaycastHit Raycast(vec3 start, vec3 dir, float length);
 
 		static glm::mat4 bulletToGlm(const btTransform& t) {
 			glm::mat4 m;

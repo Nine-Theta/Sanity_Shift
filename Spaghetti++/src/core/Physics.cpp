@@ -102,6 +102,24 @@ namespace sge {
 		updateCollisions();
 	}
 
+	RaycastHit Physics::Raycast(vec3 start, vec3 dir, float length = 0)
+	{
+		btVector3 startBt = btVector3(start.x, start.y, start.z);
+		vec3 end = start + (length > 0 ? dir * length : dir * FLT_MAX);
+		btVector3 endBt = btVector3(end.x, end.y, end.z);
+		btCollisionWorld::ClosestRayResultCallback RayCallback(startBt, endBt);
+		world->rayTest(startBt, endBt, RayCallback);
+		
+		RaycastHit hit;
+		hit.hit = RayCallback.hasHit();
+		if (hit.hit) {
+			hit.point = vec3(RayCallback.m_hitPointWorld.x, RayCallback.m_hitPointWorld.y, RayCallback.m_hitPointWorld.z);
+			hit.normal = vec3(RayCallback.m_hitNormalWorld.x, RayCallback.m_hitNormalWorld.y, RayCallback.m_hitNormalWorld.z);
+			hit.collider = (AbstractCollider*)RayCallback.m_collisionObject->getUserPointer();
+		}
+		return hit;
+	}
+
 	void Physics::updateCollisions()
 	{
 		//std::cout << "Checking collisions: " << _collisionPairs.size() << " - " << std::endl;

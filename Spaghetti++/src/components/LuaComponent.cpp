@@ -257,6 +257,48 @@ namespace sge {
 		lua_pcall(state, 1, 1, 0);
 		//_state.CallFunction("oncollision");
 	}
+	void LuaComponent::OnCollisionEnter(const Collision & col)
+	{
+		lua_State* state = _state.GetState();
+		lua_getglobal(state, "oncollisionenter");
+		_state.PushLightUserData(col.collider->GetParent());
+		lua_pcall(state, 1, 1, 0);
+	}
+	void LuaComponent::OnCollisionStay(const Collision & col)
+	{
+		lua_State* state = _state.GetState();
+		lua_getglobal(state, "oncollisionstay");
+		_state.PushLightUserData(col.collider->GetParent());
+		lua_pcall(state, 1, 1, 0);
+	}
+	void LuaComponent::OnCollisionExit(const Collision & col)
+	{
+		lua_State* state = _state.GetState();
+		lua_getglobal(state, "oncollisionexit");
+		_state.PushLightUserData(col.collider->GetParent());
+		lua_pcall(state, 1, 1, 0);
+	}
+	void LuaComponent::OnTriggerEnter(const Collision & col)
+	{
+		lua_State* state = _state.GetState();
+		lua_getglobal(state, "ontriggerenter");
+		_state.PushLightUserData(col.collider->GetParent());
+		lua_pcall(state, 1, 1, 0);
+	}
+	void LuaComponent::OnTriggerStay(const Collision & col)
+	{
+		lua_State* state = _state.GetState();
+		lua_getglobal(state, "ontriggerstay");
+		_state.PushLightUserData(col.collider->GetParent());
+		lua_pcall(state, 1, 1, 0);
+	}
+	void LuaComponent::OnTriggerExit(const Collision & col)
+	{
+		lua_State* state = _state.GetState();
+		lua_getglobal(state, "ontriggerexit");
+		_state.PushLightUserData(col.collider->GetParent());
+		lua_pcall(state, 1, 1, 0);
+	}
 	LuaState * LuaComponent::GetState()
 	{
 		return &_state;
