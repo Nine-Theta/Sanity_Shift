@@ -92,7 +92,7 @@ const float pi = 3.14159265;
 vec4 specularTex = texture(specularTexture,texCoord); 
 
 vec3 blinnPhongCol(Light lt){
-	float shininess = 2 + specularTex.a * 1024;
+	float shininess = 1 + specularTex.a * 256;
 	float energyConservation = ( 8.0 + shininess ) / ( 8.0 * pi ); 
 	vec3 distS 	= lt.cpos.xyz - fcPos;
 	vec3 ray 	= normalize(distS);

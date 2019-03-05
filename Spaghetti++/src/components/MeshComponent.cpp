@@ -3,6 +3,8 @@
 #include "Game.h"
 #include <assert.h>
 
+
+extern int wololo;
 namespace sge {
 	Mesh * MeshComponent::GetMesh()
 	{

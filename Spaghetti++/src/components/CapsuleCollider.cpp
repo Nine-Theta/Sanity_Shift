@@ -2,6 +2,7 @@
 #include "vec2.hpp"
 #include "CapsuleCollider.h"
 
+
 namespace sge {
 	CapsuleCollider::CapsuleCollider() : AbstractCollider(1)
 	{
@@ -34,6 +35,11 @@ namespace sge {
 		btVector3 angularfactor(0, 1, 0);
 		rbody->setAngularFactor(angularfactor);
 		id = Physics::AddBody(rbody);
+		rbody->setUserPointer(this);
+		rbody->setCollisionFlags(rbody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+
+		//std::cout << gContactAddedCallback << " = Contact added callback" <<  std::endl;
+		//delete shape;
 	}
 	void CapsuleCollider::OnDestroy()
 	{
@@ -46,6 +52,10 @@ namespace sge {
 	}
 	void CapsuleCollider::OnCollision(Collider * other)
 	{
+	}
+	void CapsuleCollider::OnCollisionStay(const Collision &other)
+	{
+		//std::cout << "Player currently colliding with: " << other.collider->GetParent()->GetName() << std::endl;
 	}
 	void CapsuleCollider::OnTrigger(Collider * other)
 	{

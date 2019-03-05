@@ -5,11 +5,11 @@
 #include "MeshComponent.h"
 
 namespace sge {
-	MeshCollider::MeshCollider(std::string mesh, float pMass) : mass(pMass)
+	MeshCollider::MeshCollider(std::string mesh, float pMass) : AbstractCollider(pMass)
 	{
 		cmesh = AssetLoader::GetMesh(mesh);
 	}
-	MeshCollider::MeshCollider(float pMass) : mass(pMass)
+	MeshCollider::MeshCollider(float pMass) : AbstractCollider(pMass)
 	{
 	}
 	MeshCollider::~MeshCollider()
@@ -73,6 +73,7 @@ namespace sge {
 		rbody->setFriction(0.3f);
 		Physics::AddBody(rbody);
 		p_gameObj->SetWorldTransform(Physics::bulletToGlm(rbody->getWorldTransform()));
+		rbody->setUserPointer(this);
 	}
 
 	void MeshCollider::destroyCollider()
@@ -106,6 +107,22 @@ namespace sge {
 	}
 	void MeshCollider::OnCollision(Collider * other)
 	{
+	}
+	void MeshCollider::OnCollisionStay(const Collision & col)
+	{
+		//std::cout << col.otherCollider->GetParent()->GetName() << " got hit by " << col.collider->GetParent()->GetName() << std::endl;
+	}
+	void MeshCollider::OnCollisionEnter(const Collision & col)
+	{
+		std::cout << col.otherCollider->GetParent()->GetName() << " got hit by " << col.collider->GetParent()->GetName() << std::endl;
+	}
+	void MeshCollider::OnTriggerEnter(const Collision & col)
+	{
+		std::cout << col.otherCollider->GetParent()->GetName() << " got trrrrrriggered by " << col.collider->GetParent()->GetName() << std::endl;
+	}
+	void MeshCollider::OnCollisionExit(const Collision & col)
+	{
+		std::cout << col.otherCollider->GetParent()->GetName() << " no longer touching " << col.collider->GetParent()->GetName() << std::endl;
 	}
 	void MeshCollider::OnTrigger(Collider * other)
 	{

@@ -92,4 +92,8 @@ namespace sge {
 	{
 		return _frame;
 	}
+	unsigned TimeH::GetFixedFrame()
+	{
+		return _physicsStep;
+	}
 }
