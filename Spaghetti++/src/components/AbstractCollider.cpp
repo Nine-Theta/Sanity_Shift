@@ -2,6 +2,7 @@
 #include "vec2.hpp"
 #include "AbstractCollider.h"
 
+
 namespace sge {
 	AbstractCollider::AbstractCollider()
 	{
@@ -11,10 +12,19 @@ namespace sge {
 	}
 	AbstractCollider::~AbstractCollider()
 	{
+		destroyCollider();
 	}
 	btRigidBody * AbstractCollider::GetRigidbody()
 	{
 		return rbody;
+	}
+	bool AbstractCollider::isTrigger()
+	{
+		return rbody->getCollisionFlags() & btCollisionObject::CF_NO_CONTACT_RESPONSE;
+	}
+	void AbstractCollider::SetTrigger(bool trigger)
+	{
+		rbody->setCollisionFlags((rbody->getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE) | (trigger ? btCollisionObject::CF_NO_CONTACT_RESPONSE : 0));
 	}
 	void AbstractCollider::Start()
 	{
@@ -32,8 +42,18 @@ namespace sge {
 		rbody->setDamping(0.8f, 0.3f);
 		id = Physics::AddBody(rbody);
 	}
+
+	void AbstractCollider::destroyCollider()
+	{
+		Physics::RemoveBody(rbody);
+		delete rbody;
+		delete shape;
+		delete motionState;
+	}
+
 	void AbstractCollider::OnDestroy()
 	{
+		Physics::RemoveBody(rbody);
 	}
 	void AbstractCollider::Update()
 	{
@@ -49,6 +69,9 @@ namespace sge {
 	{
 	}
 	void AbstractCollider::OnCollision(Collider * other)
+	{
+	}
+	void AbstractCollider::OnCollisionStay(const Collision & col)
 	{
 	}
 	void AbstractCollider::OnTrigger(Collider * other)

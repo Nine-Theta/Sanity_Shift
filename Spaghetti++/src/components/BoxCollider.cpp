@@ -26,7 +26,9 @@ namespace sge {
 		rbody = new btRigidBody(rbInfo);
 		rbody->setRestitution(.9f);
 		rbody->setDamping(0.1f, 0.2);
+		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);
+		delete motionState;
 	}
 	void BoxCollider::OnDestroy()
 	{

@@ -6,8 +6,12 @@ namespace sge {
 	{
 		luaL_openlibs(state);
 		file = "lua/" + file;
-		if (luaL_loadfile(state, file.c_str())) {
-			throw std::runtime_error("Error loading lua file: " + file);
+		if (int err = luaL_loadfile(state, file.c_str())) {
+			//throw std::runtime_error("Error loading lua file: " + file);
+			std::string msg;
+			msg = err == LUA_ERRSYNTAX ? "LUA_ERRSYNTAX" : err == LUA_ERRMEM ? "LUA_ERRMEM" : err == LUA_ERRFILE ? "LUA_ERRFILE" : "UNKNOWN";
+			std::cout << "Error " << msg << " loading lua file: " << file << std::endl;
+			return;
 		}
 
 		int status = lua_pcall(state, 0, 0, 0);

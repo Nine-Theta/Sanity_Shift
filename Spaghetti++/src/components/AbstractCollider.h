@@ -12,15 +12,20 @@ namespace sge {
 		~AbstractCollider();
 
 		btRigidBody* GetRigidbody();
-
+		bool isTrigger();
+		void SetTrigger(bool trigger);
 		// Geerbt über Collider
 	protected:
 		AbstractCollider(float pMass = 0);
 		AbstractCollider();
+		void destroyCollider();
 		int id;
 		btRigidBody* rbody;
 		float mass;
 
+		btCollisionShape* shape;
+		btTransform transform;
+		btDefaultMotionState* motionState;
 
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;
@@ -34,6 +39,7 @@ namespace sge {
 		virtual void OnRender() override;
 
 		virtual void OnCollision(Collider * other) override;
+		virtual void OnCollisionStay(const Collision &col) override;
 
 		virtual void OnTrigger(Collider * other) override;
 

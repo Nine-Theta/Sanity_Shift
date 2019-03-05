@@ -6,6 +6,7 @@
 #include "core/Texture.hpp"
 #include "GL/glew.h"
 	class ShaderProgram;
+
 namespace sge {
 
 	/**

@@ -19,6 +19,15 @@ namespace sge {
 		virtual void OnRender() override;
 		virtual void OnCollision(Collider * other) override;
 		virtual void OnTrigger(Collider * other) override;
+		virtual void OnCollisionEnter(const Collision &col) override;
+		virtual void OnCollisionStay(const Collision &col) override;
+		virtual void OnCollisionExit(const Collision &col) override;
+		virtual void OnTriggerEnter(const Collision &col) override;
+		virtual void OnTriggerStay(const Collision &col) override;
+		virtual void OnTriggerExit(const Collision &col) override;
+
+		void CallFunction(std::string function);
+		void CallFunctionWithGameObject(std::string function, GameObject* object);
 
 		LuaState* GetState();
 	protected:
