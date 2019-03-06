@@ -45,6 +45,7 @@ namespace sge {
 	}
 	void CapsuleCollider::OnDestroy()
 	{
+		destroyCollider();
 	}
 	void CapsuleCollider::Update()
 	{

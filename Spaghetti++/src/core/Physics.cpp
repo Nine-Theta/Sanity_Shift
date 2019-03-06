@@ -43,6 +43,7 @@ namespace sge {
 	}
 	int Physics::AddBody(btRigidBody * body)
 	{
+		if (world == NULL) return 0;
 		world->addRigidBody(body);
 		return world->getNumCollisionObjects() - 1;
 	}
@@ -73,18 +74,20 @@ namespace sge {
 			int numContacts = contactManifold->getNumContacts();
 
 			if (numContacts > 0) {
+				
 				Collision col;
 				col.collider = (AbstractCollider*)obB->getUserPointer();
 				col.otherCollider = (AbstractCollider*)obA->getUserPointer();
 				col.contactPoints = numContacts;
-
-				col.otherCollider->GetParent()->OnCollisionStay(col);
+				if(col.otherCollider->GetParent() != NULL)
+					col.otherCollider->GetParent()->OnCollisionStay(col);
 
 				Collision col2;
 				col2.collider = (AbstractCollider*)obA->getUserPointer();
 				col2.otherCollider = (AbstractCollider*)obB->getUserPointer();
 				col2.contactPoints = numContacts;
 
+				if (col2.otherCollider->GetParent() != NULL)
 				col2.otherCollider->GetParent()->OnCollisionStay(col2);
 
 				ColliderPair pair;
@@ -140,19 +143,21 @@ namespace sge {
 				col.otherCollider = colA;
 
 				bool trigger = col.otherCollider->isTrigger() || col.collider->isTrigger();
-				if(trigger)
-					col.otherCollider->GetParent()->OnTriggerEnter(col);
-				else
-					col.otherCollider->GetParent()->OnCollisionEnter(col);
+				if (col.otherCollider->GetParent() != NULL && col.collider->GetParent() != NULL) {
+					if (trigger)
+						col.otherCollider->GetParent()->OnTriggerEnter(col);
+					else
+						col.otherCollider->GetParent()->OnCollisionEnter(col);
 
-				Collision col2;
-				col2.collider = colA;
-				col2.otherCollider = colB;
+					Collision col2;
+					col2.collider = colA;
+					col2.otherCollider = colB;
 
-				if(trigger)
-					col2.otherCollider->GetParent()->OnTriggerEnter(col2);
-				else
-					col2.otherCollider->GetParent()->OnCollisionEnter(col2);
+					if (trigger)
+						col2.otherCollider->GetParent()->OnTriggerEnter(col2);
+					else
+						col2.otherCollider->GetParent()->OnCollisionEnter(col2);
+				}
 			}
 			if (abs(step) != TimeH::GetFixedFrame()) {
 				Collision col;
@@ -160,20 +165,22 @@ namespace sge {
 				col.otherCollider = colA;
 
 				bool trigger = col.otherCollider->isTrigger() || col.collider->isTrigger();
-				if (trigger)
-					col.otherCollider->GetParent()->OnTriggerExit(col);
-				else
-					col.otherCollider->GetParent()->OnCollisionExit(col);
+				if (col.otherCollider->GetParent() != NULL && col.collider->GetParent() != NULL) {
+					if (trigger)
+						col.otherCollider->GetParent()->OnTriggerExit(col);
+					else
+						col.otherCollider->GetParent()->OnCollisionExit(col);
 
-				Collision col2;
-				col2.collider = colA;
-				col2.otherCollider = colB;
+					Collision col2;
+					col2.collider = colA;
+					col2.otherCollider = colB;
 
-				if (trigger)
-					col2.otherCollider->GetParent()->OnTriggerExit(col2);
-				else
-					col2.otherCollider->GetParent()->OnCollisionExit(col2);
-				oldCols.push_back(i->first);
+					if (trigger)
+						col2.otherCollider->GetParent()->OnTriggerExit(col2);
+					else
+						col2.otherCollider->GetParent()->OnCollisionExit(col2);
+					oldCols.push_back(i->first);
+				}
 			}
 		}
 		for (ColliderPair pair : oldCols) {

@@ -13,6 +13,8 @@ namespace sge {
 	void CameraComponent::OnDestroy()
 	{
 		CameraComponent::cameras.remove(this);
+		if (CameraComponent::main == this)
+			CameraComponent::main = NULL;
 	}
 	void CameraComponent::OnRender()
 	{
@@ -62,7 +64,6 @@ namespace sge {
 
 	CameraComponent::~CameraComponent()
 	{
-		CameraComponent::cameras.remove(this);
 	}
 
 	std::list<CameraComponent*> CameraComponent::GetCameras()

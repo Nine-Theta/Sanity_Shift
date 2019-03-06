@@ -39,6 +39,7 @@ namespace sge {
 	}
 	void SphereCollider::OnDestroy()
 	{
+		destroyCollider();
 	}
 	void SphereCollider::Update()
 	{

@@ -18,7 +18,6 @@ namespace sge {
 	}
 
 	LightComponent::~LightComponent() {
-		UnregisterLight(this);
 	}
 
 	//Override setWorldRecursively to make sure we are registered
@@ -164,6 +163,7 @@ namespace sge {
 
 	void LightComponent::OnDestroy()
 	{
+		UnregisterLight(this);
 	}
 
 	void LightComponent::Update()

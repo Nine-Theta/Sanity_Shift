@@ -24,7 +24,8 @@ namespace sge {
 		btDefaultMotionState* motionState = new btDefaultMotionState(transform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
 		rbody = new btRigidBody(rbInfo);
-		rbody->setRestitution(.9f);
+		rbody->setRestitution(.5f);
+		rbody->setFriction(0.5f);
 		rbody->setDamping(0.1f, 0.2);
 		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);
@@ -33,6 +34,7 @@ namespace sge {
 	}
 	void BoxCollider::OnDestroy()
 	{
+		destroyCollider();
 	}
 	void BoxCollider::Update()
 	{

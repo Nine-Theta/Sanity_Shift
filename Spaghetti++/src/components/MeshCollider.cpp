@@ -14,7 +14,6 @@ namespace sge {
 	}
 	MeshCollider::~MeshCollider()
 	{
-		destroyCollider();
 	}
 	btTriangleIndexVertexArray * MeshCollider::meshToBT(Mesh * mesh)
 	{
@@ -80,8 +79,6 @@ namespace sge {
 	{
 		Physics::RemoveBody(rbody);
 		delete rbody;
-		delete shape;
-		delete motionState;
 		delete meshArray;
 	}
 
@@ -92,6 +89,7 @@ namespace sge {
 	}
 	void MeshCollider::OnDestroy()
 	{
+		destroyCollider();
 	}
 	void MeshCollider::Update()
 	{

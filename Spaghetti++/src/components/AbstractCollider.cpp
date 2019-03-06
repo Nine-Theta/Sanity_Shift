@@ -12,7 +12,6 @@ namespace sge {
 	}
 	AbstractCollider::~AbstractCollider()
 	{
-		destroyCollider();
 	}
 	btRigidBody * AbstractCollider::GetRigidbody()
 	{
@@ -51,13 +50,11 @@ namespace sge {
 	{
 		Physics::RemoveBody(rbody);
 		delete rbody;
-		delete shape;
-		delete motionState;
 	}
 
 	void AbstractCollider::OnDestroy()
 	{
-		Physics::RemoveBody(rbody);
+		destroyCollider();
 	}
 	void AbstractCollider::Update()
 	{
