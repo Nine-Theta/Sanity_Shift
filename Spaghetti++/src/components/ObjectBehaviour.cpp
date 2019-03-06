@@ -14,6 +14,7 @@ namespace sge {
 	ObjectBehaviour::~ObjectBehaviour()
 	{
 		Game::GetInstance().RemoveFromNewComponents(this);
+		//std::cout << "DELETING A GAME OBJECT'S COMPONENT, DESTRUCTOR CALLED" << std::endl;
 	}
 
 	void ObjectBehaviour::SetParent(GameObject * p_parent)

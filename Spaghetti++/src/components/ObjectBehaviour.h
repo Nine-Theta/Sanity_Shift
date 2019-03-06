@@ -28,7 +28,7 @@ namespace sge {
 		}
 	public:
 		ObjectBehaviour();
-		~ObjectBehaviour();
+		virtual ~ObjectBehaviour();
 		void SetParent(GameObject* p_parent);
 		GameObject* GetParent();
 		virtual void SetEnabled(bool pEnabled);

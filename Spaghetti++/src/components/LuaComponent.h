@@ -9,7 +9,7 @@ namespace sge {
 	{
 	public:
 		LuaComponent(std::string file);
-		~LuaComponent();
+		~LuaComponent() override;
 
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;

@@ -79,6 +79,7 @@ namespace sge {
 	{
 		Physics::RemoveBody(rbody);
 		delete rbody;
+		delete shape;
 		delete meshArray;
 	}
 

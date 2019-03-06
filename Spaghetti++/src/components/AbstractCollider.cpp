@@ -12,8 +12,9 @@ namespace sge {
 	}
 	AbstractCollider::~AbstractCollider()
 	{
-		delete shape;
-		delete motionState;
+//		delete shape;
+//		delete motionState;
+		//std::cout << "ABSTRACT COLLIDER ON DESTROY GOT CALLED AND COLLIDER GOT DELETED!!!" << std::endl;
 	}
 	btRigidBody * AbstractCollider::GetRigidbody()
 	{
