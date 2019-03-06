@@ -11,6 +11,7 @@ namespace sge {
 			std::string msg;
 			msg = err == LUA_ERRSYNTAX ? "LUA_ERRSYNTAX" : err == LUA_ERRMEM ? "LUA_ERRMEM" : err == LUA_ERRFILE ? "LUA_ERRFILE" : "UNKNOWN";
 			std::cout << "Error " << msg << " loading lua file: " << file << std::endl;
+			std::cout << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
 			return;
 		}
 

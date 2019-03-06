@@ -12,6 +12,8 @@ namespace sge {
 	}
 	AbstractCollider::~AbstractCollider()
 	{
+		delete shape;
+		delete motionState;
 	}
 	btRigidBody * AbstractCollider::GetRigidbody()
 	{

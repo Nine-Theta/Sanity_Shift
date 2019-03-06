@@ -19,7 +19,7 @@ namespace sge {
 	struct ColliderPair {
 		AbstractCollider* colA;
 		AbstractCollider* colB;
-
+		bool trigger;
 
 		bool operator==(const ColliderPair& other) const{
 			return (int)colA + (int)colB == (int)other.colA + (int)other.colB;
@@ -54,6 +54,7 @@ namespace sge {
 		AbstractCollider*	collider;
 		AbstractCollider*	otherCollider;
 //		vec3				appliedForce;
+		bool trigger;
 		unsigned			contactPoints;
 	};
 
@@ -127,6 +128,7 @@ namespace sge {
 			}
 		};*/
 		static std::unordered_map<ColliderPair, int, collider_hash> _collisionPairs;
+		static std::unordered_map<AbstractCollider*, int> _colliders;
 
 		//static bool customContactDestroyedCallback(void* userData);
 		//static bool customContactAddedCallback(btManifoldPoint &cp, const btCollisionObjectWrapper *colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper *colObj1Wrap, int partId1, int index1);
