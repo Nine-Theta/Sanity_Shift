@@ -190,6 +190,7 @@ namespace sge {
 		{"sendMessage", sendMessage},
 		{"callFunction", callFunction},
 		{"setText", setText},
+		{"playSound", playSound},
 		{"addForce", addForce},
 		{NULL, NULL} // - signals the end of the registry
 	};
@@ -493,6 +494,16 @@ namespace sge {
 		AbstractCollider* col = obj->GetComponent<AbstractCollider>();
 		if (col != NULL)
 			col->GetRigidbody()->applyCentralForce(btVector3((float)vals[2], (float)vals[1], (float)vals[0]));
+		return 0;
+	}
+	int LuaComponent::playSound(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		SoundComponent* col = obj->GetComponent<SoundComponent>();
+		if (col != NULL)
+			col->Play();
 		return 0;
 	}
 	int LuaComponent::setWorldPos(lua_State * state)

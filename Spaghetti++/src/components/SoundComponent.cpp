@@ -43,10 +43,10 @@ namespace sge {
 
 	void sge::SoundComponent::FixedUpdate()
 	{
-		if (!IsPlaying()) {
+		/*if (!IsPlaying()) {
 			ALuint snd = _snd->GetBuffer();
 			alSourcePlay(source);
-		}
+		}*/
 		vec3 pos = CameraComponent::GetMain()->GetView() * vec4(p_gameObj->GetCombinedPosition(),1);
 		vec3 vpos = p_gameObj->GetCombinedPosition() - CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 		vec3 diff = vpos - lastPos;
@@ -77,6 +77,12 @@ namespace sge {
 		alGetSourcei(source, AL_SOURCE_STATE, &state);
 
 		return (state == AL_PLAYING);
+	}
+
+	void SoundComponent::Play()
+	{
+		ALuint snd = _snd->GetBuffer();
+		alSourcePlay(source);
 	}
 
 }

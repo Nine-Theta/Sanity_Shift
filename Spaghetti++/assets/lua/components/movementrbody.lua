@@ -26,25 +26,28 @@ function fixedupdate()
 	x = 0
 	y = 0
 	z = 0
-	if keys.pressed(keys.S) then
-		x = x + force * fx
-		y = y + force * fy
-		z = z + force * fz
+	if keys.pressed(keys.Up) then
+		--z = 1000
 	end
-	if keys.pressed(keys.W) then
+	if keys.pressed(keys.S) then
 		x = x + force * -fx
 		y = y + force * -fy
 		z = z + force * -fz
 	end
+	if keys.pressed(keys.W) then
+		x = x + force * fx
+		y = y + force * fy
+		z = z + force * fz
+	end
 	if keys.pressed(keys.D) then
-		x = x + force * -rx * 0.5
-		y = y + force * -ry * 0.5
-		z = z + force * -rz * 0.5
-		end
-	if keys.pressed(keys.A) then
 		x = x + force * rx * 0.5
 		y = y + force * ry * 0.5
 		z = z + force * rz * 0.5
+		end
+	if keys.pressed(keys.A) then
+		x = x + force * -rx * 0.5
+		y = y + force * -ry * 0.5
+		z = z + force * -rz * 0.5
 	end
 	
 	if keys.pressed(keys.Space) then
