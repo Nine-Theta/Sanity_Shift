@@ -15,7 +15,7 @@ namespace sge {
 	}
 	void CapsuleCollider::Start()
 	{
-		btCollisionShape* shape = new btCapsuleShape(radius,height);
+		btCollisionShape* shape = new btCapsuleShape(radius,height * 0.5f);
 		btTransform transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
 		shape->setMargin(0.01f);
 

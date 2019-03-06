@@ -64,10 +64,15 @@ namespace sge {
 	}
 	void AbstractCollider::FixedUpdate()
 	{
-		btTransform trans = rbody->getWorldTransform();
-		mat4 glTrans = Physics::bulletToGlm(trans);
-		//glTrans[0] = trans.
-		p_gameObj->SetWorldTransform(glTrans);
+		if (mass == 0) {
+			rbody->setWorldTransform(Physics::glmToBullet(p_gameObj->GetCombinedTransform()));
+		}
+		else {
+			btTransform trans = rbody->getWorldTransform();
+			mat4 glTrans = Physics::bulletToGlm(trans);
+			//glTrans[0] = trans.
+			p_gameObj->SetWorldTransform(glTrans);
+		}
 	}
 	void AbstractCollider::OnRender()
 	{

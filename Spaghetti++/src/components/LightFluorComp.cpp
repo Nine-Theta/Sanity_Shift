@@ -45,7 +45,7 @@ namespace sge {
 			GLLight light = lights[i];
 			if (light.minRad < 0) continue;
 			vec3 lpos = vec3(light.pos.x, light.pos.y, light.pos.z);
-			vec3 dir = normalize(lpos - pos);
+			vec3 dir = normalize(pos - lpos);
 			float angleFalloff = clamp(dot(dir, vec3(light.dir.x, light.dir.y, light.dir.z)), 0.f, 1.f);
 			float falloff = smoothstep(min(light.minRad, light.maxRad), max(light.minRad, light.maxRad), angleFalloff);
 			float dist = distance(lpos, pos);
