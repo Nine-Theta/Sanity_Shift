@@ -1,4 +1,25 @@
+
+--[[function start()
+--once = true
+--once2 = false
+end
+
+function fixedupdate()
+	if(once2) then	
+		print("init once2")
+		init()
+		once2 = false
+	end
+		
+	if(once) then
+		print("init once")
+		once = false
+		once2 = true
+end
+	end]]--
+
 function init()
+print("init")
 	local obj1 = gameObject.new()
 	obj1:setName("13cube")
 	obj1:setPos(0,1.82,5)
@@ -38,18 +59,18 @@ function init()
 	objfloor:setPos(0,0,0)
 	objfloor:addComponent("mesh", "plane20x20_2tris_aligned_uvs.obj", "rustypaint.png","rustypaint_s.png","flat_n.png")
 	objfloor:addComponent("meshcollider", "plane20x20_2tris_aligned_uvs.obj")
-	
+		
 	local obj1 = gameObject.new()
 	obj1:setName("Player")
 	obj1:setPos(0,1.4,-5)
 	obj1:setRotationQ(0.9986774,0.02353511,0.04569906,-0.001076957)
 	obj1:addComponent("lua","movementrbody.lua")
-	obj1:addComponent("capsulecollider","0.46","1.97","40")
+	obj1:addComponent("capsulecollider","0.49","1.85","40")
 		local obj2 = gameObject.new()
 		obj2:setName("PlayerFeet")
 		obj2:setPos(0,-0.95,0)
 		obj2:setRotationQ(1,0,0,0)
-		obj2:setParent(obj1)
+		obj2:setParent(obj1)		
 		obj2:addComponent("lua","turncontrol.lua")
 			local obj3 = gameObject.new()
 			obj3:setName("MainCam")
@@ -63,8 +84,7 @@ function init()
 				obj4:setPos(0,0,0)
 				obj4:setRotationQ(1,0,0,0)
 				obj4:setParent(obj3)
-				obj4:addComponent("spotlight","40000.32")
-				obj4:addComponent("lua","flashlightMove.lua")				
+				obj4:addComponent("spotlight","99999999.32")
 	
 	local objplane = gameObject.new()
 	objplane:setName("PauseScreen")
@@ -74,5 +94,25 @@ function init()
 	--objplane:addComponent("mesh","plane169test.obj","MenuScreen.dds","black.png","flat_n.png")
 	objplane:addComponent("mesh","etest.obj","white.png","gray.png","flat_n.png")		
 	objplane:setActive(false)
-	objplane:addComponent("lua", "pausecontrol.lua")
+	--objplane:addComponent("lua", "pausecontrol.lua")
+	
+	
+	local objmenu = gameObject.new()
+	objmenu:setName("Menu")	
+	objmenu:setPos(0,0,0)	
+	objmenu:addComponent("lua", "buttoncontrol.lua")
+		local objplay = gameObject.new()
+		objplay:setName("PlayButton")
+		objplay:addComponent("lua", "startgamebutton.lua")
+		objplay:setParent(objmenu)
+		local objsettings= gameObject.new()
+		objsettings:setName("SettingsButton")
+		objsettings:addComponent("lua", "settings.lua")
+		objsettings:setParent(objmenu)
+		local objexit = gameObject.new()
+		objexit:setName("ExitButton")
+		objexit:addComponent("lua", "exitgamebutton.lua")
+		objexit:setParent(objmenu)
+	
+	print("init end")
 end

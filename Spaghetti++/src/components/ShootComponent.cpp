@@ -61,9 +61,9 @@ namespace sge {
 		velocity = vec2(cos(radians(p_gameObj->getRotation())), sin(radians(p_gameObj->getRotation()))) * 1000.f;//p_gameObj->getRotation());
 		velocity += rbody->GetVelocity();
 		rbody->SetVelocity(velocity.x,velocity.y);
-		CircleCollider* col = new CircleCollider(10);
-		col->SetTrigger(true);
-		bullet->AddComponent(col);
+		//CircleCollider* col = new CircleCollider(10);
+		//col->SetTrigger(true);
+		//bullet->AddComponent(col);
 		bullet->AddComponent(rbody);
 		bullet->AddComponent(new SelfDestructComp(4));
 		bullet->SetName("Bullet");
