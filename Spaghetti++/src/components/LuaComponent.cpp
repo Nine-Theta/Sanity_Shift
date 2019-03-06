@@ -63,8 +63,8 @@ namespace sge {
 	{
 		LuaComponent* comp = _components[state];
 		LuaState* ls = comp->GetState();
-		std::cout << "Parent should be: " << comp->GetParent() << std::endl;
-		ls->PushLightUserData(comp->GetParent());
+		std::cout << "Parent should be: " << comp->GetParent()->GetParent() << std::endl;
+		ls->PushLightUserData(comp->GetParent()->GetParent());
 		return 1;
 	}
 
@@ -113,8 +113,8 @@ namespace sge {
 				obj->AddComponent(txt);
 				break;
 			}
-			case hash("collider"): obj->AddComponent(new CircleCollider(std::stoi(args[0]))); break;
-			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stoi(args[0]),true)); break;
+			case hash("collider"): obj->AddComponent(new CircleCollider(std::stof(args[0]))); break;
+			case hash("trigger"): obj->AddComponent(new CircleCollider(std::stof(args[0]),true)); break;
 			case hash("controls"): obj->AddComponent(new PlayerControls()); break;
 			case hash("glowcontroller"): obj->AddComponent(new LightFluorComp()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
@@ -130,28 +130,31 @@ namespace sge {
 				}
 				break;
 			}
-			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stoi(args[0]));
+			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stof(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(180, 180, 140), std::stoi(args[0]));
+			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(180, 180, 140), std::stof(args[0]));
 				comp->SetSpotlightAngle(10, 20);
 				comp->SetAmbient(0.000f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(3, 3, 4), std::stoi(args[0]));
+			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(3, 3, 4), std::stof(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("boxcollider"): { BoxCollider* comp = new BoxCollider(vec3(std::stoi(args[3]), std::stoi(args[2]), std::stoi(args[1])), std::stoi(args[0]));
+			case hash("boxcollider"): { 
+				vec3 dimensions = vec3(std::stof(args[3]), std::stof(args[2]), std::stof(args[1]));
+				std::cout << "Parsed collider and should be: " << args[1] << " and is: " << dimensions.z << std::endl;
+				BoxCollider* comp = new BoxCollider(dimensions, std::stof(args[0]));
 				obj->AddComponent(comp); break;
 			}
-			case hash("spherecollider"): { SphereCollider* comp = new SphereCollider(std::stoi(args[1]), std::stoi(args[0]));
+			case hash("spherecollider"): { SphereCollider* comp = new SphereCollider(std::stof(args[1]), std::stof(args[0]));
 				obj->AddComponent(comp); break;
 			}
-			case hash("capsulecollider"): { CapsuleCollider* comp = new CapsuleCollider(std::stoi(args[2]), std::stoi(args[1]), std::stoi(args[0]));
+			case hash("capsulecollider"): { CapsuleCollider* comp = new CapsuleCollider(std::stof(args[2]), std::stof(args[1]), std::stof(args[0]));
 				obj->AddComponent(comp); break;
 			}
 			case hash("meshcollider"): { MeshCollider* comp = new MeshCollider(args[0]);
@@ -190,6 +193,7 @@ namespace sge {
 		{"sendMessage", sendMessage},
 		{"callFunction", callFunction},
 		{"setText", setText},
+		{"playSound", playSound},
 		{"addForce", addForce},
 		{NULL, NULL} // - signals the end of the registry
 	};
@@ -494,6 +498,16 @@ namespace sge {
 		AbstractCollider* col = obj->GetComponent<AbstractCollider>();
 		if (col != NULL)
 			col->GetRigidbody()->applyCentralForce(btVector3((float)vals[2], (float)vals[1], (float)vals[0]));
+		return 0;
+	}
+	int LuaComponent::playSound(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		SoundComponent* col = obj->GetComponent<SoundComponent>();
+		if (col != NULL)
+			col->Play();
 		return 0;
 	}
 	int LuaComponent::setWorldPos(lua_State * state)

@@ -185,11 +185,11 @@ namespace sge {
 
 	vec3 GameObject::forward()
 	{
-		return -_combinedTransform[2];
+		return _combinedTransform[2];
 	}
 	vec3 GameObject::right()
 	{
-		return _combinedTransform[0];
+		return -_combinedTransform[0];
 	}
 	vec3 GameObject::up()
 	{

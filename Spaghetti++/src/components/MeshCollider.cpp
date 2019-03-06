@@ -14,7 +14,6 @@ namespace sge {
 	}
 	MeshCollider::~MeshCollider()
 	{
-		destroyCollider();
 	}
 	btTriangleIndexVertexArray * MeshCollider::meshToBT(Mesh * mesh)
 	{
@@ -58,7 +57,7 @@ namespace sge {
 			meshArray = meshToBTSlow(cmesh);
 		mass = 0.f;
 		shape = new btBvhTriangleMeshShape(meshArray, true);
-		shape->setMargin(0.2f);
+		shape->setMargin(0.01f);
 		transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
 
 		btVector3 inertia(0, 0, 0);
@@ -80,8 +79,6 @@ namespace sge {
 	{
 		Physics::RemoveBody(rbody);
 		delete rbody;
-		delete shape;
-		delete motionState;
 		delete meshArray;
 	}
 
@@ -92,6 +89,7 @@ namespace sge {
 	}
 	void MeshCollider::OnDestroy()
 	{
+		destroyCollider();
 	}
 	void MeshCollider::Update()
 	{

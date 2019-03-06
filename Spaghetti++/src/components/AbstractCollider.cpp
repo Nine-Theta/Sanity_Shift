@@ -12,7 +12,6 @@ namespace sge {
 	}
 	AbstractCollider::~AbstractCollider()
 	{
-		destroyCollider();
 	}
 	btRigidBody * AbstractCollider::GetRigidbody()
 	{
@@ -51,23 +50,26 @@ namespace sge {
 	{
 		Physics::RemoveBody(rbody);
 		delete rbody;
-		delete shape;
-		delete motionState;
 	}
 
 	void AbstractCollider::OnDestroy()
 	{
-		Physics::RemoveBody(rbody);
+		destroyCollider();
 	}
 	void AbstractCollider::Update()
 	{
 	}
 	void AbstractCollider::FixedUpdate()
 	{
-		btTransform trans = rbody->getWorldTransform();
-		mat4 glTrans = Physics::bulletToGlm(trans);
-		//glTrans[0] = trans.
-		p_gameObj->SetWorldTransform(glTrans);
+		if (mass == 0) {
+			rbody->setWorldTransform(Physics::glmToBullet(p_gameObj->GetCombinedTransform()));
+		}
+		else {
+			btTransform trans = rbody->getWorldTransform();
+			mat4 glTrans = Physics::bulletToGlm(trans);
+			//glTrans[0] = trans.
+			p_gameObj->SetWorldTransform(glTrans);
+		}
 	}
 	void AbstractCollider::OnRender()
 	{

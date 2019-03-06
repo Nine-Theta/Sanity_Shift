@@ -14,9 +14,9 @@ namespace sge {
 	}
 	void BoxCollider::Start()
 	{
-		btCollisionShape* shape = new btBoxShape(btVector3(1, 1, 1));
+		btCollisionShape* shape = new btBoxShape(btVector3(dimensions.x * 0.5f, dimensions.y * 0.5f, dimensions.z * 0.5f));//new btBoxShape(btVector3(1.32f, 2.33f, 0.15f)); 
 		btTransform transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
-		shape->setMargin(0.01);
+		//shape->setMargin(0.01f);
 		btVector3 inertia(0, 0, 0);
 		if (mass > 0.f)
 			shape->calculateLocalInertia(mass, inertia);
@@ -24,16 +24,17 @@ namespace sge {
 		btDefaultMotionState* motionState = new btDefaultMotionState(transform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
 		rbody = new btRigidBody(rbInfo);
-		rbody->setRestitution(.9f);
+		rbody->setRestitution(.5f);
+		rbody->setFriction(0.5f);
 		rbody->setDamping(0.1f, 0.2);
 		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);
-		delete motionState;
 
 		SetTrigger(trigger);
 	}
 	void BoxCollider::OnDestroy()
 	{
+		destroyCollider();
 	}
 	void BoxCollider::Update()
 	{

@@ -9,6 +9,7 @@ namespace sge {
 	public:
 		Sound* GetSound();
 		bool IsPlaying();
+		void Play();
 		SoundComponent(std::string filepath);
 		~SoundComponent();
 	private:

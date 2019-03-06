@@ -71,7 +71,7 @@ float distanceFalloff(Light lt){
 }
 
 float spotAngleFalloff(Light lt){
-	vec3 dir = normalize(lt.pos.xyz - fPos);
+	vec3 dir = normalize(fPos - lt.pos.xyz);
 	float proj = dot(dir, lt.dir.xyz);
 	float falloff = smoothstep(min(lt.minRad,lt.maxRad), max(lt.minRad,lt.maxRad), proj);//clamp(inverseLerp(proj,lt.minRad,lt.maxRad),0,1);
 	return clamp(falloff * falloff,0,1);
