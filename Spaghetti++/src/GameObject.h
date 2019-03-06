@@ -36,6 +36,7 @@ namespace sge {
 		glm::mat4 GetCombinedTransform() const;
 		sge::GOState GetObjectState();
 		GameObject* GetParent();
+		std::vector<GameObject*> GetChildren();
 		Collider* GetCollider();
 		void OnDestroy();
 		static GameObject* Create();

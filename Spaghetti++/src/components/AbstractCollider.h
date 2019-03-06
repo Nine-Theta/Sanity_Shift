@@ -20,8 +20,10 @@ namespace sge {
 		AbstractCollider();
 		void destroyCollider();
 		int id;
-		btRigidBody* rbody;
+		btRigidBody* rbody = NULL;
 		float mass;
+
+		bool trigger = false;
 
 		btCollisionShape* shape;
 		btTransform transform;

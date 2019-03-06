@@ -40,6 +40,8 @@ namespace sge {
 
 		//std::cout << gContactAddedCallback << " = Contact added callback" <<  std::endl;
 		//delete shape;
+
+		SetTrigger(trigger);
 	}
 	void CapsuleCollider::OnDestroy()
 	{

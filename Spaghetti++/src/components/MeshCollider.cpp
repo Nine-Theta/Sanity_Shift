@@ -88,6 +88,7 @@ namespace sge {
 	void MeshCollider::Start()
 	{
 		makeCollider();
+		SetTrigger(trigger);
 	}
 	void MeshCollider::OnDestroy()
 	{

@@ -29,6 +29,8 @@ namespace sge {
 		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);
 		delete motionState;
+
+		SetTrigger(trigger);
 	}
 	void BoxCollider::OnDestroy()
 	{

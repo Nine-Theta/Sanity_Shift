@@ -18,6 +18,7 @@ namespace sge {
 		void OpenTable(std::string table);
 		void SaveTable(std::string name, std::string metatable = "");
 		void PushToTable(std::string key, int value);
+		void PushToTable(std::string key, void* value);
 		void PushToTable(std::string key, std::string value);
 		std::vector<std::string> CallFunction(std::string name, int returns = 0);
 		std::vector<std::string> CallFunction(std::string name, std::vector<std::string> args, int returns = 0);
