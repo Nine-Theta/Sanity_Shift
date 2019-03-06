@@ -155,6 +155,13 @@ namespace sge {
 		lua_settable(state, -3);
 	}
 
+	void LuaState::PushToTable(std::string table, void * value)
+	{
+		lua_pushstring(state, table.c_str());
+		lua_pushlightuserdata(state, value);
+		lua_settable(state, -3);
+	}
+
 	std::vector<std::string> LuaState::CallFunction(std::string name, int returns)
 	{
 		return CallFunction(name, std::vector<std::string>{},returns);

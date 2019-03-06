@@ -444,6 +444,10 @@ namespace sge {
 	{
 		return _p_parent;
 	}
+	std::vector<GameObject*> GameObject::GetChildren()
+	{
+		return _children;
+	}
 	Collider * GameObject::GetCollider()
 	{
 		return _collider;

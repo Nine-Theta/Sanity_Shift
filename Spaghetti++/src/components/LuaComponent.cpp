@@ -167,6 +167,7 @@ namespace sge {
 
 	const struct luaL_Reg LuaComponent::gameObjectMetaLib[] = {
 		{"getParent", getLParent},
+		{"getChildren", getChildren},
 		{"addComponent", addComponent},
 		{"removeComponent", removeComponent},
 		{"delete", gDelete},
@@ -319,13 +320,16 @@ namespace sge {
 		lua_getglobal(state, function.c_str());
 		//_state.PushLightUserData(other->GetParent());
 		lua_pcall(state, 0, 0, 0);
+		/*if (status) {
+			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
+		}*/
 	}
 	void LuaComponent::CallFunctionWithGameObject(std::string function, GameObject * object)
 	{
 		lua_State* state = _state.GetState();
 		lua_getglobal(state, function.c_str());
 		_state.PushLightUserData(object);
-		lua_pcall(state, 1, 1, 0);
+		lua_pcall(state, 1, 0, 0);
 	}
 	LuaState * LuaComponent::GetState()
 	{
@@ -711,6 +715,19 @@ namespace sge {
 		return 0;
 	}
 
+	int LuaComponent::getChildren(lua_State* state) {
+		lua_newtable(state);
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetParent();
+		std::vector<GameObject*> children = obj->GetChildren();
+		int childrenC = children.size();
+		for (int i = 0; i < childrenC; i++) {
+			//comp->GetState()->PushToTable(std::to_string(i), children[i]);
+			lua_pushlightuserdata(state, children[i]);
+			lua_rawseti(state, -2, i);
+		}
+		return 1;
+	}
 	/*
 	int LuaComponent::isKeyDown(lua_State * state)
 	{
