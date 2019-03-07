@@ -15,7 +15,13 @@ angleS = 0
 direction = 1
 secs = 0.95
 ctime = 0
+
+timeToClose = 0
 function fixedupdate()
+	timeToClose = timeToClose - time.fixedDelta()
+	if timeToClose < 0 then
+		direction = 1
+	end
 	ctime = math.Clamp(ctime + (time.fixedDelta() / secs) * direction,0,1)
 	angleS = (1 - math.pow(ctime,4)) * maxAngle
 	door:setRotation(0,1,0,angleS)
@@ -31,5 +37,8 @@ function onraycasthit(caster)
 		--	angle = 0
 		--end
 		direction = -direction
+		if direction == -1 then
+			timeToClose = 7
+		end
 	end
 end

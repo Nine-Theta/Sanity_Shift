@@ -20,6 +20,7 @@
 #include "CapsuleCollider.h"
 #include "LightFluorComp.h"
 #include "CameraRayComp.h"
+#include "MannequinTriggerComp.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -120,6 +121,7 @@ namespace sge {
 			case hash("glowcontroller"): obj->AddComponent(new LightFluorComp()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			case hash("raycast"): obj->AddComponent(new CameraRayComp()); break;
+			case hash("mannequin"): obj->AddComponent(new MannequinTriggerComp()); break;
 			case hash("mesh"): { 
 				if(args.size() == 5)
 					obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0]))); 
