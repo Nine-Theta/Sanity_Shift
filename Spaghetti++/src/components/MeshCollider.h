@@ -19,12 +19,12 @@ namespace sge {
 
 		//Collider related
 		btTriangleIndexVertexArray* meshArray;
-		btCollisionShape* shape;
-		btTransform transform;
-		btDefaultMotionState* motionState;
+		//btCollisionShape* shape;
+		//btTransform transform;
+		//btDefaultMotionState* motionState;
 
 		void makeCollider();
-		void destroyCollider();
+		void destroyCollider() override;
 
 		btTriangleIndexVertexArray* meshToBT(Mesh* mesh);
 		btTriangleMesh* meshToBTSlow(Mesh* mesh);

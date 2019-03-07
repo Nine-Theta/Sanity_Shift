@@ -72,6 +72,7 @@ namespace sge {
 		while (TimeH::DoFixedStep()) {
 			//std::cout << TimeH::GetFramerate() << std::endl;
 			doFixedUpdate();
+			destroyOldObjects();
 		}
 		doUpdate();
 		//clear(sf::Color(0x152215FF));

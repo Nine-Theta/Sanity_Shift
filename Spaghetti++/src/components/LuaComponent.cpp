@@ -33,6 +33,7 @@ namespace sge {
 	LuaComponent::~LuaComponent()
 	{
 		_components.erase(_state.GetState());
+		//std::cout << "Deleted a lua component" << std::endl;
 	}
 	void LuaComponent::Start()
 	{

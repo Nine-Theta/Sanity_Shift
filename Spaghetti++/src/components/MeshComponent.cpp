@@ -26,6 +26,7 @@ namespace sge {
 
 	MeshComponent::~MeshComponent()
 	{
+		//std::cout << "DELETED A MESH RENDERER!!" << std::endl;
 	}
 
 	AbstractMaterial * MeshComponent::GetMaterial()

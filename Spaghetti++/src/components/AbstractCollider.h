@@ -9,7 +9,7 @@ namespace sge {
 	class AbstractCollider : public ObjectBehaviour//all it does is keep track and control bullet colliders
 	{
 	public:
-		~AbstractCollider();
+		~AbstractCollider() override;
 
 		btRigidBody* GetRigidbody();
 		bool isTrigger();
@@ -18,7 +18,7 @@ namespace sge {
 	protected:
 		AbstractCollider(float pMass = 0);
 		AbstractCollider();
-		void destroyCollider();
+		virtual void destroyCollider();
 		int id;
 		btRigidBody* rbody = NULL;
 		float mass;

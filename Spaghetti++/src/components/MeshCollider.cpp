@@ -70,15 +70,16 @@ namespace sge {
 		rbody = new btRigidBody(rbInfo);
 		rbody->setRestitution(.8f);
 		rbody->setFriction(0.3f);
+		rbody->setUserPointer(this);
 		Physics::AddBody(rbody);
 		p_gameObj->SetWorldTransform(Physics::bulletToGlm(rbody->getWorldTransform()));
-		rbody->setUserPointer(this);
 	}
 
 	void MeshCollider::destroyCollider()
 	{
 		Physics::RemoveBody(rbody);
 		delete rbody;
+		delete shape;
 		delete meshArray;
 	}
 
@@ -113,15 +114,15 @@ namespace sge {
 	}
 	void MeshCollider::OnCollisionEnter(const Collision & col)
 	{
-		std::cout << col.otherCollider->GetParent()->GetName() << " got hit by " << col.collider->GetParent()->GetName() << std::endl;
+		//std::cout << col.otherCollider->GetParent()->GetName() << " got hit by " << col.collider->GetParent()->GetName() << std::endl;
 	}
 	void MeshCollider::OnTriggerEnter(const Collision & col)
 	{
-		std::cout << col.otherCollider->GetParent()->GetName() << " got trrrrrriggered by " << col.collider->GetParent()->GetName() << std::endl;
+		//std::cout << col.otherCollider->GetParent()->GetName() << " got trrrrrriggered by " << col.collider->GetParent()->GetName() << std::endl;
 	}
 	void MeshCollider::OnCollisionExit(const Collision & col)
 	{
-		std::cout << col.otherCollider->GetParent()->GetName() << " no longer touching " << col.collider->GetParent()->GetName() << std::endl;
+		//std::cout << col.otherCollider->GetParent()->GetName() << " no longer touching " << col.collider->GetParent()->GetName() << std::endl;
 	}
 	void MeshCollider::OnTrigger(Collider * other)
 	{

@@ -482,6 +482,7 @@ namespace sge {
 		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
 			ObjectBehaviour* obj = (*itr);
 			obj->OnDestroy();
+			//std::cout << "Deleting a component! " << std::endl;
 			Game::GetInstance().RemoveFromNewComponents(obj);
 			delete obj;
 		}
