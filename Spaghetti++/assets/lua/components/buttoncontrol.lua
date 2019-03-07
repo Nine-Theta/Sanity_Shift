@@ -21,7 +21,7 @@ function fixedupdate()
 	if(keys.down(keys.Numpad2)) then
 		settings:callFunction("Invoke")
 		end	
-	if(keys.down(keys.Numpad3)) then
+	if(keys.pressed(keys.Numpad3)) then
 		exitb:callFunction("Invoke")
 		end	
 end

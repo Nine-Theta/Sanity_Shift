@@ -10,6 +10,14 @@ function update() --currently disabled
 end
 
 function Invoke()
+
+	gameObject.deleteAll()
+local obj =  gameObject.new()
+	obj:setName("scene")	
+	obj:addComponent("lua", "../startscene.lua")
+	obj:callFunction("init")
+
+--[[
 	print("exitbutton invoked")
 	gameObject.deleteAll()
 	
@@ -48,7 +56,7 @@ function Invoke()
 		local objexit = gameObject.new()
 		objexit:setName("ExitButton")
 		objexit:addComponent("lua", "exitgamebutton.lua")
-		objexit:setParent(objmenu)
+		objexit:setParent(objmenu)]]--
 	--mouse.loadscene()
 	--[[
 	gameObject.deleteAll()

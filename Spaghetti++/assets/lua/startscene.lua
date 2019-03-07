@@ -1,7 +1,7 @@
 
---[[function start()
---once = true
---once2 = false
+function start()
+once = true
+once2 = false
 end
 
 function fixedupdate()
@@ -16,7 +16,7 @@ function fixedupdate()
 		once = false
 		once2 = true
 end
-	end]]--
+	end
 
 function init()
 print("init")
@@ -31,6 +31,8 @@ print("init")
 		obj2:setPos(0,0,0)
 		obj2:setRotationQ(1,0,0,0)
 		obj2:setParent(obj1)
+		
+		print("init banana tesseract")
 
 	local obj1 = gameObject.new()
 	obj1:setName("Hitler")
@@ -43,6 +45,8 @@ print("init")
 		obj2:setParent(obj1)
 		obj2:addComponent("mesh","Hitler.obj","white.png","white.png","flat_n.png")
 		
+		print("init hitler ein")
+		
 	local obj1 = gameObject.new()
 	obj1:setName("Hitler2")
 	obj1:setPos(1.5,0.1,1.5)
@@ -54,11 +58,15 @@ print("init")
 		obj2:setParent(obj1)
 		obj2:addComponent("mesh","Hitler.obj","white.png","white.png","flat_n.png")
 		
+		print("init hitler zwei")
+		
 	local objfloor = gameObject.new()
 	objfloor:setName("Floor")
 	objfloor:setPos(0,0,0)
 	objfloor:addComponent("mesh", "plane20x20_2tris_aligned_uvs.obj", "rustypaint.png","rustypaint_s.png","flat_n.png")
 	objfloor:addComponent("meshcollider", "plane20x20_2tris_aligned_uvs.obj")
+		
+		print("init floor")
 		
 	local obj1 = gameObject.new()
 	obj1:setName("Player")
@@ -85,17 +93,20 @@ print("init")
 				obj4:setRotationQ(1,0,0,0)
 				obj4:setParent(obj3)
 				obj4:addComponent("spotlight","99999999.32")
+				
+				print("init player full")
 	
 	local objplane = gameObject.new()
 	objplane:setName("PauseScreen")
 	objplane:setPos(0,0,3)
-	--objplane:setRotationQ(0,0,-0.7,0.7)
+	objplane:setRotationQ(0,0,-0.7,0.7)
 	objplane:setParent(obj3)
-	--objplane:addComponent("mesh","plane169test.obj","MenuScreen.dds","black.png","flat_n.png")
+	objplane:addComponent("mesh","plane169test.obj","MenuScreen.dds","black.png","flat_n.png")
 	objplane:addComponent("mesh","etest.obj","white.png","gray.png","flat_n.png")		
 	objplane:setActive(false)
-	--objplane:addComponent("lua", "pausecontrol.lua")
+	objplane:addComponent("lua", "pausecontrol.lua")
 	
+	print("init pausescreen")
 	
 	local objmenu = gameObject.new()
 	objmenu:setName("Menu")	
