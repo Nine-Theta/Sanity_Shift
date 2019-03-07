@@ -28,7 +28,7 @@ namespace sge {
 
 	void sge::CameraRayComp::FixedUpdate()
 	{
-		RaycastHit hit = Physics::Raycast(p_gameObj->GetCombinedPosition(), p_gameObj->forward(), 400);
+		RaycastHit hit = Physics::Raycast(p_gameObj->GetCombinedPosition() + p_gameObj->forward() * 0.5f, p_gameObj->forward(), 5);
 		//std::cout << "Raycast hit a collider: " << (hit.hit ? hit.collider->GetParent()->GetName() : "No") << std::endl;
 		if (!hit.hit) return;
 		if (lua != NULL)

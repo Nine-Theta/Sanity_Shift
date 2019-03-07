@@ -137,7 +137,7 @@ namespace sge {
 				obj->AddComponent(comp); break;
 			}
 			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(180, 180, 140), std::stof(args[0]));
-				comp->SetSpotlightAngle(10, 20);
+				comp->SetSpotlightAngle(10, 28);
 				comp->SetAmbient(0.000f);
 				obj->AddComponent(comp); break;
 			}
@@ -506,8 +506,12 @@ namespace sge {
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		SoundComponent* col = obj->GetComponent<SoundComponent>();
-		if (col != NULL)
+		if (col != NULL) {
 			col->Play();
+		}
+		else {
+			std::cout << "ATTEMPTED TO PLAY A SOUND THAT DOES NOT EXIST " << std::endl;
+		}
 		return 0;
 	}
 	int LuaComponent::setWorldPos(lua_State * state)
