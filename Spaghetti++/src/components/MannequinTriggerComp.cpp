@@ -67,7 +67,7 @@ namespace sge {
 			intensity += clamp(falloff * falloff, 0.f, 1.f) * distFalloff;
 		}
 
-		if (intensity > 0.01f) {
+		if (intensity > 0.05f) {
 			if (_toChange)
 				swapModel();
 

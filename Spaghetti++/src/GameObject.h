@@ -25,9 +25,11 @@ namespace sge {
 		bool isstatic = true;
 		Rigidbody2D* rigidbody = NULL;
 		bool enabled = true;
+		bool moved = false;
 		void SetObjectState(GOState state);
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);
+		void FlagMoved();
 
 	public:
 		GameObject();
@@ -53,7 +55,7 @@ namespace sge {
 		void SetWorldPosition(glm::vec3 pos);
 		void SetPosition(glm::vec3 pos);
 		void SetWorldTransform(mat4 transform);
-		void UpdateTransform();
+		void UpdateTransform(bool flag = false);
 		void Rotate(glm::vec3 axis, float angle);
 		void SetWorldRotation(glm::vec3 axis, float angle);
 		void SetRotation(glm::vec3 axis, float angle);
