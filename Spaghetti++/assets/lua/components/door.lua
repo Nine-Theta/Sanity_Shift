@@ -8,6 +8,7 @@ end
 
 function start()
 	door = parent:getParent():getParent()
+	parent:setDistanceLimit(15)
 	print("DOOR INITIALISED")
 end
 maxAngle = 100
