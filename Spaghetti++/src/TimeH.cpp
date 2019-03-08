@@ -1,5 +1,6 @@
 #include "TimeH.h"
 #include "SFML/System/Clock.hpp"
+#include <iostream>
 namespace sge {
 	//unsigned long Time::MicroTime();
 
@@ -17,6 +18,8 @@ namespace sge {
 	float TimeH::_maxGap = 0.2f;
 	float TimeH::_timeScale = 1.0f;
 	int TimeH::_frameRate = 0;
+	int TimeH::_frameLast = 0;
+	int TimeH::_frameNow = 0;
 
 	unsigned long TimeH::_frame = 0;
 	unsigned long TimeH::_physicsStep = 0;
@@ -43,6 +46,11 @@ namespace sge {
 		_fixedTimeToComplete -= _stepsToComplete * _fixedDelta;
 		_frameRate = (int)(1.f / _lastDelta);
 		_frame++;
+		if (_physicsStep % 120 == 0 && _stepsToComplete != 0) {
+			_frameLast = _frameNow;
+			_frameNow = _frame;
+			//std::cout << "Updated framerate avg" << std::endl;
+		}
 	}
 
 	void TimeH::SetTimeScale(float scale = 1.0f)
@@ -78,6 +86,11 @@ namespace sge {
 	int TimeH::GetFramerate()
 	{
 		return _frameRate;
+	}
+
+	int TimeH::GetFramerateAvg()
+	{
+		return _frameNow - _frameLast;
 	}
 
 	float TimeH::DeltaTime()

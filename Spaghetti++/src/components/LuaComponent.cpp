@@ -20,6 +20,7 @@
 #include "CapsuleCollider.h"
 #include "LightFluorComp.h"
 #include "CameraRayComp.h"
+#include "MannequinTriggerComp.h"
 namespace sge {
 
 	std::map <lua_State*, LuaComponent*> LuaComponent::_components;
@@ -50,6 +51,9 @@ namespace sge {
 		registerKeys();
 		_state.RegisterLib(mouseLib, "mouse");
 		_state.CallFunction("start");
+		distTarget = CameraComponent::GetMain() != NULL ? CameraComponent::GetMain()->GetParent() : NULL;
+		if (distTarget == NULL)
+			distTarget = GetParent();
 //		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;
 		
 	}
@@ -120,6 +124,7 @@ namespace sge {
 			case hash("glowcontroller"): obj->AddComponent(new LightFluorComp()); break;
 			case hash("lua"): obj->AddComponent(new LuaComponent(args[0])); break;
 			case hash("raycast"): obj->AddComponent(new CameraRayComp()); break;
+			case hash("mannequin"): obj->AddComponent(new MannequinTriggerComp()); break;
 			case hash("mesh"): { 
 				if(args.size() == 5)
 					obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0]))); 
@@ -196,6 +201,7 @@ namespace sge {
 		{"setText", setText},
 		{"playSound", playSound},
 		{"addForce", addForce},
+		{"setDistanceLimit", setDistanceLimit},
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -252,14 +258,20 @@ namespace sge {
 	}
 	void LuaComponent::Update()
 	{
+		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) {
+			//std::cout << "A lua comp was not updated because the dist limit was reached: " << GetParent()->GetName() << std::endl;
+			return;
+		}
 		_state.CallFunction("update");
 	}
 	void LuaComponent::FixedUpdate()
 	{
+		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) return;
 		_state.CallFunction("fixedupdate");
 	}
 	void LuaComponent::OnRender()
 	{
+		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) return;
 		_state.CallFunction("onrender");
 	}
 	void LuaComponent::OnCollision(Collider * other)
@@ -521,6 +533,15 @@ namespace sge {
 		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
 		//std::cout << "Test: " << vals.size() << std::endl;
 		obj->SetWorldPosition(glm::vec3((float)vals[2], (float)vals[1], (float)vals[0]));
+		return 0;
+	}
+	int LuaComponent::setDistanceLimit(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Test: " << vals.size() << std::endl;
+		comp->distLimitSq = pow((float)vals[0], 2);
 		return 0;
 	}
 	int LuaComponent::rotate(lua_State * state)

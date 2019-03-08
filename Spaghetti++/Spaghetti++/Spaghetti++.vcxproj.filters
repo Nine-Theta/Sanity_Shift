@@ -198,6 +198,9 @@
     <ClCompile Include="..\src\components\CameraRayComp.cpp">
       <Filter>Quelldateien\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\components\MannequinTriggerComp.cpp">
+      <Filter>Quelldateien\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -371,6 +374,9 @@
       <Filter>Headerdateien\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\components\CameraRayComp.h">
+      <Filter>Headerdateien\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\components\MannequinTriggerComp.h">
       <Filter>Headerdateien\Components</Filter>
     </ClInclude>
   </ItemGroup>

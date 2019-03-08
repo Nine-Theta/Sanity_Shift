@@ -44,9 +44,6 @@ namespace sge {
 	void SphereCollider::Update()
 	{
 	}
-	void SphereCollider::OnRender()
-	{
-	}
 	void SphereCollider::OnCollision(Collider * other)
 	{
 	}

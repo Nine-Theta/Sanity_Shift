@@ -39,9 +39,6 @@ namespace sge {
 	void BoxCollider::Update()
 	{
 	}
-	void BoxCollider::OnRender()
-	{
-	}
 	void BoxCollider::OnCollision(Collider * other)
 	{
 	}

@@ -20,8 +20,9 @@ namespace sge {
 		shape->setMargin(0.01f);
 
 		btVector3 inertia(0, 0, 0);
-		if (mass > 0.f)
+		if (mass > 0.f) {
 			shape->calculateLocalInertia(mass, inertia);
+		}
 
 		btDefaultMotionState* motionState = new btDefaultMotionState(transform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
@@ -36,7 +37,11 @@ namespace sge {
 		rbody->setAngularFactor(angularfactor);
 		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);
-		rbody->setCollisionFlags(rbody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+		rbody->activate(true);
+		if (mass <= 0.f) {
+			//rbody->setCollisionFlags(rbody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+		}
+		//rbody->setCollisionFlags(rbody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
 
 		//std::cout << gContactAddedCallback << " = Contact added callback" <<  std::endl;
 		//delete shape;
@@ -48,9 +53,6 @@ namespace sge {
 		destroyCollider();
 	}
 	void CapsuleCollider::Update()
-	{
-	}
-	void CapsuleCollider::OnRender()
 	{
 	}
 	void CapsuleCollider::OnCollision(Collider * other)

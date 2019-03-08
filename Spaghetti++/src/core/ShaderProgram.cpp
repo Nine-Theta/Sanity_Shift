@@ -2,6 +2,7 @@
 #include <fstream>
 #include "core/ShaderProgram.hpp"
 #include "Settings.h"
+GLint ShaderProgram::_activeID = -1;
 
 ShaderProgram::ShaderProgram():_programId(0), _shaderIds() {
     //why does opengl use glCreateProgram and not glGenProgram (1, &_programID)? Who knows:) *shrugs*
@@ -107,5 +108,8 @@ GLint ShaderProgram::getProgramID()
 
 void ShaderProgram::use()
 {
+	if (_programId == _activeID) 
+		return;
     glUseProgram(_programId);
+	_activeID = _programId;
 }

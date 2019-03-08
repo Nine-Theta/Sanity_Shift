@@ -77,8 +77,8 @@ namespace sge {
 	void SpecularMaterial::render(sge::MeshComponent* mesh, sge::CameraComponent* cam) {
 		if (!_diffuseTexture) return;
 
+		//return;
 		_shader->use();
-
 		//Print the number of lights in the scene and the position of the first light.
 		//It is not used, but this demo is just meant to show you THAT materials can access the lights in a world
 		//if (pWorld->getLightCount() > 0) {
