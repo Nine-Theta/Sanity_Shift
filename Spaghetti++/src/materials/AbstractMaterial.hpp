@@ -35,6 +35,9 @@ namespace sge {
 		 * Render the given mesh in the given world using the given mvp matrices. Implement in subclass.
 		 */
 		virtual void render(MeshComponent* mesh, CameraComponent* cam = NULL) = 0;
+		static unsigned GetRenderedPolys();
+	protected:
+		static unsigned _renderedPolys;
 	};
 }
 

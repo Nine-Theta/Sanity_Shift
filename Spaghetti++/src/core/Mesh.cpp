@@ -404,6 +404,10 @@ namespace sge {
 	{
 		return _vertices;
 	}
+	unsigned Mesh::GetPolyCount()
+	{
+		return _indices.size() / 3.0f;
+	}
 }
 
 

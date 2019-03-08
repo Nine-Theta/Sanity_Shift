@@ -128,6 +128,7 @@ namespace sge {
 
 			//now inform mesh of where to stream its data
 		mesh->GetMesh()->streamToOpenGL(_aVertex, _aNormal, _aTangent, _aUV);
+		_renderedPolys += mesh->GetMesh()->GetPolyCount();
 		//mesh->GetMesh()->drawDebugInfo(mMatrix, vMatrix, pMatrix);
 		//mesh->GetMesh()->streamToOpenGL(_aVertex, _aNormal, _aUV);
 	}

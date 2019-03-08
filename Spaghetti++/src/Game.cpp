@@ -57,6 +57,7 @@ namespace sge {
 		sge::TimeH::Update();
 		initNewComponents();
 		sf::Event event;
+		unsigned polys = AbstractMaterial::GetRenderedPolys();
 		while (pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed) {
@@ -73,7 +74,7 @@ namespace sge {
 			//std::cout << TimeH::GetFramerate() << std::endl;
 			doFixedUpdate();
 			destroyOldObjects();
-			setTitle(sge::Settings::GetSetting("windowname") + " FPS: " + std::to_string(TimeH::GetFramerateAvg()));
+			setTitle(sge::Settings::GetSetting("windowname") + " FPS: " + std::to_string(TimeH::GetFramerateAvg()) + " Triangles: " + std::to_string(polys));
 		}
 		doUpdate();
 		//clear(sf::Color(0x152215FF));

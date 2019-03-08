@@ -38,6 +38,8 @@ namespace sge {
 		std::vector<unsigned int> &GetIndices();
 		std::vector<glm::vec3> &GetVertices();
 
+		unsigned GetPolyCount();
+
 	protected:
 		Mesh();
 		virtual ~Mesh();
