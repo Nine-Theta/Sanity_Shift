@@ -12,6 +12,7 @@ namespace sge {
 		static float UnscaledDelta();
 		static bool DoFixedStep();
 		static int GetFramerate();
+		static int GetFramerateAvg();
 		static float DeltaTime();
 		static float FixedDelta();
 		static float TimeRunning();
@@ -30,6 +31,8 @@ namespace sge {
 		static float _maxGap;// = 0.2;
 		static float _timeScale; // = 1.0f;
 		static int _frameRate;// = 0;
+		static int _frameNow;// = 0;
+		static int _frameLast;// = 0;
 
 		static unsigned long _frame;// = 0;
 		static unsigned long _physicsStep;// = 0;

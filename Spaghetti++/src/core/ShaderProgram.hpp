@@ -40,6 +40,7 @@ class ShaderProgram
 
 	private:
 	    GLint _programId;
+		static GLint _activeID;
 
 	    std::vector<GLuint> _shaderIds;
 

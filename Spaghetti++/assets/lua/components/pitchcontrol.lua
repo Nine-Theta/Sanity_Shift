@@ -5,6 +5,7 @@ function start()
 	--print(test.test())
 	light = gameObject.find("Flashlight") 
 	--also controls the flashlight now, so slightly misleading name but if it works...
+	parent:playSound()
 end
 
 rotation = 0
@@ -32,9 +33,9 @@ function fixedupdate()
 		enabled = not enabled
 	end
 	if mouse.buttonPressed(0) then
-		light:setActive(not enabled)
+		--light:setActive(not enabled)
 	else
-		light:setActive(enabled)
+		--light:setActive(enabled)
 	end
 end
 

@@ -52,6 +52,7 @@ namespace sge {
 
 	void GameObject::SetParent(GameObject * p_parent)
 	{
+		FlagMoved();
 		if (p_parent == this) return;
 		if (_p_parent == NULL && p_parent != NULL) {
 			Game::GetInstance().RemoveFromRoot(this);
@@ -96,6 +97,7 @@ namespace sge {
 
 	void GameObject::SetWorldPosition(glm::vec3 pos)
 	{
+		FlagMoved();
 		if (GetParent() != NULL) {
 			glm::mat4 inverse = glm::inverse(GetParent()->GetCombinedTransform());
 			_transform[3] = inverse * glm::vec4(pos, 1);
@@ -106,11 +108,13 @@ namespace sge {
 
 	void GameObject::SetPosition(glm::vec3 pos)
 	{
+		FlagMoved();
 		_transform[3] = vec4(pos, 1);
 	}
 
 	void GameObject::SetWorldTransform(mat4 transform)
 	{
+		FlagMoved();
 		if (_p_parent != NULL) {
 			_combinedTransform = transform;
 			_transform = inverse(_p_parent->_combinedTransform) * transform;
@@ -123,11 +127,13 @@ namespace sge {
 
 	void GameObject::Rotate(glm::vec3 axis, float angle)
 	{
+		FlagMoved();
 		_transform = glm::rotate(_transform, radians(angle), axis);
 	}
 
 	void GameObject::SetWorldRotation(glm::vec3 axis, float angle)
 	{
+		FlagMoved();
 		vec4 pos = _combinedTransform[3];
 		_combinedTransform = glm::rotate(mat4(), radians(angle), axis);
 		_combinedTransform[3] = pos;
@@ -139,6 +145,7 @@ namespace sge {
 
 	void GameObject::SetRotation(glm::vec3 axis, float angle)
 	{
+		FlagMoved();
 		vec4 pos = _transform[3];
 		_transform = glm::rotate(mat4(), radians(angle), axis);
 		_transform[3] = pos;
@@ -146,9 +153,29 @@ namespace sge {
 
 	void GameObject::SetRotation(quat rotation)
 	{
+		FlagMoved();
 		vec4 pos = _transform[3];
 		_transform = glm::toMat4(rotation);
 		_transform[3] = pos;
+	}
+
+	void GameObject::LookAt(vec3 target, vec3 pUp)
+	{
+		vec3 forward = normalize(target - GetCombinedPosition());
+		vec3 left = cross(pUp, forward);
+		vec3 up = cross(left, forward);
+		mat4 newMat = lookAt(GetCombinedPosition(), target, pUp);
+		newMat[3] = _combinedTransform[3];
+		_combinedTransform = newMat;
+		if (GetParent() != NULL)
+			_transform = inverse(GetParent()->GetCombinedTransform()) * _combinedTransform;
+		else
+			_transform = _combinedTransform;
+	}
+
+	bool GameObject::HasMoved()
+	{
+		return moved;
 	}
 
 	void GameObject::setPosition(float x, float y)
@@ -243,10 +270,7 @@ namespace sge {
 	void GameObject::OnFixedUpdate(){
 		if (_state > GOState::ACTIVE)
 			return;
-		if (_p_parent != NULL)
-			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
-		else
-			_combinedTransform = _transform;//getTransform();
+		UpdateTransform();
 		if (rigidbody != NULL) {
 			rigidbody->FixedUpdate();
 			//std::cout << _collider->GetParent() << " - Updated collider with that parent!" << std::endl;
@@ -280,10 +304,7 @@ namespace sge {
 	{
 		if (_state > GOState::ACTIVE)
 			return;
-		if (_p_parent != NULL)
-			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
-		else
-			_combinedTransform = _transform;//getTransform();
+		UpdateTransform(true);
 		for (ObjectBehaviour* comp : _components) {
 			if(comp->IsEnabled())
 				comp->OnRender();
@@ -468,12 +489,25 @@ namespace sge {
 		//TODO: make it possible to remove children
 	}
 
-	void GameObject::UpdateTransform()
+	void GameObject::FlagMoved()
 	{
+		if (moved) return;
+		moved = true;
+		//std::cout << "An object was moved and will be recalculated: "<< GetName() << std::endl;
+		for (GameObject* child : _children) {
+			child->FlagMoved();
+		}
+	}
+
+	void GameObject::UpdateTransform(bool flag)
+	{
+		if (!moved) return;
 		if (_p_parent != NULL)
 			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
 		else
 			_combinedTransform = _transform;//getTransform();
+		if(flag)
+			moved = false;
 	}
 
 	void GameObject::OnDestroy()

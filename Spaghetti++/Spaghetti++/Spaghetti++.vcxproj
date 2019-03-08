@@ -34,6 +34,7 @@
     <ClCompile Include="..\src\components\LightComponent.cpp" />
     <ClCompile Include="..\src\components\LightFluorComp.cpp" />
     <ClCompile Include="..\src\components\LuaComponent.cpp" />
+    <ClCompile Include="..\src\components\MannequinTriggerComp.cpp" />
     <ClCompile Include="..\src\components\MeshCollider.cpp" />
     <ClCompile Include="..\src\components\MeshComponent.cpp" />
     <ClCompile Include="..\src\components\MouseComponent.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="..\src\components\LightComponent.hpp" />
     <ClInclude Include="..\src\components\LightFluorComp.h" />
     <ClInclude Include="..\src\components\LuaComponent.h" />
+    <ClInclude Include="..\src\components\MannequinTriggerComp.h" />
     <ClInclude Include="..\src\components\MeshCollider.h" />
     <ClInclude Include="..\src\components\MeshComponent.h" />
     <ClInclude Include="..\src\components\MouseComponent.h" />

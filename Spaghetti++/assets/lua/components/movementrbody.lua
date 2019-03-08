@@ -27,9 +27,7 @@ function fixedupdate()
 	y = 0
 	z = 0
 	if keys.pressed(keys.Up) then
-		gameObject.deleteAll()
-		local obj = gameObject.new()
-		obj:addComponent("lua","loadtest.lua")
+		--z = 1000
 	end
 	if keys.pressed(keys.S) then
 		x = x + force * -fx

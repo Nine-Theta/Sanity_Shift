@@ -32,6 +32,8 @@ namespace sge {
 		LuaState* GetState();
 	protected:
 		LuaState _state;
+		float distLimitSq = FLT_MAX;
+		GameObject* distTarget;
 
 		static int test(lua_State* state);
 		static int playAudio(lua_State* state);
@@ -65,6 +67,7 @@ namespace sge {
 		static int setRotationQ(lua_State* state);
 		static int getWorldPos(lua_State* state);
 		static int setWorldPos(lua_State* state);
+		static int setDistanceLimit(lua_State* state);
 
 		static int getTime(lua_State* state);
 		static int deltaTime(lua_State* state);
