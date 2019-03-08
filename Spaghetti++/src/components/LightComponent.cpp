@@ -18,6 +18,7 @@ namespace sge {
 	}
 
 	LightComponent::~LightComponent() {
+		//UnregisterLight(this);
 	}
 
 	//Override setWorldRecursively to make sure we are registered
@@ -55,8 +56,8 @@ namespace sge {
 	{
 		//std::cout << "Unregistering light " << light->GetParent()->GetName() << std::endl;
 		if (_lights.size() == 0) return;
-		_lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
 		_lightsCount--;
+		_lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
 	}
 
 	GLLight * LightComponent::GetLights()
@@ -67,6 +68,7 @@ namespace sge {
 	void LightComponent::UpdateLights()
 	{
 		for (unsigned int i = 0; i < _lightsCount; i++) {
+			if(_lights.at(i) != NULL && &_lights.at(i)->getGLStruct() != NULL)
 			_glLights[i] = _lights.at(i)->getGLStruct();
 		}
 		if (_glLights == NULL) return;

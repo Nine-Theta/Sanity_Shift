@@ -8,11 +8,11 @@ namespace sge {
 	class Input
 	{
 	private:
-		static std::string keyNames[101];
+		static std::string keyNames[102];
 
-		static bool keysPressed [101];
-		static bool keysDown [101];
-		static bool keysUp [101];
+		static bool keysPressed [102];
+		static bool keysDown [102];
+		static bool keysUp [102];
 
 		static bool mouseDownLeft;
 		static bool mouseDownRight;
@@ -41,7 +41,8 @@ namespace sge {
 		static bool GetMouseButton(char button = 0);
 		static bool GetMouseButtonDown(char button = 0);
 		static bool GetMouseButtonUp(char button = 0);
-		static glm::ivec2 GetMousePosition();
+		static glm::ivec2 GetMouseScreenPosition();
+		static glm::ivec2 GetMouseRelativePosition();
 		static glm::ivec2 MouseDelta();
 		static bool MouseMoved();
 

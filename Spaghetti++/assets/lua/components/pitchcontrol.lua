@@ -10,8 +10,8 @@ end
 
 rotation = 0
 verticalSensitivity = 10 --default: 10
-upperLimit = 45
-lowerLimit = -45
+upperLimit = 90
+lowerLimit = -90
 
 enabled = true
 function update()
