@@ -60,9 +60,9 @@ namespace sge {
 		enemy->AddComponent(rbody);
 		enemy->AddComponent(new SelfDestructComp(8));
 		enemy->SetName("Enemy");
-		CircleCollider* col = new CircleCollider(40);
-		col->SetTrigger(true);
-		enemy->AddComponent(col);
+		//CircleCollider* col = new CircleCollider(40);
+		//col->SetTrigger(true);
+		//enemy->AddComponent(col);
 		enemy->AddComponent(new EnemyComponent());
 	}
 }

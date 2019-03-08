@@ -13,7 +13,7 @@ namespace sge {
 		"LeftBracket", "RightBracket", "Semicolon", "Comma", "Period", "Quote", "Slash", "Backslash", "Tilde", "Equal", "Hyphen",
 		"Space", "Enter", "Backspace", "Tab", "PageUp", "PageDown", "End", "Home", "Insert", "Delete", "Add", "Subtract", "Multiply",
 		"Divide", "Left", "Right", "Up", "Down", "Numpad0", "Numpad1", "Numpad2", "Numpad3", "Numpad4", "Numpad5", "Numpad6", "Numpad7",
-		"Numpad8", "Numpad9", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14", "F15", "Pause" };
+		"Numpad8", "Numpad9", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14", "F15", "Pause", "Any" };
 	
 	bool Input::keysPressed[];
 	bool Input::keysDown[];
@@ -110,9 +110,15 @@ namespace sge {
 		return mousePos - lastMousePos;
 	}
 
-	glm::ivec2 Input::GetMousePosition()
+	glm::ivec2 Input::GetMouseScreenPosition()
 	{
 		return mousePos;
+	}
+
+	glm::ivec2 Input::GetMouseRelativePosition()
+	{
+		sf::Vector2i pos = sf::Vector2i(mousePos.x, mousePos.y) - sge::Game::GetInstance().getPosition();
+		return glm::ivec2(pos.x, pos.y);
 	}
 
 	bool Input::MouseMoved()
@@ -122,6 +128,7 @@ namespace sge {
 
 	void Input::setMouseLock(bool active)
 	{
+		std::cout << "called: " << active << std::endl;
 		Input::lockMousePos = active;
 		Game::GetInstance().setMouseCursorVisible(!active);
 	}
@@ -161,13 +168,21 @@ namespace sge {
 		mousePos = glm::ivec2(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 		if (lockMousePos)
 		{
-			sf::Mouse::setPosition(sf::Vector2i(959, 539));
-			lastMousePos = glm::ivec2(959, 539);
+			sf::Vector2i pos = sge::Game::GetInstance().getPosition();
+			sf::Vector2u size = sge::Game::GetInstance().getSize();
+			int x = size.x*0.5 - 1 + pos.x;
+			int y = size.y*0.5 - 1 + pos.y;
+			sf::Mouse::setPosition(sf::Vector2i(x, y));
+			lastMousePos = glm::ivec2(x, y);
 		}
 	}
 
 	void Input::OnFixedUpdate()
 	{	
+		bool anyPressed = false;
+		bool anyDown = false;
+		bool anyUp = false;
+
 		for (char i = 0; i < sf::Keyboard::KeyCount; i++)
 		{
 			if (keysDown[i]) keysDown[i] = false;
@@ -175,15 +190,24 @@ namespace sge {
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(i)))
 			{
-				if (!keysPressed[i]) keysDown[i] = true;
+				if (!keysPressed[i]) {
+					keysDown[i] = true;
+					anyDown = true;
+				}
 				keysPressed[i] = true;
+				anyPressed = true;
 			}
 			else if (keysPressed[i])
 			{
 				keysPressed[i] = false;
 				keysUp[i] = true;
+				anyUp = true;
 			}
 		}
+
+		keysPressed[101] = anyPressed;
+		keysDown[101] = anyDown;
+		keysUp[101] = anyUp;
 
 		if (mouseUpLeft) mouseUpLeft = false;
 		if (mouseUpRight) mouseUpRight = false;

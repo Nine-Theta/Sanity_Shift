@@ -1,5 +1,12 @@
+--parent is component's parent gameObject. It supports functions 
+
+
 function start()
-	print("RAYCAST TEST COMPONENT INITIALISED HERE!!")
+
+end
+
+function update() --currently disabled
+
 end
 
 function onraycasthit(caster)
@@ -10,4 +17,18 @@ function onraycasthit(caster)
 		print(children[i])
 	end
 	print("Test collider got hit by a raycast from " .. caster:getName())
+	Invoke()
+end
+
+function Invoke()
+	print("settings invoked")
+
+end
+	
+function fixedupdate()
+	
+end
+	
+function ondestroy()
+
 end

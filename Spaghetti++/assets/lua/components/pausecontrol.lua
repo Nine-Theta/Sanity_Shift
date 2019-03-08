@@ -1,20 +1,21 @@
---parent is component's parent gameObject. It supports functions 
+--parent is component's parent gameObject. It supports functions
+--this is pausecontrol to major Tom
 
 function start()
 screen = gameObject.find("PauseScreen") 
 
 end
 
-enabled = true
-
 function fixedupdate()
 	if keys.down(keys.P) then
 		if time.gettimescale() > 0 then
 		time.settimescale(0)
-		screen:setActive(enabled)
-		else
+		screen:setActive(true)
+		mouse.setLock(false)
+		else		
 		time.settimescale(1)
-		screen:setActive(not enabled)
+		screen:setActive(false)
+		mouse.setLock(true)
 		end
 	end		
 	
