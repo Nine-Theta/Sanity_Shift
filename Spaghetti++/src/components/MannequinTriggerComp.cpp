@@ -5,6 +5,7 @@
 #include "LightComponent.hpp"
 #include "MannequinTriggerComp.h"
 #include "materials/SpecularMaterial.hpp"
+#include "AbstractCollider.h"
 
 namespace sge {
 	MannequinTriggerComp::MannequinTriggerComp()
@@ -21,16 +22,30 @@ namespace sge {
 		_comp->SetMesh(_mesh[selection]);
 	}
 
+	bool MannequinTriggerComp::roomCheck()
+	{
+		vec3 pos = p_gameObj->GetCombinedPosition();
+		vec3 dir = _player->GetCombinedPosition() - pos;
+		float len = length(dir);
+		RaycastHit hit = Physics::Raycast(p_gameObj->GetCombinedPosition() + vec3(0, 1, 0), normalize(dir), len);
+		if (!hit.hit || length(hit.point - _player->GetCombinedPosition()) < 1.5f)
+			return true;
+		return false;
+	}
+
 	void sge::MannequinTriggerComp::Start()
 	{
 		_material = new SpecularMaterial("Mannequin/Diffuse.dds", "Mannequin/Specular.dds", "Mannequin/Normal.dds");
 		_comp = new MeshComponent("Mannequin/Mannequin_" + std::to_string(1) + ".obj", _material);
 		p_gameObj->AddComponent(_comp);
-		mannequins = 7;
+		mannequins = 20;
 		_mesh.resize(mannequins);
 		for (int i = 1; i <= mannequins; i++) {
 			_mesh[i - 1] = AssetLoader::GetMesh("Mannequin/Mannequin_" + std::to_string(i) + ".obj"); //Mesh::load("Mannequin/Mannequin_" + std::to_string(i) + ".obj");
 		}
+		_player = CameraComponent::GetMain()->GetParent();
+		_col = p_gameObj->GetComponent<AbstractCollider>();
+		startPos = p_gameObj->GetCombinedPosition();
 	}
 
 	void sge::MannequinTriggerComp::OnDestroy()
@@ -38,18 +53,7 @@ namespace sge {
 	}
 
 	void sge::MannequinTriggerComp::Update()
-	{
-	}
-
-
-	void sge::MannequinTriggerComp::FixedUpdate()
-	{
-		
-	}
-
-	void sge::MannequinTriggerComp::OnRender()
-	{
-		//TODO: Add dot product light stuff
+	{//TODO: Add dot product light stuff
 		GLLight* lights = LightComponent::GetLights();
 		float intensity = 0;
 		vec3 pos = p_gameObj->GetCombinedPosition();
@@ -67,15 +71,46 @@ namespace sge {
 			intensity += clamp(falloff * falloff, 0.f, 1.f) * distFalloff;
 		}
 
-		if (intensity > 0.05f) {
+		//	p_gameObj->LookAt(p_gameObj->GetCombinedPosition() + vec3(dir.x,dir.y,-dir.z),vec3(0,1,0));
+		if (_toChange) {
+			vec3 dir = roomCheck() ? _player->GetCombinedPosition() - p_gameObj->GetCombinedPosition() : (startPos - p_gameObj->GetCombinedPosition());
+			float dist = length(dir);
+			if (dist > 1) {
+				dir = normalize(vec3(dir.x, 0, dir.z));
+				//p_gameObj->SetWorldPosition(p_gameObj->GetCombinedPosition() + dir * .8f * TimeH::FixedDelta());
+				_col->GetRigidbody()->setLinearVelocity(Physics::glmToBullet(dir * 0.8f));
+				float facing = orientedAngle(vec2(0, -1), vec2(dir.x, -dir.z));
+				btTransform t = _col->GetRigidbody()->getWorldTransform();
+				t.setRotation(btQuaternion(facing, 0, 0));
+				_col->GetRigidbody()->setWorldTransform(t);
+			}
+		}
+		else {
+			_col->GetRigidbody()->setLinearVelocity(btVector3(0, 0, 0));
+		}
+
+		if (intensity > 0.1f && dot(_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition(),_player->forward()) < 0) {
 			if (_toChange)
 				swapModel();
 
 			_toChange = false;
+			_timer = randf() * 1 + 1.5f;
 		}
 		else {
-			_toChange = true;
+			_timer -= TimeH::FixedDelta();
+			if (_timer < 0)
+				_toChange = true;
 		}
+	}
+
+
+	void sge::MannequinTriggerComp::FixedUpdate()
+	{
+		
+	}
+
+	void sge::MannequinTriggerComp::OnRender()
+	{
 
 	}
 

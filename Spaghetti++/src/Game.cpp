@@ -73,7 +73,7 @@ namespace sge {
 			//std::cout << TimeH::GetFramerate() << std::endl;
 			doFixedUpdate();
 			destroyOldObjects();
-			setTitle(sge::Settings::GetSetting("windowname") + " FPS: " + std::to_string(TimeH::GetFramerate()));
+			setTitle(sge::Settings::GetSetting("windowname") + " FPS: " + std::to_string(TimeH::GetFramerateAvg()));
 		}
 		doUpdate();
 		//clear(sf::Color(0x152215FF));

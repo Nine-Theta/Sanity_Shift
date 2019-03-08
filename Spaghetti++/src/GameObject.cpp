@@ -159,6 +159,25 @@ namespace sge {
 		_transform[3] = pos;
 	}
 
+	void GameObject::LookAt(vec3 target, vec3 pUp)
+	{
+		vec3 forward = normalize(target - GetCombinedPosition());
+		vec3 left = cross(pUp, forward);
+		vec3 up = cross(left, forward);
+		mat4 newMat = lookAt(GetCombinedPosition(), target, pUp);
+		newMat[3] = _combinedTransform[3];
+		_combinedTransform = newMat;
+		if (GetParent() != NULL)
+			_transform = inverse(GetParent()->GetCombinedTransform()) * _combinedTransform;
+		else
+			_transform = _combinedTransform;
+	}
+
+	bool GameObject::HasMoved()
+	{
+		return moved;
+	}
+
 	void GameObject::setPosition(float x, float y)
 	{
 	}

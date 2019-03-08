@@ -26,8 +26,6 @@ namespace sge {
 
 		virtual void Update() override;
 
-		virtual void OnRender() override;
-
 		virtual void OnCollision(Collider * other) override;
 
 		virtual void OnTrigger(Collider * other) override;

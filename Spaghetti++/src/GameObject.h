@@ -60,6 +60,8 @@ namespace sge {
 		void SetWorldRotation(glm::vec3 axis, float angle);
 		void SetRotation(glm::vec3 axis, float angle);
 		void SetRotation(quat rotation);
+		void LookAt(vec3 target, vec3 up);
+		bool HasMoved();
 		//Dummies for old SFML-based functions:
 		void setPosition(float x, float y);
 		void setPosition(glm::vec2);

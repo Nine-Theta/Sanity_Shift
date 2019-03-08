@@ -15,9 +15,14 @@ namespace sge {
 		AbstractMaterial* _material;
 		MeshComponent* _comp;
 		bool _toChange = false;
+		float _timer = 0;
 		int mannequins;
+		GameObject* _player;
+		AbstractCollider* _col;
+		vec3 startPos;
 
 		void swapModel();
+		bool roomCheck();
 
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;
