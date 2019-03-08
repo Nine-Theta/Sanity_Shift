@@ -52,15 +52,11 @@ namespace sge {
 		_state.RegisterLib(mouseLib, "mouse");
 		_state.RegisterLib(utilityLib, "util");
 		_state.CallFunction("start");
-<<<<<<< HEAD
-//		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;		
-=======
+
 		distTarget = CameraComponent::GetMain() != NULL ? CameraComponent::GetMain()->GetParent() : NULL;
 		if (distTarget == NULL)
 			distTarget = GetParent();
-//		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;
 		
->>>>>>> develop
 	}
 
 	int LuaComponent::test(lua_State* state) {
