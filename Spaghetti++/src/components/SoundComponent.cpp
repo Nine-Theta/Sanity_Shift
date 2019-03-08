@@ -83,6 +83,7 @@ namespace sge {
 	{
 		ALuint snd = _snd->GetBuffer();
 		alSourcePlay(source);
+		std::cout << "PLAYING AUDIO CLIP" << std::endl;
 	}
 
 }

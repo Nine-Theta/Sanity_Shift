@@ -21,6 +21,8 @@ namespace sge {
 			//alutExit();
 			//exit(EXIT_FAILURE);
 		}
+		else
+			std::cout << "Successfully loaded sound file: " << pFilename << std::endl;
 		//soundTest();
 	}
 
