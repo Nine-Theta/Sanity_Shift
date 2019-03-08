@@ -6,12 +6,12 @@ end
 velY = 0
 velX = 0
 velZ = 0
-pressed = false
+locked = true
 
 rotX = 0
 function update()
 
-	if mouse.moved() then
+	if mouse.moved() and locked then
 		local mX, mY = mouse.delta()
 		rotX = rotX -10*mX*time.fixedDelta()
 		--print(mX, mY)
@@ -20,9 +20,11 @@ function update()
 	parent:setWorldRotation(0,1,0,rotX)
 	if keys.down(keys.L) then
 		mouse.toggleLock()
+		locked = not locked		
 	end
 end
 
+--[[
 function fixedupdateOLD()
 	--print(parent.getPos())
 	local x, y, z = parent:getPos()
@@ -65,7 +67,7 @@ function fixedupdateOLD()
 	x = x + fx * velY + rx * velX + ux * velZ
 	y = y + fy * velY + ry * velX + uy * velZ
 	parent:setPos(x,y,z)
-end
+end]]--
 	
 function ondestroy()
 

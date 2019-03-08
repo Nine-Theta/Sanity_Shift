@@ -15,13 +15,21 @@ end
 	
 function fixedupdate()
 
+	if (keys.down(keys.Any)) then
+		play:callFunction("Invoke")
+		end
+	
+	if(mouse.buttonDown(0)) then
+		--util.raycast(gameObject.find("Player"), gameObject.find("MainCam"), mouse.relativePosition())
+		end
+		
 	if(keys.down(keys.Numpad1)) then
 		play:callFunction("Invoke")
 		end
 	if(keys.down(keys.Numpad2)) then
 		settings:callFunction("Invoke")
 		end	
-	if(keys.pressed(keys.Numpad3)) then
+	if(keys.down(keys.Numpad3)) then
 		exitb:callFunction("Invoke")
 		end	
 end

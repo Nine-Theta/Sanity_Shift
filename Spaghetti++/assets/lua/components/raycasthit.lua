@@ -3,6 +3,7 @@ function start()
 end
 
 function onraycasthit(caster)
+	print("raycast hit!")
 	local children = parent:getChildren()
 	print("Parent component has " .. #children .. " children")
 	for i = 0, #children do --actualcode

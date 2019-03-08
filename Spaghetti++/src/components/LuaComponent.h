@@ -93,6 +93,8 @@ namespace sge {
 		static int setMouseLock(lua_State* state);
 		static int toggleMouseLock(lua_State* state);
 
+		static int raycast(lua_State* state);
+
 		//static const type_info& ParseComponentType(std::string type);
 
 		static const struct luaL_Reg gameObjectMetaLib[];
@@ -101,6 +103,7 @@ namespace sge {
 		static const struct luaL_Reg gameObjectLib[];
 		static const struct luaL_Reg keysMetaLib[];
 		static const struct luaL_Reg mouseLib[];
+		static const struct luaL_Reg utilityLib[];
 
 		static std::map <lua_State*, LuaComponent*> _components;
 

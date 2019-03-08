@@ -14,6 +14,7 @@
 #include "materials/SpecularMaterial.hpp"
 #include "materials/FluorescentMaterial.hpp"
 #include "Input.h"
+#include "game.h"
 
 #include "SoundComponent.h"
 #include "SphereCollider.h"
@@ -27,7 +28,6 @@ namespace sge {
 	{
 		_components[_state.GetState()] = this;
 		lua_State* st = _state.GetState();
-
 	}
 
 	LuaComponent::~LuaComponent()
@@ -49,9 +49,9 @@ namespace sge {
 		_state.PushMetaLib("sge.keys", keysMetaLib);
 		registerKeys();
 		_state.RegisterLib(mouseLib, "mouse");
+		_state.RegisterLib(utilityLib, "util");
 		_state.CallFunction("start");
-//		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;
-		
+//		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;		
 	}
 
 	int LuaComponent::test(lua_State* state) {
@@ -244,6 +244,12 @@ namespace sge {
 		{"moved", didMouseMove },
 		{"setLock", setMouseLock },
 		{"toggleLock", toggleMouseLock },
+		{NULL, NULL} // - signals the end of the registry
+	};
+
+	const struct luaL_Reg LuaComponent::utilityLib[] =
+	{
+		{"raycast", raycast},
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -636,6 +642,20 @@ namespace sge {
 		return 0;
 	}
 
+	int LuaComponent::getChildren(lua_State* state) {
+		lua_newtable(state);
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetParent();
+		std::vector<GameObject*> children = obj->GetChildren();
+		int childrenC = children.size();
+		for (int i = 0; i < childrenC; i++) {
+			//comp->GetState()->PushToTable(std::to_string(i), children[i]);
+			lua_pushlightuserdata(state, children[i]);
+			lua_rawseti(state, -2, i);
+		}
+		return 1;
+	}
+
 #pragma region Mouse/Keyboard Input
 
 	int LuaComponent::isKeyPressed(lua_State * state)
@@ -737,20 +757,6 @@ namespace sge {
 		Input::toggleMouseLock();
 		return 0;
 	}
-
-	int LuaComponent::getChildren(lua_State* state) {
-		lua_newtable(state);
-		LuaComponent* comp = _components[state];
-		GameObject* obj = comp->GetParent();
-		std::vector<GameObject*> children = obj->GetChildren();
-		int childrenC = children.size();
-		for (int i = 0; i < childrenC; i++) {
-			//comp->GetState()->PushToTable(std::to_string(i), children[i]);
-			lua_pushlightuserdata(state, children[i]);
-			lua_rawseti(state, -2, i);
-		}
-		return 1;
-	}
 	/*
 	int LuaComponent::isKeyDown(lua_State * state)
 	{
@@ -770,4 +776,53 @@ namespace sge {
 		_state.SaveTable("keys","sge.keys");
 	}
 #pragma endregion
+
+	int LuaComponent::raycast(lua_State* state)
+	{
+		std::cout << "Raycast through Lua discontinued for now" << std::endl;
+		return 0;
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		GameObject* cam = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		//glm::vec3 campos = glm::vec3(0,1.7,0);
+		//glm::vec3 playpos = glm::vec3(0, 0.961987, -5);
+		//glm::vec2 mpos = glm::vec2(639, 511);
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		//std::cout << "Cam: " << vals[0] << ", " << vals[1] << ", " << obj->GetPosition().z << std::endl;
+
+		float x = (2.0f * vals[1]) / sge::Game::GetInstance().getSize().x - 1.0f;
+		float y = 1.0f - (2.0f * vals[0]) / sge::Game::GetInstance().getSize().y;
+
+		glm::vec4 pos = vec4(x, y, -1, 1);
+		
+		glm::vec4 p = inverse(CameraComponent::GetMain()->GetProjection()) * pos;
+		glm::vec4 p2 = glm::vec4(p.x, p.y, -1.0f, 0.0f);
+
+		//std::cout << "P: " << p.x << ", " << p.y << ", " << p.z << ", " << p.w << ", " << std::endl;
+		//std::cout << "P: " << p2.x << ", " << p2.y << ", " << p2.z << ", " << p2.w << ", " << std::endl;
+		glm::vec3 v = (glm::vec3)(inverse(CameraComponent::GetMain()->GetView()) * p2);
+
+		glm::vec3 vn = glm::normalize(v);
+		//
+
+		std::cout << "P: " << p.x << ", " << p.y << ", " << p.z << ", " << p.w << ", " << std::endl;
+		//std::cout << "V: " << vn.x << ", " << vn.y << ", " << vn.z << std::endl;
+		
+		glm::vec3 start = obj->GetPosition() + cam->GetPosition();
+
+		float dot = glm::dot(v, cam->forward());
+
+		RaycastHit hit = Physics::Raycast(start, vn, 400);
+		std::cout << "Casting Ray from: " << start.x << ", " << start.y << ", " << start.z << " | in dir: " << vn.x << ", " << vn.y << ", " << vn.z << std::endl;
+		if (!hit.hit) {
+			std::cout << "no hit" << std::endl;
+			return 0;
+		}
+		
+		LuaComponent* other = hit.collider->GetParent()->GetComponent<LuaComponent>();
+		if (other != NULL)
+			std::cout << "hit!" << std::endl;
+				other->CallFunctionWithGameObject("onraycasthit", cam);
+		return 0;
+	}
 }

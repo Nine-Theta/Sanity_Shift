@@ -1,23 +1,3 @@
-
-function start()
-once = true
-once2 = false
-end
-
-function fixedupdate()
-	if(once2) then	
-		print("init once2")
-		init()
-		once2 = false
-	end
-		
-	if(once) then
-		print("init once")
-		once = false
-		once2 = true
-end
-	end
-
 function init()
 print("init")
 	local obj1 = gameObject.new()
@@ -63,6 +43,7 @@ print("init")
 	local objfloor = gameObject.new()
 	objfloor:setName("Floor")
 	objfloor:setPos(0,0,0)
+	objfloor:addComponent("lua", "raycasthit.lua")
 	objfloor:addComponent("mesh", "plane20x20_2tris_aligned_uvs.obj", "rustypaint.png","rustypaint_s.png","flat_n.png")
 	objfloor:addComponent("meshcollider", "plane20x20_2tris_aligned_uvs.obj")
 		
@@ -71,46 +52,34 @@ print("init")
 	local obj1 = gameObject.new()
 	obj1:setName("Player")
 	obj1:setPos(0,1.4,-5)
-	obj1:setRotationQ(0.9986774,0.02353511,0.04569906,-0.001076957)
-	obj1:addComponent("lua","movementrbody.lua")
+	--obj1:setRotationQ(0.9986774,0.02353511,0.04569906,-0.001076957)
+	--obj1:addComponent("lua","movementrbody.lua")
 	obj1:addComponent("capsulecollider","0.49","1.85","40")
 		local obj2 = gameObject.new()
 		obj2:setName("PlayerFeet")
 		obj2:setPos(0,-0.95,0)
 		obj2:setRotationQ(1,0,0,0)
-		obj2:setParent(obj1)		
-		obj2:addComponent("lua","turncontrol.lua")
+		obj2:setParent(obj1)
 			local obj3 = gameObject.new()
 			obj3:setName("MainCam")
 			obj3:setPos(0,1.7,0)
 			obj3:setRotationQ(1,0,0,0)
 			obj3:setParent(obj2)
 			obj3:addComponent("camera")
-			obj3:addComponent("lua","pitchcontrol.lua")
+			--obj3:addComponent("raycast")
 				local obj4 = gameObject.new()
 				obj4:setName("Flashlight")
 				obj4:setPos(0,0,0)
 				obj4:setRotationQ(1,0,0,0)
 				obj4:setParent(obj3)
 				obj4:addComponent("spotlight","99999999.32")
-				
-				print("init player full")
-	
-	local objplane = gameObject.new()
-	objplane:setName("PauseScreen")
-	objplane:setPos(0,0,3)
-	objplane:setRotationQ(0,0,-0.7,0.7)
-	objplane:setParent(obj3)
-	objplane:addComponent("mesh","plane169test.obj","MenuScreen.dds","black.png","flat_n.png")
-	objplane:addComponent("mesh","etest.obj","white.png","gray.png","flat_n.png")		
-	objplane:setActive(false)
-	objplane:addComponent("lua", "pausecontrol.lua")
-	
-	print("init pausescreen")
+				obj4:addComponent("lua","flashlightMove.lua")
 	
 	local objmenu = gameObject.new()
 	objmenu:setName("Menu")	
-	objmenu:setPos(0,0,0)	
+	objmenu:setPos(0,1.5,-1)	
+	objmenu:setRotationQ(0,0,-0.7,0.7)
+	objmenu:addComponent("mesh","plane169test.obj","MenuScreen.dds","black.png","flat_n.png")	
 	objmenu:addComponent("lua", "buttoncontrol.lua")
 		local objplay = gameObject.new()
 		objplay:setName("PlayButton")
