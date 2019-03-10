@@ -259,18 +259,17 @@ namespace sge {
 	{
 		if (_state > GOState::ACTIVE)
 			return;
-		UpdateTransform();
-		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
-			(*itr)->Update();
-		}
 		for (std::vector<GameObject*>::iterator itr = _children.begin(), end = _children.end(); itr != end; itr++) {
 			(*itr)->OnUpdate();
 		}
+		for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
+			(*itr)->Update();
+		}
+		UpdateTransform(true);
 	}
 	void GameObject::OnFixedUpdate(){
 		if (_state > GOState::ACTIVE)
 			return;
-		UpdateTransform();
 		if (rigidbody != NULL) {
 			rigidbody->FixedUpdate();
 			//std::cout << _collider->GetParent() << " - Updated collider with that parent!" << std::endl;
@@ -281,17 +280,18 @@ namespace sge {
 		/*for (unsigned int i = 0; i < _components.size(); i++) {
 			_components[i]->FixedUpdate();
 		}*/
-		for (ObjectBehaviour* component : _components) {
-			if(component != NULL)
-				component->FixedUpdate();
-			//std::cout << component->GetParent() << " - Updated component with that parent!" << std::endl;
-		}
-
 		for (GameObject* obj : _children) {
 			if (obj != NULL)
 				obj->OnFixedUpdate();
 			//std::cout << component->GetParent() << " - Updated component with that parent!" << std::endl;
 		}
+		for (ObjectBehaviour* component : _components) {
+			if(component != NULL)
+				component->FixedUpdate();
+			//std::cout << component->GetParent() << " - Updated component with that parent!" << std::endl;
+		}
+		UpdateTransform(true);
+
 		/*for (std::vector<ObjectBehaviour*>::iterator itr = _components.begin(), end = _components.end(); itr != end; itr++) {
 			(*itr)->FixedUpdate();
 		}
@@ -304,7 +304,6 @@ namespace sge {
 	{
 		if (_state > GOState::ACTIVE)
 			return;
-		UpdateTransform(true);
 		for (ObjectBehaviour* comp : _components) {
 			if(comp->IsEnabled())
 				comp->OnRender();
@@ -314,6 +313,7 @@ namespace sge {
 			if(obj->IsActive())
 				obj->OnRender();
 		}
+		UpdateTransform(true);
 		//std::cout << "Rendered components: " << _components.size() << std::endl;
 	}
 
@@ -508,6 +508,9 @@ namespace sge {
 			_combinedTransform = _transform;//getTransform();
 		if(flag)
 			moved = false;
+		for (GameObject* child : _children) {
+			child->UpdateTransform(flag);
+		}
 	}
 
 	void GameObject::OnDestroy()
