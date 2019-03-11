@@ -42,7 +42,7 @@ namespace sge {
 		_state.PushMetaLib("sge.gameObject", gameObjectMetaLib);
 		_state.PushLightUserData(GetParent(), "sge.gameObject");
 		_state.SetGlobal("parent");
-		_state.PushLightUserData(NULL, "sge.gameObject");
+		_state.PushLightUserData((GameObject*)NULL, "sge.gameObject");
 		_state.SetGlobal("nullobject");
 		_state.RegisterLib(timeLib, "time");
 		_state.RegisterLib(gameObjectLib, "gameObject");
@@ -70,7 +70,7 @@ namespace sge {
 		LuaComponent* comp = _components[state];
 		LuaState* ls = comp->GetState();
 		std::cout << "Parent should be: " << comp->GetParent()->GetParent() << std::endl;
-		ls->PushLightUserData(comp->GetParent()->GetParent());
+		ls->PushLightUserData(comp->GetParent()->GetParent(),"sge.gameObject");
 		return 1;
 	}
 
@@ -80,6 +80,8 @@ namespace sge {
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		GameObject* parent = comp->GetState()->GetObjectFromStackTop<GameObject>("sge.gameObject");
 		obj->SetParent(parent);
+		//comp->GetState()->PushLightUserData(parent, "sge.gameObject");
+		//comp->GetState()->SetGlobal("parent");
 		return 0;
 	}
 
@@ -147,7 +149,7 @@ namespace sge {
 				comp->SetAmbient(0.000f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(3, 3, 4), std::stof(args[0]));
+			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(50,50, 30), std::stof(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
@@ -267,6 +269,7 @@ namespace sge {
 	}
 	void LuaComponent::Update()
 	{
+		if (GetParent() == NULL || distTarget == NULL) return;
 		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) {
 			//std::cout << "A lua comp was not updated because the dist limit was reached: " << GetParent()->GetName() << std::endl;
 			return;
@@ -275,11 +278,13 @@ namespace sge {
 	}
 	void LuaComponent::FixedUpdate()
 	{
+		if (GetParent() == NULL || distTarget == NULL) return;
 		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) return;
 		_state.CallFunction("fixedupdate");
 	}
 	void LuaComponent::OnRender()
 	{
+		if (GetParent() == NULL || distTarget == NULL) return;
 		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) return;
 		_state.CallFunction("onrender");
 	}
@@ -363,6 +368,35 @@ namespace sge {
 	}
 	int LuaComponent::removeComponent(lua_State * state)
 	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<std::string> args = comp->GetState()->GetArgsFromStack();
+		std::string comps = args[args.size() - 1];
+		//std::cout << "Attempting to add a component of type " << comps << std::endl;
+
+		switch (hash(comps))
+		{
+		case hash("camera"): obj->RemoveComponent(obj->GetComponent<CameraComponent>()); break;
+		case hash("sprite"): obj->RemoveComponent(obj->GetComponent<SpriteComponent>()); break;
+		case hash("text"): obj->RemoveComponent(obj->GetComponent<TextComponent>()); break;
+						   //case hash("collider"): obj->AddComponent(new CircleCollider(std::stof(args[0]))); break;
+						   //case hash("trigger"): obj->AddComponent(new CircleCollider(std::stof(args[0]),true)); break;
+		case hash("controls"): obj->RemoveComponent(obj->GetComponent<PlayerControls>()); break;
+		case hash("glowcontroller"): obj->RemoveComponent(obj->GetComponent<LightFluorComp>()); break;
+		case hash("lua"): obj->RemoveComponent(obj->GetComponent<LuaComponent>()); break;
+		case hash("raycast"): obj->RemoveComponent(obj->GetComponent<CameraRayComp>()); break;
+		case hash("mannequin"): obj->RemoveComponent(obj->GetComponent<MannequinTriggerComp>()); break;
+		case hash("mesh"): obj->RemoveComponent(obj->GetComponent<MeshComponent>()); break;
+		case hash("light"): obj->RemoveComponent(obj->GetComponent<LightComponent>()); break;
+		case hash("spotlight"): obj->RemoveComponent(obj->GetComponent<LightComponent>()); break;
+		case hash("pointlight"): obj->RemoveComponent(obj->GetComponent<LightComponent>()); break;
+		case hash("boxcollider"): obj->RemoveComponent(obj->GetComponent<BoxCollider>()); break;
+		case hash("spherecollider"): obj->RemoveComponent(obj->GetComponent<SphereCollider>()); break;
+		case hash("capsulecollider"): obj->RemoveComponent(obj->GetComponent<CapsuleCollider>()); break;
+		case hash("meshcollider"): obj->RemoveComponent(obj->GetComponent<MeshCollider>()); break;
+		case hash("sound"): obj->RemoveComponent(obj->GetComponent<SoundComponent>()); break;
+		default: std::cout << "Component did not exist" << std::endl;
+		}
 		return 0;
 	}
 	int LuaComponent::bufferAudio(lua_State * state)

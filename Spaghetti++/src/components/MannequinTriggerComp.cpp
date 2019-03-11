@@ -89,7 +89,7 @@ namespace sge {
 			_col->GetRigidbody()->setLinearVelocity(btVector3(0, 0, 0));
 		}
 
-		if (intensity > 0.1f && dot(_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition(),_player->forward()) < 0) {
+		if (intensity > 0.01f && dot(_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition(),_player->forward()) < 0) {
 			if (_toChange)
 				swapModel();
 

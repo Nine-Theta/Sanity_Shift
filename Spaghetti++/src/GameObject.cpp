@@ -53,6 +53,8 @@ namespace sge {
 	void GameObject::SetParent(GameObject * p_parent)
 	{
 		FlagMoved();
+		UpdateTransform(false);
+		mat4 transform = GetCombinedTransform();
 		if (p_parent == this) return;
 		if (_p_parent == NULL && p_parent != NULL) {
 			Game::GetInstance().RemoveFromRoot(this);
@@ -68,6 +70,9 @@ namespace sge {
 			if(_p_parent != NULL)
 			_p_parent->AddChild(this);
 		}
+		_p_parent = p_parent;
+		UpdateTransform(false);
+		SetWorldTransform(transform);
 	}
 
 	void GameObject::SetName(std::string newName)
@@ -433,6 +438,8 @@ namespace sge {
 	{
 		//TODO: Implement ability to remove a component from the game object, also considering specials like collider or rigidbody
 		//_components.erase(p_component); 
+		_components.erase(std::remove(_components.begin(), _components.end(), p_component), _components.end());
+		delete p_component;
 	}
 
 	void GameObject::Destroy(GameObject * p_object) //OVERRIDING DELETE BROKE EVERYTHING. Now this is how it's done until I figure that out
@@ -481,12 +488,15 @@ namespace sge {
 	void GameObject::AddChild(GameObject * child)
 	{
 		_children.push_back(child);
+		std::cout << "Added child " << child->GetName() << " to parent: " << GetName() << std::endl;
 	}
 
 	void GameObject::RemoveChild(GameObject * child)
 	{
 		//_children.remove
 		//TODO: make it possible to remove children
+		_children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
+		std::cout << "Removed child " << child->GetName() << " from parent: " << GetName() << std::endl;
 	}
 
 	void GameObject::FlagMoved()
@@ -508,6 +518,7 @@ namespace sge {
 			_combinedTransform = _transform;//getTransform();
 		if(flag)
 			moved = false;
+		if (parentChanged) std::cout << "Updating object that had its parent change: " << GetName() << " parent is now: " << (_p_parent != NULL ? _p_parent->GetName() : "NULL") << std::endl;
 		for (GameObject* child : _children) {
 			child->UpdateTransform(flag);
 		}
