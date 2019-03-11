@@ -15,8 +15,8 @@ function update()
 
 	if mouse.moved() and locked then
 		local mX, mY = mouse.delta()
-		rotX = rotX -10*mX*time.deltaTime()
-		print(mX, mY)
+		rotX = rotX -60*mX*time.deltaTime()
+		--print(mX, mY)
 	end
 	--frames = frames + 1
 	--seconds = seconds + time.deltaTime()

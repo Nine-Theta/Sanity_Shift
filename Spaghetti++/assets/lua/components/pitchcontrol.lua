@@ -39,6 +39,6 @@ function fixedupdate()
 	end
 end
 
-function ondestroy()
-
+function raycastresult(hit)
+	print(hit:getName())
 end

@@ -32,10 +32,12 @@ namespace sge {
 		//std::cout << "Raycast hit a collider: " << (hit.hit ? hit.collider->GetParent()->GetName() : "No") << std::endl;
 		if (!hit.hit) return;
 		if (lua != NULL)
-			lua->CallFunction("raycastresult");
+			lua->CallFunctionWithGameObject("raycastresult",hit.collider->GetParent());
 		LuaComponent* other = hit.collider->GetParent()->GetComponent<LuaComponent>();
-		if(other != NULL)
-			other->CallFunctionWithGameObject("onraycasthit",p_gameObj);
+		if (other != NULL) {
+			other->CallFunctionWithGameObject("onraycasthit", p_gameObj);
+			//lua->CallFunctionWithGameObject("raycastresult", hit.collider->GetParent());
+		}
 	}
 
 	void sge::CameraRayComp::OnRender()

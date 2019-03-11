@@ -65,7 +65,7 @@ namespace sge {
 	void AbstractCollider::FixedUpdate()
 	{
 
-		if (mass == 0) {
+		if (mass < 0.1f) {
 			rbody->getMotionState()->setWorldTransform(Physics::glmToBullet(p_gameObj->GetCombinedTransform()));
 			rbody->setWorldTransform(Physics::glmToBullet(p_gameObj->GetCombinedTransform()));
 		}
@@ -74,12 +74,10 @@ namespace sge {
 				rbody->getMotionState()->setWorldTransform(Physics::glmToBullet(p_gameObj->GetCombinedTransform()));
 				rbody->setWorldTransform(Physics::glmToBullet(p_gameObj->GetCombinedTransform()));
 			}
-			else {
 				btTransform trans = rbody->getWorldTransform();
 				mat4 glTrans = Physics::bulletToGlm(trans);
 				//glTrans[0] = trans.
 				p_gameObj->SetWorldTransform(glTrans);
-			}
 		}
 	}
 	void AbstractCollider::OnRender()
