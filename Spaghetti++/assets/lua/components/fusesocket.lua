@@ -8,15 +8,21 @@ function fixedupdate()
 	if fuse == nil then
 		return
 	end
-	--print("Displaying socket in space")
 	if hit then 
-		fuse:setFluorReaction(1)
+		--print("Displaying socket in space")
+		fuse:getChildren()[0]:setFluorReaction(1)
 		fuse:setParent(parent)
-		fuse:setWorldPos(parent:getWorldPos())
+		fuse:setPos(0,0,0)
+		fuse:setRotationQ(1,0,0,0)
+		if keys.down(keys.E) then
+			fuse:getChildren()[0]:setFluorReaction(0)
+			fuse = nil
+		end
 	else
-		fuse:setFluorReaction(1)
+		fuse:getChildren()[0]:setFluorReaction(0)
 		fuse:setParent(phand)
 		fuse:setPos(0,0,0)
+		fuse = nil
 	end
 	hit = false
 end
@@ -27,11 +33,9 @@ end
 
 function onraycasthit(caster)
 	hit = true
-	if fuse ~= nil then
-		return
-	end
-	fuse = phand:getChildren()[0]
 	if fuse == nil then
+		fuse = phand:getChildren()[0]
+		--hit = false
 		return
 	end
 end
