@@ -49,6 +49,7 @@ namespace sge {
 		static int sendMessage(lua_State* state);
 		static int callFunction(lua_State* state);
 		static int setText(lua_State* state);
+		static int setFluorReaction(lua_State* state);
 		static int addComponent(lua_State* state);
 		static int removeComponent(lua_State* state);
 		static int gDelete(lua_State* state);

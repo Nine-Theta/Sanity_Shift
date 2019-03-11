@@ -200,6 +200,7 @@ namespace sge {
 		{"sendMessage", sendMessage},
 		{"callFunction", callFunction},
 		{"setText", setText},
+		{"setFluorReaction", setFluorReaction},
 		{"playSound", playSound},
 		{"addForce", addForce},
 		{"setDistanceLimit", setDistanceLimit},
@@ -457,6 +458,19 @@ namespace sge {
 		textComp->SetText(text);
 		return 0;
 	}
+	int LuaComponent::setFluorReaction(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		int n = comp->GetState()->GetNumbersFromStack()[0];
+		MeshComponent* mesh = obj->GetComponent<MeshComponent>();
+		if (mesh == NULL) return 0;
+		FluorescentMaterial* material = (FluorescentMaterial*)mesh->GetMaterial();
+		if(material != NULL)
+			material->setReactionMult(n);
+		return 0;
+	}
+
 	int LuaComponent::getPos(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];

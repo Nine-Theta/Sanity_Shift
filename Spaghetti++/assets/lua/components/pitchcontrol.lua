@@ -40,5 +40,5 @@ function fixedupdate()
 end
 
 function raycastresult(hit)
-	print(hit:getName())
+	--print(hit:getName())
 end

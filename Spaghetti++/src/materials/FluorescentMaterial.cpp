@@ -26,6 +26,7 @@ namespace sge {
 	GLint FluorescentMaterial::_aTangent = 0;
 	GLint FluorescentMaterial::_aGlowCol = 0;
 	GLint FluorescentMaterial::_aUV = 0;
+	GLint FluorescentMaterial::_aLightReact = 0;
 
 	unsigned int FluorescentMaterial::block_index = 0;
 
@@ -52,6 +53,7 @@ namespace sge {
 			_lightDir = _shader->getUniformLocation("lightPos");
 			_lightPosC = _shader->getUniformLocation("lightPosC");
 			_lightsNr = _shader->getUniformLocation("lightsNr");
+			_aLightReact = _shader->getUniformLocation("reactionMult");
 			_uDiffuseTexture = _shader->getUniformLocation("diffuseTexture");
 			_uSpecularTexture = _shader->getUniformLocation("specularTexture");
 			_uNormalTexture = _shader->getUniformLocation("normalTexture");
@@ -79,6 +81,11 @@ namespace sge {
 	void FluorescentMaterial::setGlowCol(vec4 color)
 	{
 		_glowCol = color;
+	}
+
+	void FluorescentMaterial::setReactionMult(float mult)
+	{
+		_lightReact = mult;
 	}
 
 	void FluorescentMaterial::render(sge::MeshComponent* mesh, sge::CameraComponent* cam) {
@@ -129,6 +136,7 @@ namespace sge {
 		//glUniform3f(_lightDir, dir.x, dir.y, dir.z);
 		glUniform4f(_aGlowCol, _glowCol.x, _glowCol.y, _glowCol.z, _glowCol.w * _glowCol.w);
 		glUniform1i(_lightsNr, LightComponent::GetLightCount());
+		glUniform1f(_aLightReact, _lightReact);
 		//std::cout << LightComponent::GetLightCount() << std::endl;
 
 		//	glUniform1f(_time, clock() / 1000.f);
