@@ -69,8 +69,9 @@ namespace sge {
 	{
 		LuaComponent* comp = _components[state];
 		LuaState* ls = comp->GetState();
-		std::cout << "Parent should be: " << comp->GetParent()->GetParent() << std::endl;
-		ls->PushLightUserData(comp->GetParent()->GetParent(),"sge.gameObject");
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::cout << "Parent should be: " << obj->GetParent()->GetName() << std::endl;
+		ls->PushLightUserData(obj->GetParent(),"sge.gameObject");
 		return 1;
 	}
 
@@ -360,7 +361,10 @@ namespace sge {
 		lua_State* state = _state.GetState();
 		lua_getglobal(state, function.c_str());
 		_state.PushLightUserData(object);
-		lua_pcall(state, 1, 0, 0);
+		int status = lua_pcall(state, 1, 0, 0);
+		if (status) {
+			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
+		}
 	}
 	LuaState * LuaComponent::GetState()
 	{
@@ -717,14 +721,16 @@ namespace sge {
 	}
 
 	int LuaComponent::getChildren(lua_State* state) {
-		lua_newtable(state);
 		LuaComponent* comp = _components[state];
-		GameObject* obj = comp->GetParent();
+		LuaState* ls = comp->GetState();
+		GameObject* obj = ls->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<GameObject*> children = obj->GetChildren();
 		int childrenC = children.size();
+		lua_newtable(state);
 		for (int i = 0; i < childrenC; i++) {
 			//comp->GetState()->PushToTable(std::to_string(i), children[i]);
-			lua_pushlightuserdata(state, children[i]);
+			//lua_pushlightuserdata(state, children[i]);
+			comp->GetState()->PushLightUserData(children[i], "sge.gameObject");
 			lua_rawseti(state, -2, i);
 		}
 		return 1;

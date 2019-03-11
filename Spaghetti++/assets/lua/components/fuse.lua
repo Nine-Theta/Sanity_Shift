@@ -23,8 +23,8 @@ function onraycasthit(caster)
 		print(parent:getParent())
 		parent:removeComponent("boxcollider")
 		parent:setParent(phand)
-		print(parent:getParent())
 		parent:setPos(0,0,0)
 		print("Attached fuse to player hand!")
+		print(parent:getParent():getName())
 	end
 end

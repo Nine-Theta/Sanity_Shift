@@ -439,6 +439,7 @@ namespace sge {
 		//TODO: Implement ability to remove a component from the game object, also considering specials like collider or rigidbody
 		//_components.erase(p_component); 
 		_components.erase(std::remove(_components.begin(), _components.end(), p_component), _components.end());
+		p_component->OnDestroy();
 		delete p_component;
 	}
 
@@ -488,7 +489,7 @@ namespace sge {
 	void GameObject::AddChild(GameObject * child)
 	{
 		_children.push_back(child);
-		std::cout << "Added child " << child->GetName() << " to parent: " << GetName() << std::endl;
+		//std::cout << "Added child " << child->GetName() << " to parent: " << GetName() << std::endl;
 	}
 
 	void GameObject::RemoveChild(GameObject * child)
@@ -496,7 +497,7 @@ namespace sge {
 		//_children.remove
 		//TODO: make it possible to remove children
 		_children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
-		std::cout << "Removed child " << child->GetName() << " from parent: " << GetName() << std::endl;
+		//std::cout << "Removed child " << child->GetName() << " from parent: " << GetName() << std::endl;
 	}
 
 	void GameObject::FlagMoved()
