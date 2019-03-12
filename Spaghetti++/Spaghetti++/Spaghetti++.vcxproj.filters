@@ -201,6 +201,9 @@
     <ClCompile Include="..\src\components\MannequinTriggerComp.cpp">
       <Filter>Quelldateien\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\BulletDebugDraw.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -378,6 +381,9 @@
     </ClInclude>
     <ClInclude Include="..\src\components\MannequinTriggerComp.h">
       <Filter>Headerdateien\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BulletDebugDraw.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

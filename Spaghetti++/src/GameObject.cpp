@@ -309,14 +309,14 @@ namespace sge {
 	{
 		if (_state > GOState::ACTIVE)
 			return;
-		for (GameObject* obj : _children) {
-			if(obj->IsActive())
-				obj->OnRender();
-		}
 		for (ObjectBehaviour* comp : _components) {
 			if(comp->IsEnabled())
 				comp->OnRender();
 			//std::cout << "Rendering children: " << _children.size() << std::endl;
+		}
+		for (GameObject* obj : _children) {
+			if(obj->IsActive())
+				obj->OnRender();
 		}
 		UpdateTransform(true);
 		//std::cout << "Rendered components: " << _components.size() << std::endl;

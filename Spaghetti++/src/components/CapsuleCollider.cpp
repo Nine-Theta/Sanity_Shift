@@ -33,7 +33,7 @@ namespace sge {
 		rbody->setFriction(.996f);
 		rbody->setSpinningFriction(.9f);
 		rbody->setActivationState(DISABLE_DEACTIVATION);
-		btVector3 angularfactor(0, 1, 0);
+		btVector3 angularfactor(0, 0, 0);
 		rbody->setAngularFactor(angularfactor);
 		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);
@@ -55,6 +55,7 @@ namespace sge {
 	void CapsuleCollider::Update()
 	{
 	}
+
 	void CapsuleCollider::OnCollision(Collider * other)
 	{
 	}
