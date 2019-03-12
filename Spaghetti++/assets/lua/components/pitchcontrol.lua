@@ -6,6 +6,7 @@ function start()
 	light = gameObject.find("Flashlight") 
 	--also controls the flashlight now, so slightly misleading name but if it works...
 	parent:playSound()
+	x,y,z = parent:getPos()
 end
 
 rotation = 0
@@ -25,6 +26,7 @@ function update()
 		parent:setRotation(1,0,0,rotation)
 		--print(mX, mY)
 	end
+	parent:setPos(x,y,z)
 	
 end
 	

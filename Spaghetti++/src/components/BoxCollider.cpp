@@ -31,7 +31,7 @@ namespace sge {
 		id = Physics::AddBody(rbody);
 
 		SetTrigger(trigger);
-		rbody->activate();
+		//rbody->activate();
 	}
 	void BoxCollider::OnDestroy()
 	{

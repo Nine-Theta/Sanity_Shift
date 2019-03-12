@@ -59,8 +59,8 @@ namespace sge {
 	inline Type * LuaState::GetObjectFromStackTop(std::string name)
 	{
 		Type* obj = static_cast<Type*>(
-			luaL_checkudata(state, -1, name.c_str()));
-		if(obj != NULL)
+			luaL_testudata(state, -1, name.c_str()));
+		//if(obj != NULL)
 			lua_pop(state, 1);
 		//lua_pop(state, 1);
 		return obj;

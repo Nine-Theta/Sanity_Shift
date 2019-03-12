@@ -72,7 +72,7 @@ namespace sge {
 		}
 
 		//	p_gameObj->LookAt(p_gameObj->GetCombinedPosition() + vec3(dir.x,dir.y,-dir.z),vec3(0,1,0));
-		if (_toChange) {
+		if (_move) {
 			vec3 dir = roomCheck() ? _player->GetCombinedPosition() - p_gameObj->GetCombinedPosition() : (startPos - p_gameObj->GetCombinedPosition());
 			float dist = length(dir);
 			if (dist > 1) {
@@ -89,17 +89,19 @@ namespace sge {
 			_col->GetRigidbody()->setLinearVelocity(btVector3(0, 0, 0));
 		}
 
-		if (intensity > 0.1f && dot(_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition(),_player->forward()) < 0) {
-			if (_toChange)
-				swapModel();
-
+		if (intensity <= 0.f || dot(_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition(), _player->forward()) > 0.1f) {
+			_timer -= TimeH::DeltaTime();
+			if (_timer > 0) return;
+			if (_toChange) {
+				swapModel(); 
+			}
+			_move = true;
 			_toChange = false;
-			_timer = randf() * 1 + 1.5f;
 		}
 		else {
-			_timer -= TimeH::FixedDelta();
-			if (_timer < 0)
-				_toChange = true;
+			_toChange = true;
+			_move = false;
+			_timer = randf() * 1.5f + 1.5f;
 		}
 	}
 

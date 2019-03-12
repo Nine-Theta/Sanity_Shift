@@ -184,7 +184,7 @@ namespace sge {
 		}
 		int status = lua_pcall(state, args.size(), 0,0);
 		if (status) {
-			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
+			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << lua_gettop(state) << std::endl;
 		}
 
 		int n = lua_gettop(state);

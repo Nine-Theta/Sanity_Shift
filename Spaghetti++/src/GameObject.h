@@ -31,6 +31,7 @@ namespace sge {
 		void RemoveChild(GameObject* child);
 		void FlagMoved();
 
+		bool parentChanged = false;
 	public:
 		GameObject();
 		GameObject(GameObject* p_parent);
@@ -107,7 +108,7 @@ namespace sge {
 		}//Bit slower but polymorphism supported
 		std::vector<ObjectBehaviour*> GetComponents();
 		void AddComponent(ObjectBehaviour * p_component);
-		void RemoveComponent(ObjectBehaviour* p_component, bool toDelete);
+		void RemoveComponent(ObjectBehaviour* p_component, bool toDelete = true);
 	};
 	/*template<typename T>
 	inline T * GameObject::GetComponent()
