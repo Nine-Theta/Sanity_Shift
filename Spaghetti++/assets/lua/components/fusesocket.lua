@@ -5,11 +5,11 @@ end
 
 hit = false
 function fixedupdate()
+	--	print(parent:getWorldPos())
 	if fuse == nil then
 		return
 	end
 	if hit then 
-		--print("Displaying socket in space")
 		fuse:getChildren()[0]:setFluorReaction(1)
 		fuse:setParent(parent)
 		fuse:setPos(0,0,0)
@@ -33,6 +33,7 @@ end
 
 function onraycasthit(caster)
 	hit = true
+	--print("FUSESOCKET")
 	if fuse == nil then
 		fuse = phand:getChildren()[0]
 		--hit = false

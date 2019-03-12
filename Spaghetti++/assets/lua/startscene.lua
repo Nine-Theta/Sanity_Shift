@@ -45,7 +45,7 @@ print("init")
 	objfloor:setPos(0,0,0)
 	objfloor:addComponent("lua", "raycasthit.lua")
 	objfloor:addComponent("mesh", "plane20x20_2tris_aligned_uvs.obj", "rustypaint.png","rustypaint_s.png","flat_n.png")
-	objfloor:addComponent("meshcollider", "plane20x20_2tris_aligned_uvs.obj")
+	--objfloor:addComponent("meshcollider", "plane20x20_2tris_aligned_uvs.obj")
 		
 		print("init floor")
 		

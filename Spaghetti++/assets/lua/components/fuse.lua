@@ -18,13 +18,15 @@ end
 
 function onraycasthit(caster)
 	hit = true
+	print("FUSE")
 	if keys.down(keys.E) then
+		if phand:getChildren()[0] ~= nil then
+			return
+		end
 		print("Attaching a fuse to player hand")
-		print(parent:getParent())
 		parent:removeComponent("boxcollider")
 		parent:setParent(phand)
 		parent:setPos(0,0,0)
 		print("Attached fuse to player hand!")
-		print(parent:getParent():getName())
 	end
 end

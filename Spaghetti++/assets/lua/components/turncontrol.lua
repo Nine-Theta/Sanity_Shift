@@ -1,6 +1,7 @@
 --parent is component's parent gameObject. It supports functions 
 
 function start()
+	x,y,z = parent:getPos()
 end
 
 velY = 0
@@ -31,6 +32,9 @@ function update()
 		mouse.toggleLock()
 		locked = not locked		
 	end
+	parent:setPos(x,y,z)
+	
+	
 end
 
 	

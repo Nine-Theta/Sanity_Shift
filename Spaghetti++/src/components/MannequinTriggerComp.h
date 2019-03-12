@@ -15,6 +15,7 @@ namespace sge {
 		AbstractMaterial* _material;
 		MeshComponent* _comp;
 		bool _toChange = false;
+		bool _move = false;
 		float _timer = 0;
 		int mannequins;
 		GameObject* _player;
