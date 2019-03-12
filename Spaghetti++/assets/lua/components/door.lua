@@ -7,7 +7,7 @@ function math.Clamp(val, lower, upper)
 end
 
 function start()
-	door = parent:getParent():getParent()
+	door = parent:getParent()
 	parent:setDistanceLimit(15)
 	print("DOOR INITIALISED")
 end
@@ -15,7 +15,7 @@ maxAngle = 100
 angleS = 0
 direction = 1
 secs = 0.95
-ctime = 0
+ctime = 1
 
 timeToClose = 0
 function fixedupdate()
