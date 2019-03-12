@@ -5,6 +5,10 @@ function start()
 
 end
 
+function update() --currently disabled
+
+end
+
 function onraycasthit(caster)
 	print("raycast hit!")
 	local children = parent:getChildren()
@@ -17,24 +21,22 @@ function onraycasthit(caster)
 end
 
 function Selected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","ExitGameTest.obj","brown.dds","white_s.png","flat_n.png")
-	print("ExitButton Selected")
+	print("ResumeGameButton Selected")
 end
 
 function Deselected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","ExitGameTest.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("ExitButton Deselected")
+	print("ResumeGameButton Deselected")
 end
 
 function Invoke()
-	util.exitGame()
-	--print("TODO: close game")
+	print("Resumebutton invoked")
+	time.settimescale(1)
+	gameObject.find("PauseScreen"):setActive(false)
+	mouse.setLock(true)
 end
 	
 function fixedupdate()
-	--util.raycast(gameObject.find("Player"), gameObject.find("MainCam"))
+	
 end
 	
 function ondestroy()

@@ -159,7 +159,7 @@ namespace sge {
 		}
 		_newComponents.clear();
 	}
-
+	
 	void Game::Run()
 	{
 		if (running) return;
@@ -272,6 +272,11 @@ namespace sge {
 		}
 		if(contains)
 			_newComponents.remove(p_comp);
+	}
+	
+	void Game::CloseGame() {
+		instance->DestroyAllObjects();
+		running = false;
 	}
 
 	void Game::DestroyAllObjects()

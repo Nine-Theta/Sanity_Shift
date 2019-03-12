@@ -43,6 +43,7 @@ namespace sge {
 		void RemoveFromRoot(GameObject* p_object);
 		void RemoveFromNewComponents(ObjectBehaviour* p_comp);
 		void DestroyAllObjects();
+		void CloseGame();
 		GameObject* FindGameObject(std::string name);
 		size_t GetObjectCount();
 		static sge::Game& GetInstance();

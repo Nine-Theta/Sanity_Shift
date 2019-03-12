@@ -98,6 +98,7 @@ namespace sge {
 		static int toggleMouseLock(lua_State* state);
 
 		static int raycast(lua_State* state);
+		static int exitGame(lua_State* state);
 
 		//static const type_info& ParseComponentType(std::string type);
 

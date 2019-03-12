@@ -20,6 +20,18 @@ function onraycasthit(caster)
 	Invoke()
 end
 
+function Selected()
+	parent:removeComponent("mesh")
+	parent:addComponent("mesh","SettingsTest.obj","brown.dds","white_s.png","flat_n.png")
+	print("Settings Selected")
+end
+
+function Deselected()
+	parent:removeComponent("mesh")
+	parent:addComponent("mesh","SettingsTest.obj","lightGray.dds","white_s.png","flat_n.png")
+	print("Settings Deselected")
+end
+
 function Invoke()
 	print("settings invoked")
 

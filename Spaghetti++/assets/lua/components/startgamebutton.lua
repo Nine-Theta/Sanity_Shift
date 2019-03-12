@@ -20,6 +20,18 @@ function onraycasthit(caster)
 	Invoke()
 end
 
+function Selected()
+	parent:removeComponent("mesh")
+	parent:addComponent("mesh","StartGameTest2.obj","brown.dds","white_s.png","flat_n.png")
+	print("StartGameButton Selected")
+end
+
+function Deselected()
+	parent:removeComponent("mesh")
+	parent:addComponent("mesh","StartGameTest2.obj","lightGray.dds","white_s.png","flat_n.png")
+	print("StartGameButton Deselected")
+end
+
 function Invoke()
 	print("startbutton invoked")
 	gameObject.deleteAll()
