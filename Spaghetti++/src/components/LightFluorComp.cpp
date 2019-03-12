@@ -56,7 +56,7 @@ namespace sge {
 		}
 		float extraCharge = clamp(((intensity * chargePerSec)), 0.f, 1.f);
 		//std::cout << "Charge amount from " << lightCount << " lamps: " << extraCharge << std::endl;
-		glow = vec4(vec3(glow), clamp(glow.w += (extraCharge - dischargePerSec) * TimeH::DeltaTime(), 0.f, 1.f));
+		glow = vec4(vec3(glow), clamp(glow.w += (extraCharge - dischargePerSec) * TimeH::DeltaTime(), 0.f, 2.f));
 		material->setGlowCol(glow);
 	}
 

@@ -13,7 +13,7 @@ namespace sge {
 	private:
 		vec4 glow = vec4(0,0.4f,0.1f,1.0f);
 		float chargePerSec = 0.40f;
-		float dischargePerSec = 0.15f;
+		float dischargePerSec = 0.06f;
 
 		FluorescentMaterial* material;
 

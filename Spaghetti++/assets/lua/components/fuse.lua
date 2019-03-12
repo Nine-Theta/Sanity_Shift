@@ -13,12 +13,12 @@ function fixedupdate()
 end
 
 function raycastresult(lol)
-	print("RESULT")
+	--print("RESULT")
 end
 
 function onraycasthit(caster)
 	hit = true
-	print("FUSE")
+	--print("FUSE")
 	if keys.down(keys.E) then
 		if phand:getChildren()[0] ~= nil then
 			return
