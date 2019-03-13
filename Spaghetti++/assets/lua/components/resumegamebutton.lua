@@ -21,17 +21,23 @@ function onraycasthit(caster)
 end
 
 function Selected()
+	parent:removeComponent("mesh")
+	parent:addComponent("mesh","ResumeGameTestSelect.obj","brown.dds","white_s.png","flat_n.png")
 	print("ResumeGameButton Selected")
 end
 
 function Deselected()
+	parent:removeComponent("mesh")
+	parent:addComponent("mesh","ResumeGameTest.obj","lightGray.dds","white_s.png","flat_n.png")
 	print("ResumeGameButton Deselected")
 end
 
 function Invoke()
 	print("Resumebutton invoked")
 	time.settimescale(1)
-	gameObject.find("PauseScreen"):setActive(false)
+	screen = gameObject.find("PauseScreen") 
+	screen:callFunction("DeactivateAll")
+	screen:setActive(false)
 	mouse.setLock(true)
 end
 	

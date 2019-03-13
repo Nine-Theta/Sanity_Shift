@@ -22,7 +22,7 @@ end
 
 function Selected()
 	parent:removeComponent("mesh")
-	parent:addComponent("mesh","SettingsTest.obj","brown.dds","white_s.png","flat_n.png")
+	parent:addComponent("mesh","SettingsTestSelect.obj","brown.dds","white_s.png","flat_n.png")
 	print("Settings Selected")
 end
 

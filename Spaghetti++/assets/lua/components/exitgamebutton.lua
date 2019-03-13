@@ -18,13 +18,13 @@ end
 
 function Selected()
 	parent:removeComponent("mesh")
-	parent:addComponent("mesh","ExitGameTest.obj","brown.dds","white_s.png","flat_n.png")
+	parent:addComponent("mesh","QuitToDesktopTestSelect.obj","brown.dds","white_s.png","flat_n.png")
 	print("ExitButton Selected")
 end
 
 function Deselected()
 	parent:removeComponent("mesh")
-	parent:addComponent("mesh","ExitGameTest.obj","lightGray.dds","white_s.png","flat_n.png")
+	parent:addComponent("mesh","QuitToDesktopTest.obj","lightGray.dds","white_s.png","flat_n.png")
 	print("ExitButton Deselected")
 end
 
