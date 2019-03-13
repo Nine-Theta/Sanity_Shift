@@ -261,6 +261,7 @@ namespace sge {
 	const struct luaL_Reg LuaComponent::utilityLib[] =
 	{
 		{"raycast", raycast},
+		{"exitGame", exitGame},
 		{NULL, NULL} // - signals the end of the registry
 	};
 
@@ -905,6 +906,12 @@ namespace sge {
 		if (other != NULL)
 			std::cout << "hit!" << std::endl;
 				other->CallFunctionWithGameObject("onraycasthit", cam);
+		return 0;
+	}
+
+	int LuaComponent::exitGame(lua_State* state)
+	{
+		Game::GetInstance().CloseGame();
 		return 0;
 	}
 }

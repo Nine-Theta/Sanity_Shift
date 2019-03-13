@@ -22,23 +22,23 @@ end
 
 function Selected()
 	parent:removeComponent("mesh")
-	parent:addComponent("mesh","StartGameTest4Select.obj","brown.dds","white_s.png","flat_n.png")
-	print("StartGameButton Selected")
+	parent:addComponent("mesh","ResumeGameTestSelect.obj","brown.dds","white_s.png","flat_n.png")
+	print("ResumeGameButton Selected")
 end
 
 function Deselected()
 	parent:removeComponent("mesh")
-	parent:addComponent("mesh","StartGameTest4.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("StartGameButton Deselected")
+	parent:addComponent("mesh","ResumeGameTest.obj","lightGray.dds","white_s.png","flat_n.png")
+	print("ResumeGameButton Deselected")
 end
 
 function Invoke()
-	print("startbutton invoked")
-	gameObject.deleteAll()
-	obj = gameObject.new()
-	obj:setName("Loader")
-	obj:addComponent("lua", "sceneloader.lua")
-	obj:sendMessage("../scene.lua")
+	print("Resumebutton invoked")
+	time.settimescale(1)
+	screen = gameObject.find("PauseScreen") 
+	screen:callFunction("DeactivateAll")
+	screen:setActive(false)
+	mouse.setLock(true)
 end
 	
 function fixedupdate()

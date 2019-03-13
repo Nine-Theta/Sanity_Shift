@@ -16,10 +16,21 @@ function onraycasthit(caster)
 	Invoke()
 end
 
+function Selected()
+	parent:removeComponent("mesh")
+	parent:addComponent("mesh","QuitToDesktopTestSelect.obj","brown.dds","white_s.png","flat_n.png")
+	print("ExitButton Selected")
+end
+
+function Deselected()
+	parent:removeComponent("mesh")
+	parent:addComponent("mesh","QuitToDesktopTest.obj","lightGray.dds","white_s.png","flat_n.png")
+	print("ExitButton Deselected")
+end
+
 function Invoke()
-	
-	--gameObject.deleteAll()
-	print("TODO: close game")
+	util.exitGame()
+	--print("TODO: close game")
 end
 	
 function fixedupdate()
