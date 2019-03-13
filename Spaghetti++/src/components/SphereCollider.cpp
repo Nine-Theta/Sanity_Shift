@@ -25,14 +25,10 @@ namespace sge {
 		btDefaultMotionState* motionState = new btDefaultMotionState(transform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, shape, inertia);
 		rbody = new btRigidBody(rbInfo);
-		rbody->setRestitution(.3f);
-		rbody->setDamping(0.12f, .66f);
-		rbody->setRollingFriction(.96f);
-		rbody->setFriction(.996f);
-		rbody->setSpinningFriction(.9f);
-		rbody->setActivationState(DISABLE_DEACTIVATION);
-		btVector3 angularfactor(0, 1, 0);
-		rbody->setAngularFactor(angularfactor);
+		rbody->setRestitution(.5f);
+		rbody->setFriction(0.5f);
+		rbody->setDamping(0.3f, 0.2);
+		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);
 
 		SetTrigger(trigger);
