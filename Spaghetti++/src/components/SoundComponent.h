@@ -8,14 +8,18 @@ namespace sge {
 	{
 	public:
 		Sound* GetSound();
+		void SetSound(std::string path);
 		bool IsPlaying();
 		void Play();
+		void Stop(float seconds = 0.1f);
 		SoundComponent(std::string filepath);
 		~SoundComponent();
 	private:
 		Sound* _snd;
 		ALuint source;
 		vec3 lastPos;
+		float volumeGain = 1;
+		float volume = 1;
 
 		// Geerbt über ObjectBehaviour
 		virtual void Start() override;

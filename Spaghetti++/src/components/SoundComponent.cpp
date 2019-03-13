@@ -25,6 +25,13 @@ namespace sge {
 		return _snd;
 	}
 
+	void SoundComponent::SetSound(std::string path)
+	{
+		assert(_snd != NULL);
+		_snd = AssetLoader::GetSound(path);
+		alSourcei(source, AL_BUFFER, _snd->GetBuffer());
+	}
+
 	SoundComponent::~SoundComponent()
 	{
 	}
@@ -47,6 +54,7 @@ namespace sge {
 			ALuint snd = _snd->GetBuffer();
 			alSourcePlay(source);
 		}*/
+		volume = clamp(volume + (1 / volumeGain) * TimeH::FixedDelta(), 0.f, 1.f);
 		vec3 pos = CameraComponent::GetMain()->GetView() * vec4(p_gameObj->GetCombinedPosition(),1);
 		vec3 vpos = p_gameObj->GetCombinedPosition() - CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 		vec3 diff = vpos - lastPos;
@@ -54,6 +62,7 @@ namespace sge {
 		diff /= TimeH::FixedDelta();
 		alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
 		alSource3f(source, AL_VELOCITY, diff.x,diff.y,diff.z);
+		alSourcef(source, AL_GAIN, volume);
 		//alDopplerFactor(1);
 		//alDopplerVelocity(343);
 	}
@@ -83,7 +92,14 @@ namespace sge {
 	{
 		ALuint snd = _snd->GetBuffer();
 		alSourcePlay(source);
+		volumeGain = 1;
+		volume = 1;
 		std::cout << "PLAYING AUDIO CLIP" << std::endl;
+	}
+
+	void SoundComponent::Stop(float seconds)
+	{
+		volumeGain = -seconds;
 	}
 
 }
