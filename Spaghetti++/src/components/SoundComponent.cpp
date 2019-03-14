@@ -255,7 +255,7 @@ namespace sge {
 		if (CameraComponent::GetMain() == NULL) return false;
 		vec3 cam = CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 		vec3 pos = GetParent()->GetCombinedPosition();
-		RaycastHit hit = Physics::Raycast(pos + 1.5f * normalize(pos - cam), normalize(pos - cam), length(pos - cam) - 1.5f * normalize(pos - cam));
+		RaycastHit hit = Physics::Raycast(pos + 1.5f * normalize(pos - cam), normalize(pos - cam), length(pos - cam) - 1.5f);
 		if (!hit.hit) return true;
 		if (length(hit.point - cam) < 1.4f) return true;
 		return false;
