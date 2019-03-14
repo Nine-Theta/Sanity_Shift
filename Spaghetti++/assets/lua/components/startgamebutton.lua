@@ -23,17 +23,17 @@ end
 function Selected()
 	parent:removeComponent("mesh")
 	parent:addComponent("mesh","StartGameTest4Select.obj","brown.dds","white_s.png","flat_n.png")
-	print("StartGameButton Selected")
+	--print("StartGameButton Selected")
 end
 
 function Deselected()
 	parent:removeComponent("mesh")
 	parent:addComponent("mesh","StartGameTest4.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("StartGameButton Deselected")
+	--print("StartGameButton Deselected")
 end
 
 function Invoke()
-	print("startbutton invoked")
+	--print("startbutton invoked")
 	gameObject.deleteAll()
 	obj = gameObject.new()
 	obj:setName("Loader")

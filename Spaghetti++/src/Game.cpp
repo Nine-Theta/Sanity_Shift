@@ -165,7 +165,7 @@ namespace sge {
 		if (running) return;
 		running = true;
 		GameObject* obj = new GameObject();
-		obj->AddComponent(new LuaComponent("../deathscene.lua"));
+		obj->AddComponent(new LuaComponent("../startscene.lua"));
 		//obj->AddComponent(new BoxCollider(vec3(1, 1, 1), 0));
 		updateLoop();
 		LuaComponent* lua = (LuaComponent*)obj->GetComponent(typeid(LuaComponent));

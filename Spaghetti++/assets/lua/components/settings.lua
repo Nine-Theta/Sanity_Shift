@@ -23,13 +23,13 @@ end
 function Selected()
 	parent:removeComponent("mesh")
 	parent:addComponent("mesh","SettingsTestSelect.obj","brown.dds","white_s.png","flat_n.png")
-	print("Settings Selected")
+	--print("Settings Selected")
 end
 
 function Deselected()
 	parent:removeComponent("mesh")
 	parent:addComponent("mesh","SettingsTest.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("Settings Deselected")
+	--print("Settings Deselected")
 end
 
 function Invoke()
