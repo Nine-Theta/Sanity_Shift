@@ -138,6 +138,7 @@ namespace sge {
 		
 		RaycastHit hit;
 		hit.hit = RayCallback.hasHit();
+		hit.collider = NULL;
 		if (hit.hit) {
 			btVector3 v3 = RayCallback.m_hitPointWorld;
 			hit.point = glm::vec3((float)v3.x(), (float)v3.y(), (float)v3.z());

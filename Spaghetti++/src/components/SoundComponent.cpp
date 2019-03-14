@@ -11,6 +11,7 @@
 #include "AL/efx.h"
 #include "common/alhelpers.h"
 #include "AL/efx-presets.h"
+#include "AbstractCollider.h"
 
 /* Effect object functions */
 static LPALGENEFFECTS alGenEffects;
@@ -169,7 +170,7 @@ namespace sge {
 		//alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
 		//alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
 
-		alSourcef(source, AL_AIR_ABSORPTION_FACTOR, 0.1f);
+		//alSourcef(source, AL_AIR_ABSORPTION_FACTOR, 0.1f);
 		alSource3i(source, AL_AUXILIARY_SEND_FILTER, effectSlot, 0, filter);
 		assert(alGetError() == AL_NO_ERROR && "Failed to setup sound source");
 	}
@@ -203,13 +204,14 @@ namespace sge {
 		alSourcef(source, AL_GAIN, volume);
 
 		if (!IsDirect()) {
-			alFilterf(filter, AL_LOWPASS_GAIN, 0.7f);
-			alFilterf(filter, AL_LOWPASS_GAINHF, 0.1f);
+			alFilterf(filter, AL_LOWPASS_GAIN, 0.5f);
+			alFilterf(filter, AL_LOWPASS_GAINHF, 0.02f);
 		}
 		else {
 			alFilterf(filter, AL_LOWPASS_GAIN, 1.f);
 			alFilterf(filter, AL_LOWPASS_GAINHF, 1.f);
 		}
+		alSource3i(source, AL_AUXILIARY_SEND_FILTER, effectSlot, 0, filter);
 		//std::cout << IsDirect() << std::endl;
 		//alDopplerFactor(1);
 		//alDopplerVelocity(343);
@@ -250,13 +252,19 @@ namespace sge {
 		volumeGain = -seconds;
 	}
 
+	std::string vec2string(vec3 vec) {
+		std::string point = "P:" + std::to_string(vec.x) + "," + std::to_string(vec.y) + "," + std::to_string(vec.z);
+		return point;
+	}
+
 	bool SoundComponent::IsDirect()
 	{
 		if (CameraComponent::GetMain() == NULL) return false;
 		vec3 cam = CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 		vec3 pos = GetParent()->GetCombinedPosition();
-		RaycastHit hit = Physics::Raycast(pos + 1.5f * normalize(pos - cam), normalize(pos - cam), length(pos - cam) - 1.5f);
-		//std::cout << length(hit.point - cam) << " HIT: " << hit.hit << std::endl;
+		RaycastHit hit = Physics::Raycast(pos + 2.f * -normalize(pos - cam), -normalize(pos - cam), length(pos - cam) - 2.f);
+		//std::string point = "P:" + std::to_string(hit.point.x) + "," + std::to_string(hit.point.y) + "," + std::to_string(hit.point.z);
+		//std::cout << length(hit.point - cam) << " Listener: " << vec2string(pos) << " LENGTH: " << length(pos-cam) << " Collider: " << (hit.collider != NULL ? hit.collider->GetParent()->GetName() : "NULL") << std::endl;
 		if (!hit.hit) return true;
 		if (length(hit.point - cam) < 1.4f) return true;
 		return false;
