@@ -205,6 +205,8 @@ namespace sge {
 		{"setText", setText},
 		{"setFluorReaction", setFluorReaction},
 		{"playSound", playSound},
+		{"setSound", setSound},
+		{"stopSound", stopSound},
 		{"addForce", addForce},
 		{"setDistanceLimit", setDistanceLimit},
 		{NULL, NULL} // - signals the end of the registry
@@ -586,6 +588,37 @@ namespace sge {
 		}
 		else {
 			std::cout << "ATTEMPTED TO PLAY A SOUND THAT DOES NOT EXIST " << std::endl;
+		}
+		return 0;
+	}
+	int LuaComponent::setSound(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<std::string> vals = comp->GetState()->GetArgsFromStack();
+		SoundComponent* col = obj->GetComponent<SoundComponent>();
+		if (col != NULL) {
+			col->SetSound(vals[0]);
+		}
+		else {
+			//std::cout << "ATTEMPTED TO PLAY A SOUND THAT DOES NOT EXIST " << std::endl;
+		}
+		return 0;
+	}
+	int LuaComponent::stopSound(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		SoundComponent* col = obj->GetComponent<SoundComponent>();
+		if (col != NULL) {
+			if (vals.size() > 0)
+				col->Stop((float)vals[0]);
+			else
+				col->Stop();
+		}
+		else {
+			std::cout << "ATTEMPTED TO STOP A SOUND THAT DOES NOT EXIST " << std::endl;
 		}
 		return 0;
 	}

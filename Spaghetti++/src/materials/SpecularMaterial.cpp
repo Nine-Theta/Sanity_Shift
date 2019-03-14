@@ -115,7 +115,7 @@ namespace sge {
 		glUniformMatrix4fv(_uMVMatrix, 1, GL_FALSE, glm::value_ptr(mvMatrix));
 
 		//pass light direction
-		//glm::vec3 dir = pWorld->getLightAt(0)->getWorldPosition();//glm::normalize(-pWorld->getLightAt(0)->getWorldTransform()[2]);//glm::normalize(glm::vec3(-1, 1, -1));
+		//glm::vec3 dir = pWorld->getLightAt(0)->getWorldPosition();//glm::normalize(-pWorld->getLightAt(0)->getWorldTransform()[2])5;//glm::normalize(glm::vec3(-1, 1, -1));
 		//std::cout << "Relative to cam: " << dir << std::endl;
 		//glm::vec3 posC = vMatrix * glm::vec4(dir, 1.0f);
 		//std::cout << "Relative to cam: " << posC << std::endl;
