@@ -210,7 +210,7 @@ namespace sge {
 			alFilterf(filter, AL_LOWPASS_GAIN, 1.f);
 			alFilterf(filter, AL_LOWPASS_GAINHF, 1.f);
 		}
-		std::cout << IsDirect() << std::endl;
+		//std::cout << IsDirect() << std::endl;
 		//alDopplerFactor(1);
 		//alDopplerVelocity(343);
 	}
@@ -256,6 +256,7 @@ namespace sge {
 		vec3 cam = CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 		vec3 pos = GetParent()->GetCombinedPosition();
 		RaycastHit hit = Physics::Raycast(pos + 1.5f * normalize(pos - cam), normalize(pos - cam), length(pos - cam) - 1.5f);
+		//std::cout << length(hit.point - cam) << " HIT: " << hit.hit << std::endl;
 		if (!hit.hit) return true;
 		if (length(hit.point - cam) < 1.4f) return true;
 		return false;
