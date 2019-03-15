@@ -75,9 +75,18 @@ namespace sge {
 
 	void SoundComponent::SetSound(std::string path)
 	{
-		assert(_snd != NULL);
+		alSourceStop(source);
 		_snd = AssetLoader::GetSound(path);
+		assert(_snd != NULL);
 		alSourcei(source, AL_BUFFER, _snd->GetBuffer());
+		ALenum error = alGetError();
+		if (error != ALUT_ERROR_NO_ERROR)
+		{
+			fprintf(stderr, "%s\n", alGetString(error));
+			alutExit();
+			//exit(EXIT_FAILURE);
+		}
+		loadEffects();
 	}
 
 	SoundComponent::~SoundComponent()
@@ -131,44 +140,67 @@ namespace sge {
 
 		alGenEffects(1, &effect);
 		alGenAuxiliaryEffectSlots(1, &effectSlot);
-		alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
-		alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
-		alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
-		assert(alGetError() == AL_NO_ERROR && "Failed to set effect slot");
+		if (_snd->GetFormat() == AL_FORMAT_STEREO8 || _snd->GetFormat() == AL_FORMAT_STEREO16) {
+			//assert(alGetError() == AL_NO_ERROR && "Failed to set effect slot");
 
-		EFXEAXREVERBPROPERTIES reverba = EFX_REVERB_PRESET_DRIVING_COMMENTATOR;
-		EFXEAXREVERBPROPERTIES* reverb = &reverba;
+			//alEffectf(effect, AL_CPOM, 1.f);
+			//alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
+			//alEffecti(effect, AL_COMPRESSOR_ONOFF, 1);
+			//alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
+			//alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
+			ALenum error = alGetError();
+			if (error != ALUT_ERROR_NO_ERROR)
+			{
+				fprintf(stderr, "%s\n", alGetString(error));
+				std::cout << "OPENAL EFFECT ERROR: " << alGetString(error) << std::endl;
+				//exit(EXIT_FAILURE);
+			}
+		}
+		else {
+			alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
+			assert(alGetError() == AL_NO_ERROR && "Failed to set effect slot");
 
-		alEffectf(effect, AL_EAXREVERB_DENSITY, reverb->flDensity);
-		alEffectf(effect, AL_EAXREVERB_DIFFUSION, reverb->flDiffusion);
-		alEffectf(effect, AL_EAXREVERB_GAIN, reverb->flGain);
-		alEffectf(effect, AL_EAXREVERB_GAINHF, reverb->flGainHF);
-		alEffectf(effect, AL_EAXREVERB_GAINLF, reverb->flGainLF);
-		alEffectf(effect, AL_EAXREVERB_DECAY_TIME, reverb->flDecayTime);
-		alEffectf(effect, AL_EAXREVERB_DECAY_HFRATIO, reverb->flDecayHFRatio);
-		alEffectf(effect, AL_EAXREVERB_DECAY_LFRATIO, reverb->flDecayLFRatio);
-		alEffectf(effect, AL_EAXREVERB_REFLECTIONS_GAIN, reverb->flReflectionsGain);
-		alEffectf(effect, AL_EAXREVERB_REFLECTIONS_DELAY, reverb->flReflectionsDelay);
-		alEffectfv(effect, AL_EAXREVERB_REFLECTIONS_PAN, reverb->flReflectionsPan);
-		alEffectf(effect, AL_EAXREVERB_LATE_REVERB_GAIN, reverb->flLateReverbGain);
-		alEffectf(effect, AL_EAXREVERB_LATE_REVERB_DELAY, reverb->flLateReverbDelay);
-		alEffectfv(effect, AL_EAXREVERB_LATE_REVERB_PAN, reverb->flLateReverbPan);
-		alEffectf(effect, AL_EAXREVERB_ECHO_TIME, reverb->flEchoTime);
-		alEffectf(effect, AL_EAXREVERB_ECHO_DEPTH, reverb->flEchoDepth);
-		alEffectf(effect, AL_EAXREVERB_MODULATION_TIME, reverb->flModulationTime);
-		alEffectf(effect, AL_EAXREVERB_MODULATION_DEPTH, reverb->flModulationDepth);
-		alEffectf(effect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, reverb->flAirAbsorptionGainHF);
-		alEffectf(effect, AL_EAXREVERB_HFREFERENCE, reverb->flHFReference);
-		alEffectf(effect, AL_EAXREVERB_LFREFERENCE, reverb->flLFReference);
-		alEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, reverb->flRoomRolloffFactor);
-		alEffecti(effect, AL_EAXREVERB_DECAY_HFLIMIT, reverb->iDecayHFLimit);
-		std::cout << reverb->flAirAbsorptionGainHF << std::endl;
+			EFXEAXREVERBPROPERTIES reverba = EFX_REVERB_PRESET_CARPETEDHALLWAY;
+			EFXEAXREVERBPROPERTIES* reverb = &reverba;
+
+			alEffectf(effect, AL_EAXREVERB_DENSITY, reverb->flDensity);
+			alEffectf(effect, AL_EAXREVERB_DIFFUSION, reverb->flDiffusion);
+			alEffectf(effect, AL_EAXREVERB_GAIN, reverb->flGain);
+			alEffectf(effect, AL_EAXREVERB_GAINHF, reverb->flGainHF);
+			alEffectf(effect, AL_EAXREVERB_GAINLF, reverb->flGainLF);
+			alEffectf(effect, AL_EAXREVERB_DECAY_TIME, reverb->flDecayTime);
+			alEffectf(effect, AL_EAXREVERB_DECAY_HFRATIO, reverb->flDecayHFRatio);
+			alEffectf(effect, AL_EAXREVERB_DECAY_LFRATIO, reverb->flDecayLFRatio);
+			alEffectf(effect, AL_EAXREVERB_REFLECTIONS_GAIN, reverb->flReflectionsGain);
+			alEffectf(effect, AL_EAXREVERB_REFLECTIONS_DELAY, reverb->flReflectionsDelay);
+			alEffectfv(effect, AL_EAXREVERB_REFLECTIONS_PAN, reverb->flReflectionsPan);
+			alEffectf(effect, AL_EAXREVERB_LATE_REVERB_GAIN, reverb->flLateReverbGain);
+			alEffectf(effect, AL_EAXREVERB_LATE_REVERB_DELAY, reverb->flLateReverbDelay);
+			alEffectfv(effect, AL_EAXREVERB_LATE_REVERB_PAN, reverb->flLateReverbPan);
+			alEffectf(effect, AL_EAXREVERB_ECHO_TIME, reverb->flEchoTime);
+			alEffectf(effect, AL_EAXREVERB_ECHO_DEPTH, reverb->flEchoDepth);
+			alEffectf(effect, AL_EAXREVERB_MODULATION_TIME, reverb->flModulationTime);
+			alEffectf(effect, AL_EAXREVERB_MODULATION_DEPTH, reverb->flModulationDepth);
+			alEffectf(effect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, reverb->flAirAbsorptionGainHF);
+			alEffectf(effect, AL_EAXREVERB_HFREFERENCE, reverb->flHFReference);
+			alEffectf(effect, AL_EAXREVERB_LFREFERENCE, reverb->flLFReference);
+			alEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, reverb->flRoomRolloffFactor);
+			alEffecti(effect, AL_EAXREVERB_DECAY_HFLIMIT, reverb->iDecayHFLimit);
+			//std::cout << reverb->flAirAbsorptionGainHF << std::endl;
+			alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
+			alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
+		}
 
 		alGenFilters(1, &filter);
-		alFilteri(filter, AL_FILTER_TYPE,AL_FILTER_LOWPASS);
+
+
+		alFilteri(filter, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+
+		alSourcei(source, AL_DIRECT_FILTER, filter);
+		//std::cout << _snd->GetFormat() << " - " << AL_FORMAT_STEREO8 << " - " << AL_FORMAT_STEREO16 <<std::endl;
 
 		//alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
-		//alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
+		alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
 
 		//alSourcef(source, AL_AIR_ABSORPTION_FACTOR, 0.1f);
 		alSource3i(source, AL_AUXILIARY_SEND_FILTER, effectSlot, 0, filter);
@@ -204,14 +236,15 @@ namespace sge {
 		alSourcef(source, AL_GAIN, volume);
 
 		if (!IsDirect()) {
-			alFilterf(filter, AL_LOWPASS_GAIN, 0.5f);
-			alFilterf(filter, AL_LOWPASS_GAINHF, 0.02f);
+			alFilterf(filter, AL_LOWPASS_GAIN, 0.45f);
+			alFilterf(filter, AL_LOWPASS_GAINHF, 0.04f);
 		}
 		else {
 			alFilterf(filter, AL_LOWPASS_GAIN, 1.f);
 			alFilterf(filter, AL_LOWPASS_GAINHF, 1.f);
 		}
 		alSource3i(source, AL_AUXILIARY_SEND_FILTER, effectSlot, 0, filter);
+		alSourcei(source, AL_DIRECT_FILTER, filter);
 		//std::cout << IsDirect() << std::endl;
 		//alDopplerFactor(1);
 		//alDopplerVelocity(343);
@@ -262,11 +295,11 @@ namespace sge {
 		if (CameraComponent::GetMain() == NULL) return false;
 		vec3 cam = CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 		vec3 pos = GetParent()->GetCombinedPosition();
-		RaycastHit hit = Physics::Raycast(pos + 2.f * -normalize(pos - cam), -normalize(pos - cam), length(pos - cam) - 2.f);
+		RaycastHit hit = Physics::Raycast(pos + .7f * -normalize(pos - cam), -normalize(pos - cam), length(pos - cam) - .7f);
 		//std::string point = "P:" + std::to_string(hit.point.x) + "," + std::to_string(hit.point.y) + "," + std::to_string(hit.point.z);
 		//std::cout << length(hit.point - cam) << " Listener: " << vec2string(pos) << " LENGTH: " << length(pos-cam) << " Collider: " << (hit.collider != NULL ? hit.collider->GetParent()->GetName() : "NULL") << std::endl;
 		if (!hit.hit) return true;
-		if (length(hit.point - cam) < 1.4f) return true;
+		if (length(hit.point - cam) < 0.9f) return true;
 		return false;
 	}
 

@@ -173,7 +173,7 @@ namespace sge {
 		lua->GetState()->CallFunction("init");
 		GameObject::Destroy(obj);
 		TextComponent::LoadFont("font.ttf");
-		Sound* snd = new Sound("LaserBlaster.wav");
+		//Sound* snd = new Sound("LaserBlaster.wav");
 		/*GameObject* room = new GameObject();
 		room->AddComponent(new MeshComponent("CollisionBox.obj",new SpecularMaterial("rustypaint.png","rustypaint_s.png")));
 		room->AddComponent(new MeshCollider("CollisionBox.obj",0.f));

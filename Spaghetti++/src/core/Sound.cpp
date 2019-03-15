@@ -12,7 +12,9 @@ namespace sge {
 	Sound::Sound(std::string pFilename)
 	{
 		
-		buffer = alutCreateBufferFromFile(pFilename.c_str());
+		ALvoid* data = alutLoadMemoryFromFile(pFilename.c_str(), &format, &size, &frequency);//alutCreateBufferFromFile(pFilename.c_str());
+		alGenBuffers(1, &buffer);
+		alBufferData(buffer, format, data, size, frequency);
 		if (buffer == AL_NONE)
 		{
 			ALenum error = alutGetError();
@@ -23,6 +25,7 @@ namespace sge {
 		}
 		else
 			std::cout << "Successfully loaded sound file: " << pFilename << std::endl;
+		//delete data;
 		//soundTest();
 	}
 
@@ -37,11 +40,11 @@ namespace sge {
 
 	Sound * Sound::load(std::string pFilename)
 	{
-		Sound* snd = new Sound();
-		snd->buffer = alutCreateBufferFromFile(pFilename.c_str());
-		if (snd->buffer == AL_NONE)
+		Sound* snd = new Sound(pFilename);
+		//snd->buffer = alutCreateBufferFromFile(pFilename.c_str());
+		ALenum error = alutGetError();
+		if (snd->buffer == AL_NONE || error)
 		{
-			ALenum error = alutGetError();
 			fprintf(stderr, "Error loading file: '%s'\n",
 				alutGetErrorString(error));
 			delete snd;
@@ -159,6 +162,16 @@ namespace sge {
 			fprintf(stderr, "%s\n", alutGetErrorString(error));
 			exit(EXIT_FAILURE);
 		}
+	}
+
+	ALenum Sound::GetFormat()
+	{
+		return format;
+	}
+
+	ALfloat Sound::GetFrequency()
+	{
+		return frequency;
 	}
 
 	Sound::Sound() : buffer(0)

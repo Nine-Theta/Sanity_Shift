@@ -365,7 +365,7 @@ namespace sge {
 		lua_getglobal(state, function.c_str());
 		_state.PushLightUserData(object);
 		int status = lua_pcall(state, 1, 0, 0);
-		if (status) {
+		if (false && status) {
 			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
 			lua_pop(state, -1);
 			//std::cout << lua_tostring(state, -1) << std::endl;
