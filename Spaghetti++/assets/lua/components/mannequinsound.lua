@@ -7,7 +7,7 @@ end
 function loadRandomFootstep()
 	step = math.random(1,7)
 	parent:setSound("steps" .. step .. ".wav")
-	parent:setSound("thomas.wav")
+	--parent:setSound("thomas.wav")
 end
 
 nextStep = 0
@@ -19,7 +19,7 @@ function fixedupdate()
 	nextStep = nextStep - time.fixedDelta()
 	if nextStep < 0 then
 		nextStep = 0.8 * math.random() + 0.8
-		--playing = false
+		playing = false
 	end
 	if lastPosSum == posSum then
 		parent:stopSound()

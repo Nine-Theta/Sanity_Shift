@@ -51,6 +51,7 @@ static LPALGETFILTERF alGetFilterf;
 static LPALGETFILTERFV alGetFilterfv;
 
 
+
 namespace sge {
 	SoundComponent::SoundComponent(std::string path)
 	{
@@ -136,65 +137,65 @@ namespace sge {
 		LOAD_PROC(alGetFilterf, LPALGETFILTERF);
 		LOAD_PROC(alGetFilterfv, LPALGETFILTERFV);
 #undef LOAD_PROC
+		if (effect == UINT32_MAX) {
+			alGenEffects(1, &effect);
+			alGenAuxiliaryEffectSlots(1, &effectSlot);
+			if (_snd->GetFormat() == AL_FORMAT_STEREO8 || _snd->GetFormat() == AL_FORMAT_STEREO16) {
+				//assert(alGetError() == AL_NO_ERROR && "Failed to set effect slot");
 
-
-		alGenEffects(1, &effect);
-		alGenAuxiliaryEffectSlots(1, &effectSlot);
-		if (_snd->GetFormat() == AL_FORMAT_STEREO8 || _snd->GetFormat() == AL_FORMAT_STEREO16) {
-			//assert(alGetError() == AL_NO_ERROR && "Failed to set effect slot");
-
-			//alEffectf(effect, AL_CPOM, 1.f);
-			//alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
-			//alEffecti(effect, AL_COMPRESSOR_ONOFF, 1);
-			//alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
-			//alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
-			ALenum error = alGetError();
-			if (error != ALUT_ERROR_NO_ERROR)
-			{
-				fprintf(stderr, "%s\n", alGetString(error));
-				std::cout << "OPENAL EFFECT ERROR: " << alGetString(error) << std::endl;
-				//exit(EXIT_FAILURE);
+				//alEffectf(effect, AL_CPOM, 1.f);
+				//alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
+				//alEffecti(effect, AL_COMPRESSOR_ONOFF, 1);
+				//alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
+				//alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
+				ALenum error = alGetError();
+				if (error != ALUT_ERROR_NO_ERROR)
+				{
+					fprintf(stderr, "%s\n", alGetString(error));
+					std::cout << "OPENAL EFFECT ERROR: " << alGetString(error) << std::endl;
+					//exit(EXIT_FAILURE);
+				}
 			}
+			else {
+				alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
+				assert(alGetError() == AL_NO_ERROR && "Failed to set effect slot");
+
+				EFXEAXREVERBPROPERTIES reverba = EFX_REVERB_PRESET_CARPETEDHALLWAY;
+				EFXEAXREVERBPROPERTIES* reverb = &reverba;
+
+				alEffectf(effect, AL_EAXREVERB_DENSITY, reverb->flDensity);
+				alEffectf(effect, AL_EAXREVERB_DIFFUSION, reverb->flDiffusion);
+				alEffectf(effect, AL_EAXREVERB_GAIN, reverb->flGain);
+				alEffectf(effect, AL_EAXREVERB_GAINHF, reverb->flGainHF);
+				alEffectf(effect, AL_EAXREVERB_GAINLF, reverb->flGainLF);
+				alEffectf(effect, AL_EAXREVERB_DECAY_TIME, reverb->flDecayTime);
+				alEffectf(effect, AL_EAXREVERB_DECAY_HFRATIO, reverb->flDecayHFRatio);
+				alEffectf(effect, AL_EAXREVERB_DECAY_LFRATIO, reverb->flDecayLFRatio);
+				alEffectf(effect, AL_EAXREVERB_REFLECTIONS_GAIN, reverb->flReflectionsGain);
+				alEffectf(effect, AL_EAXREVERB_REFLECTIONS_DELAY, reverb->flReflectionsDelay);
+				alEffectfv(effect, AL_EAXREVERB_REFLECTIONS_PAN, reverb->flReflectionsPan);
+				alEffectf(effect, AL_EAXREVERB_LATE_REVERB_GAIN, reverb->flLateReverbGain);
+				alEffectf(effect, AL_EAXREVERB_LATE_REVERB_DELAY, reverb->flLateReverbDelay);
+				alEffectfv(effect, AL_EAXREVERB_LATE_REVERB_PAN, reverb->flLateReverbPan);
+				alEffectf(effect, AL_EAXREVERB_ECHO_TIME, reverb->flEchoTime);
+				alEffectf(effect, AL_EAXREVERB_ECHO_DEPTH, reverb->flEchoDepth);
+				alEffectf(effect, AL_EAXREVERB_MODULATION_TIME, reverb->flModulationTime);
+				alEffectf(effect, AL_EAXREVERB_MODULATION_DEPTH, reverb->flModulationDepth);
+				alEffectf(effect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, reverb->flAirAbsorptionGainHF);
+				alEffectf(effect, AL_EAXREVERB_HFREFERENCE, reverb->flHFReference);
+				alEffectf(effect, AL_EAXREVERB_LFREFERENCE, reverb->flLFReference);
+				alEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, reverb->flRoomRolloffFactor);
+				alEffecti(effect, AL_EAXREVERB_DECAY_HFLIMIT, reverb->iDecayHFLimit);
+				//std::cout << reverb->flAirAbsorptionGainHF << std::endl;
+				alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
+				alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
+			}
+
+			alGenFilters(1, &filter);
+
+
+			alFilteri(filter, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
 		}
-		else {
-			alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
-			assert(alGetError() == AL_NO_ERROR && "Failed to set effect slot");
-
-			EFXEAXREVERBPROPERTIES reverba = EFX_REVERB_PRESET_CARPETEDHALLWAY;
-			EFXEAXREVERBPROPERTIES* reverb = &reverba;
-
-			alEffectf(effect, AL_EAXREVERB_DENSITY, reverb->flDensity);
-			alEffectf(effect, AL_EAXREVERB_DIFFUSION, reverb->flDiffusion);
-			alEffectf(effect, AL_EAXREVERB_GAIN, reverb->flGain);
-			alEffectf(effect, AL_EAXREVERB_GAINHF, reverb->flGainHF);
-			alEffectf(effect, AL_EAXREVERB_GAINLF, reverb->flGainLF);
-			alEffectf(effect, AL_EAXREVERB_DECAY_TIME, reverb->flDecayTime);
-			alEffectf(effect, AL_EAXREVERB_DECAY_HFRATIO, reverb->flDecayHFRatio);
-			alEffectf(effect, AL_EAXREVERB_DECAY_LFRATIO, reverb->flDecayLFRatio);
-			alEffectf(effect, AL_EAXREVERB_REFLECTIONS_GAIN, reverb->flReflectionsGain);
-			alEffectf(effect, AL_EAXREVERB_REFLECTIONS_DELAY, reverb->flReflectionsDelay);
-			alEffectfv(effect, AL_EAXREVERB_REFLECTIONS_PAN, reverb->flReflectionsPan);
-			alEffectf(effect, AL_EAXREVERB_LATE_REVERB_GAIN, reverb->flLateReverbGain);
-			alEffectf(effect, AL_EAXREVERB_LATE_REVERB_DELAY, reverb->flLateReverbDelay);
-			alEffectfv(effect, AL_EAXREVERB_LATE_REVERB_PAN, reverb->flLateReverbPan);
-			alEffectf(effect, AL_EAXREVERB_ECHO_TIME, reverb->flEchoTime);
-			alEffectf(effect, AL_EAXREVERB_ECHO_DEPTH, reverb->flEchoDepth);
-			alEffectf(effect, AL_EAXREVERB_MODULATION_TIME, reverb->flModulationTime);
-			alEffectf(effect, AL_EAXREVERB_MODULATION_DEPTH, reverb->flModulationDepth);
-			alEffectf(effect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, reverb->flAirAbsorptionGainHF);
-			alEffectf(effect, AL_EAXREVERB_HFREFERENCE, reverb->flHFReference);
-			alEffectf(effect, AL_EAXREVERB_LFREFERENCE, reverb->flLFReference);
-			alEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, reverb->flRoomRolloffFactor);
-			alEffecti(effect, AL_EAXREVERB_DECAY_HFLIMIT, reverb->iDecayHFLimit);
-			//std::cout << reverb->flAirAbsorptionGainHF << std::endl;
-			alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_EFFECT, effect);
-			alAuxiliaryEffectSloti(effectSlot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, AL_TRUE);
-		}
-
-		alGenFilters(1, &filter);
-
-
-		alFilteri(filter, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
 
 		alSourcei(source, AL_DIRECT_FILTER, filter);
 		//std::cout << _snd->GetFormat() << " - " << AL_FORMAT_STEREO8 << " - " << AL_FORMAT_STEREO16 <<std::endl;
@@ -236,8 +237,8 @@ namespace sge {
 		alSourcef(source, AL_GAIN, volume);
 
 		if (!IsDirect()) {
-			alFilterf(filter, AL_LOWPASS_GAIN, 0.45f);
-			alFilterf(filter, AL_LOWPASS_GAINHF, 0.04f);
+			alFilterf(filter, AL_LOWPASS_GAIN, 0.75f);
+			alFilterf(filter, AL_LOWPASS_GAINHF, 0.07f);
 		}
 		else {
 			alFilterf(filter, AL_LOWPASS_GAIN, 1.f);
