@@ -102,6 +102,7 @@ namespace sge {
 
 	void Game::doUpdate()
 	{
+		if (Game::hasFocus()) Input::OnUpdate();
 		for (std::list<GameObject*>::iterator itr = _rootObjects.begin(), end = _rootObjects.end(); itr != end; itr++) {
 			(*itr)->OnUpdate();
 		}
@@ -109,7 +110,7 @@ namespace sge {
 
 	void Game::doFixedUpdate()
 	{
-		Input::OnFixedUpdate();
+		if (Game::hasFocus())Input::OnFixedUpdate();
 		/*for (std::list<GameObject*>::iterator itr = _rootObjects.begin(), end = _rootObjects.end(); itr != end; itr++) {
 			(*itr)->OnFixedUpdate();
 			std::cout << "Updating an object" << std::endl;
@@ -125,7 +126,6 @@ namespace sge {
 
 	void Game::doRender()
 	{
-		if (Game::hasFocus()) Input::OnUpdate();
 		std::list<CameraComponent*> cameras = CameraComponent::GetCameras();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		LightComponent::UpdateLights();
