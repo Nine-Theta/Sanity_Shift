@@ -327,12 +327,20 @@ namespace sge {
 		for (ObjectBehaviour* component : _components) {
 			component->OnCollisionStay(col);
 		}
+		for (GameObject* obj : _children) {
+			if (obj->IsActive())
+				obj->OnCollisionStay(col);
+		}
 	}
 
 	void GameObject::OnCollisionEnter(const Collision & col)
 	{
 		for (ObjectBehaviour* component : _components) {
 			component->OnCollisionEnter(col);
+		}
+		for (GameObject* obj : _children) {
+			if (obj->IsActive())
+				obj->OnCollisionEnter(col);
 		}
 	}
 
@@ -341,12 +349,20 @@ namespace sge {
 		for (ObjectBehaviour* component : _components) {
 			component->OnCollisionExit(col);
 		}
+		for (GameObject* obj : _children) {
+			if (obj->IsActive())
+				obj->OnCollisionExit(col);
+		}
 	}
 
 	void GameObject::OnTriggerStay(const Collision &col)
 	{
 		for (ObjectBehaviour* component : _components) {
 			component->OnTriggerStay(col);
+		}
+		for (GameObject* obj : _children) {
+			if (obj->IsActive())
+				obj->OnTriggerStay(col);
 		}
 	}
 
@@ -355,12 +371,20 @@ namespace sge {
 		for (ObjectBehaviour* component : _components) {
 			component->OnTriggerEnter(col);
 		}
+		for (GameObject* obj : _children) {
+			if (obj->IsActive())
+				obj->OnTriggerEnter(col);
+		}
 	}
 
 	void GameObject::OnTriggerExit(const Collision & col)
 	{
 		for (ObjectBehaviour* component : _components) {
 			component->OnTriggerExit(col);
+		}
+		for (GameObject* obj : _children) {
+			if (obj->IsActive())
+				obj->OnTriggerExit(col);
 		}
 	}
 

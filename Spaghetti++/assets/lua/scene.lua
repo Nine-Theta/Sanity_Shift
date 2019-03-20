@@ -1971,4 +1971,18 @@ function init()
 				obj4:setPos(0,0,0)
 				obj4:setRotationQ(1,0,0,0)
 
+	obj1 = gameObject.new()
+	obj1:setName("SoundTrigger")
+	obj1:setPos(-1.038365,1.56,-79.45)
+	obj1:setRotationQ(1,0,0,0)
+	obj1:addComponent("boxcollider","3.35","3.31","3.85","0")
+	obj1:setTrigger(true)
+		obj2 = gameObject.new()
+		obj2:setName("50")
+		obj2:setParent(obj1)
+		obj2:setPos(-13.62,1.18,0)
+		obj2:setRotationQ(1,0,0,0)
+		obj2:addComponent("sound","moon.wav")
+		obj2:addComponent("lua","soundtrigger.lua")
+
 end
