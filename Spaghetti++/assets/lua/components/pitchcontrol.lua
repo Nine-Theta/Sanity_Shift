@@ -7,6 +7,13 @@ function start()
 	--also controls the flashlight now, so slightly misleading name but if it works...
 	parent:playSound()
 	x,y,z = parent:getPos()
+	local heartbeat = gameObject.new()
+	heartbeat:setParent(parent)
+	heartbeat:addComponent("lua","heartbeat.lua")
+	local footsteps = gameObject.new()
+	footsteps:setParent(parent:getParent())
+	footsteps:setPos(0,0,0)
+	footsteps:addComponent("lua","footsteps.lua")
 end
 
 rotation = 0

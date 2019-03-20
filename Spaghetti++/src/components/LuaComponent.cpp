@@ -686,12 +686,13 @@ namespace sge {
 	int LuaComponent::getWorldPos(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
-		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		LuaState* ls = comp->GetState();
-		glm::vec2 vec = obj->GetCombinedPosition();
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		glm::vec3 vec = obj->GetCombinedPosition();
 		lua_pushnumber(state, vec.x);
 		lua_pushnumber(state, vec.y);
-		return 2;
+		lua_pushnumber(state, vec.z);
+		return 3;
 	}
 	int LuaComponent::getTime(lua_State * state)
 	{

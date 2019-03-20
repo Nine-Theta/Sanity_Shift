@@ -160,7 +160,7 @@ namespace sge {
 				alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
 				assert(alGetError() == AL_NO_ERROR && "Failed to set effect slot");
 
-				EFXEAXREVERBPROPERTIES reverba = EFX_REVERB_PRESET_CARPETEDHALLWAY;
+				EFXEAXREVERBPROPERTIES reverba = EFX_REVERB_PRESET_ROOM;
 				EFXEAXREVERBPROPERTIES* reverb = &reverba;
 
 				alEffectf(effect, AL_EAXREVERB_DENSITY, reverb->flDensity);
@@ -278,7 +278,7 @@ namespace sge {
 		alSourcePlay(source);
 		volumeGain = 1;
 		volume = 1;
-		std::cout << "PLAYING AUDIO CLIP" << std::endl;
+		//std::cout << "PLAYING AUDIO CLIP" << std::endl;
 	}
 
 	void SoundComponent::Stop(float seconds)
