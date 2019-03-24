@@ -2,7 +2,10 @@
 
 
 function start()
+buttonSelected = gameObject.find("ExitButtonA")
+buttonIdle = gameObject.find("ExitButtonNA")
 
+buttonSelected:setActive(false)
 end
 
 function onraycasthit(caster)
@@ -17,15 +20,13 @@ function onraycasthit(caster)
 end
 
 function Selected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","QuitToDesktopTestSelect.obj","brown.dds","white_s.png","flat_n.png")
-	print("ExitButton Selected")
+	buttonSelected:setActive(true)
+	buttonIdle:setActive(false)
 end
 
 function Deselected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","QuitToDesktopTest.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("ExitButton Deselected")
+	buttonSelected:setActive(false)
+	buttonIdle:setActive(true)
 end
 
 function Invoke()

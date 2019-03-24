@@ -1,7 +1,11 @@
 --parent is component's parent gameObject. It supports functions 
 
-
 function start()
+
+buttonSelected = gameObject.find("SettingsButtonA")
+buttonIdle = gameObject.find("SettingsButtonNA")
+
+buttonSelected:setActive(false)
 
 end
 
@@ -21,15 +25,13 @@ function onraycasthit(caster)
 end
 
 function Selected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","SettingsTestSelect.obj","brown.dds","white_s.png","flat_n.png")
-	print("Settings Selected")
+	buttonSelected:setActive(true)
+	buttonIdle:setActive(false)
 end
 
 function Deselected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","SettingsTest.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("Settings Deselected")
+	buttonSelected:setActive(false)
+	buttonIdle:setActive(true)
 end
 
 function Invoke()

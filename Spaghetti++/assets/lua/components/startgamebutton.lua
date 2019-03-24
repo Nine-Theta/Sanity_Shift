@@ -3,6 +3,11 @@
 
 function start()
 
+buttonSelected = gameObject.find("PlayButtonA")
+buttonIdle = gameObject.find("PlayButtonNA")
+
+buttonIdle:setActive(false)
+
 end
 
 function update() --currently disabled
@@ -21,19 +26,19 @@ function onraycasthit(caster)
 end
 
 function Selected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","StartGameTest4Select.obj","brown.dds","white_s.png","flat_n.png")
-	print("StartGameButton Selected")
+	print("startbutton invoked")
+	buttonSelected:setActive(true)
+	buttonIdle:setActive(false)
 end
 
 function Deselected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","StartGameTest4.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("StartGameButton Deselected")
+	print("startbutton invoked2")
+	buttonSelected:setActive(false)
+	buttonIdle:setActive(true)
 end
 
 function Invoke()
-	print("startbutton invoked")
+	--print("startbutton invoked")
 	gameObject.deleteAll()
 	obj = gameObject.new()
 	obj:setName("Loader")

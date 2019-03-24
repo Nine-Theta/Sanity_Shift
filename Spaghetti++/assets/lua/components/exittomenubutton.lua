@@ -3,6 +3,11 @@
 
 function start()
 
+buttonSelected = gameObject.find("ExitMenuButtonA")
+buttonIdle = gameObject.find("ExitMenuButtonNA")
+
+buttonSelected:setActive(false)
+
 end
 
 function update() --currently disabled
@@ -10,19 +15,17 @@ function update() --currently disabled
 end
 
 function Selected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","QuitToMenuTestSelect.obj","brown.dds","white_s.png","flat_n.png")
-	print("ExitToMenuButton Selected")
+	buttonSelected:setActive(true)
+	buttonIdle:setActive(false)
 end
 
 function Deselected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","QuitToMenuTest.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("ExitToMenuButton Deselected")
+	buttonSelected:setActive(false)
+	buttonIdle:setActive(true)
 end
 
 function Invoke()
-	print("ExitToMenuButton Invoked")
+	--print("ExitToMenuButton Invoked")
 	time.settimescale(1)
 	gameObject.deleteAll()
 	obj = gameObject.new()
