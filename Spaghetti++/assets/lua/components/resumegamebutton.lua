@@ -3,6 +3,11 @@
 
 function start()
 
+buttonSelected = gameObject.find("ResumeButtonA")
+buttonIdle = gameObject.find("ResumeButtonNA")
+
+buttonIdle:setActive(false)
+
 end
 
 function update() --currently disabled
@@ -21,15 +26,13 @@ function onraycasthit(caster)
 end
 
 function Selected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","ResumeGameTestSelect.obj","brown.dds","white_s.png","flat_n.png")
-	print("ResumeGameButton Selected")
+	buttonSelected:setActive(true)
+	buttonIdle:setActive(false)
 end
 
 function Deselected()
-	parent:removeComponent("mesh")
-	parent:addComponent("mesh","ResumeGameTest.obj","lightGray.dds","white_s.png","flat_n.png")
-	print("ResumeGameButton Deselected")
+	buttonSelected:setActive(false)
+	buttonIdle:setActive(true)
 end
 
 function Invoke()

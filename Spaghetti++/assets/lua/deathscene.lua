@@ -1,4 +1,5 @@
 function init()
+--[[--
 	local obj1 = gameObject.new()
 	obj1:setName("13cube")
 	obj1:setPos(0,1.82,5)
@@ -36,6 +37,20 @@ function init()
 		obj2:setParent(obj1)
 		obj2:addComponent("lua","spin.lua")
 		obj2:addComponent("mesh","Hitler.obj","white.png","white.png","flat_n.png")
+--]]--
+
+	local objmannequin = gameObject.new()
+	objmannequin:setName("Bob")
+	objmannequin:setPos(0,0.8,-2)
+	objmannequin:setRotation(0,1,0,180)
+	objmannequin:addComponent("mesh", "Mannequin/Mannequin_2.obj", "Mannequin/diffuse.dds", "Mannequin/specular.dds", "Mannequin/normal.dds")
+	objmannequin:addComponent("sound", "Roundabout.wav")
+	objmannequin:addComponent("lua", "endscenethings.lua")
+	
+	local objtbc = gameObject.new()
+	objtbc:setName("TBC")
+	objtbc:setPos(0.8,0.05,-2.4)
+	objtbc:addComponent("mesh", "plane_small.obj", "Roundabout.dds", "black.dds", "flat_n.png")
 				
 	local objfloor = gameObject.new()
 	objfloor:setName("Floor")
@@ -46,7 +61,7 @@ function init()
 				
 	local obj1 = gameObject.new()
 	obj1:setName("Player")
-	obj1:setPos(0,1.4,-5)
+	obj1:setPos(0,10.4,-5)
 	--obj1:setRotationQ(0.9986774,0.02353511,0.04569906,-0.001076957)
 	--obj1:addComponent("lua","movementrbody.lua")
 	obj1:addComponent("capsulecollider","0.49","1.85","40")

@@ -22,13 +22,11 @@ end
 function Selected()
 	buttonSelected:setActive(true)
 	buttonIdle:setActive(false)
-	print("TODO: close game")
 end
 
 function Deselected()
 	buttonSelected:setActive(false)
 	buttonIdle:setActive(true)
-	print("TODO: close game2")
 end
 
 function Invoke()

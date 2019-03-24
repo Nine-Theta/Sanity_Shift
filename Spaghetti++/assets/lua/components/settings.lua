@@ -29,8 +29,7 @@ function Selected()
 	buttonIdle:setActive(false)
 end
 
-function Deselected()	
-	print("settings invokedna")
+function Deselected()
 	buttonSelected:setActive(false)
 	buttonIdle:setActive(true)
 end
