@@ -29,6 +29,8 @@ namespace sge {
 	{
 		_components[_state.GetState()] = this;
 		lua_State* st = _state.GetState();
+		distTarget = GetParent();
+		//std::cout << "Registered a lua component: " << st << std::endl;
 	}
 
 	LuaComponent::~LuaComponent()
@@ -68,6 +70,8 @@ namespace sge {
 	int LuaComponent::getLParent(lua_State* state)
 	{
 		LuaComponent* comp = _components[state];
+		//std::cout << state << std::endl;
+		//std::cout << comp << std::endl;
 		LuaState* ls = comp->GetState();
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::cout << "Parent should be: " << obj->GetParent()->GetName() << std::endl;
@@ -274,16 +278,18 @@ namespace sge {
 	void LuaComponent::Update()
 	{
 		if (GetParent() == NULL || distTarget == NULL) return;
-		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) {
+		//if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) {
 			//std::cout << "A lua comp was not updated because the dist limit was reached: " << GetParent()->GetName() << std::endl;
-			return;
-		}
+		//	return;
+		//}
 		_state.CallFunction("update");
 	}
 	void LuaComponent::FixedUpdate()
 	{
 		if (GetParent() == NULL || distTarget == NULL) return;
 		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) return;
+		//LuaComponent* comp = _components[_state.GetState()];
+		//if (comp == NULL) std::cout << "UPDATING A BROKEN LUA COMPONENT" << std::endl;
 		_state.CallFunction("fixedupdate");
 	}
 	void LuaComponent::OnRender()
@@ -761,6 +767,7 @@ namespace sge {
 	int LuaComponent::getChildren(lua_State* state) {
 		LuaComponent* comp = _components[state];
 		LuaState* ls = comp->GetState();
+		//std::cout << comp << std::endl;
 		GameObject* obj = ls->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<GameObject*> children = obj->GetChildren();
 		int childrenC = children.size();

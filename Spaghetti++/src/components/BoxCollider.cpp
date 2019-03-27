@@ -26,6 +26,8 @@ namespace sge {
 		rbody = new btRigidBody(rbInfo);
 		rbody->setRestitution(.5f);
 		rbody->setFriction(0.27f);
+		if (mass > 0.f)
+			rbody->setFriction(0.6f);
 		rbody->setDamping(0.3f, 0.2);
 		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);

@@ -61,7 +61,7 @@ namespace sge {
 			_lightsCount--;
 			_lights.erase(itr);
 		}
-		std::cout << "Unregistering light " << light->GetParent()->GetName() << " - Light count now: " << _lightsCount << std::endl;
+		//std::cout << "Unregistering light " << light->GetParent()->GetName() << " - Light count now: " << _lightsCount << std::endl;
 	}
 
 	GLLight * LightComponent::GetLights()

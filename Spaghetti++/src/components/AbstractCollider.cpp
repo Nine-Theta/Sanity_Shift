@@ -64,7 +64,7 @@ namespace sge {
 	}
 	void AbstractCollider::FixedUpdate()
 	{
-
+		if (rbody == NULL) return;
 		if (mass < 0.1f) {
 			rbody->getMotionState()->setWorldTransform(Physics::glmToBullet(p_gameObj->GetCombinedTransform()));
 			rbody->setWorldTransform(Physics::glmToBullet(p_gameObj->GetCombinedTransform()));

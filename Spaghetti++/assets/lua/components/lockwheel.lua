@@ -11,7 +11,7 @@ function fixedupdate()
 		parent:setFluorReaction(0)
 	end
 	rotation = rotation + (rotationT - rotation) * 0.04
-	parent:setRotation(1,0,0,rotation)
+	parent:setRotation(1,0,0,-rotation)
 	hit = false
 end
 function loadRandomTick()
@@ -27,8 +27,11 @@ end
 function onraycasthit(caster)
 	hit = true
 	if keys.down(keys.E) then
-		print("Turning Lock Wheel!")
+		--print("Turning Lock Wheel!")
 		loadRandomTick()
 		rotationT = (rotationT + (360 / rotationSteps))
+		local number = math.floor((rotationT % 360) / (360 / rotationSteps) + 1)
+		print("Code lock changed to: " .. number)
+		parent:setName(number)
 	end
 end
