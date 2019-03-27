@@ -20,6 +20,7 @@ function update() --currently disabled
 end
 
 function UpdateSelection(change)
+	print("changeselec")
 	buttonArray[selected]:callFunction("Deselected")
 	selected = (selected + change) % buttonCount
 	buttonArray[selected]:callFunction("Selected")	

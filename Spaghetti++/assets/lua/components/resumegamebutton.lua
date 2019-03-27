@@ -33,7 +33,7 @@ function Deselected()
 end
 
 function Invoke()
-	print("Resumebutton invoked")
+	--print("Resumebutton invoked")
 	time.settimescale(1)
 	screen = gameObject.find("PauseScreen") 
 	screen:callFunction("DeactivateAll")

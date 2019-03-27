@@ -128,7 +128,7 @@ namespace sge {
 
 	void Input::setMouseLock(bool active)
 	{
-		std::cout << "called: " << active << std::endl;
+		//std::cout << "called: " << active << std::endl;
 		Input::lockMousePos = active;
 		Game::GetInstance().setMouseCursorVisible(!active);
 	}
