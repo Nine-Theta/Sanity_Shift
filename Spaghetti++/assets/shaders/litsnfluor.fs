@@ -140,8 +140,8 @@ void main( void ) {
 		
 		//glowCol = vec4(vec3(glow),1);
 	}
-	float glowFresnel = (dot(fctNormal, vec3(0,0,1)));
-	glowCol = clamp(glow * glowFresnel - vec4((specCol + col),1) * 4, vec4(0,0,0,0), vec4(1,1,1,1)) * glow.w * (1 - texCol.a);
+	float glowFresnel = 0.5f * (dot(fctNormal, vec3(0,0,1))) + 0.5f;
+	glowCol = clamp(glow * glowFresnel - vec4((specCol + col),1) * 1, vec4(0,0,0,0), vec4(1,1,1,1)) * glow.w * (1 - texCol.a);
 	vec4 reactionCol = vec4(1,1,1,1) * ( 1 - dot(fctNormal, vec3(0,0,1))) * reactionMult; 
 	fragment_color = vec4(col,1) * texCol + vec4(specCol,1) + vec4(vec3(glowCol * glowFresnel),1) + reactionCol;
 }

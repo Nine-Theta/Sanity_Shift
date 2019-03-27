@@ -15,6 +15,7 @@ namespace sge {
 		else
 			SetType(Lighttype::POINT);
 		SetSpotlightAngle(180, 180);
+		RegisterLight(this);
 	}
 
 	LightComponent::~LightComponent() {
@@ -47,17 +48,20 @@ namespace sge {
 
 	void LightComponent::RegisterLight(LightComponent * light)
 	{
-		//std::cout << "Registering light " << light->GetParent()->GetName() << std::endl;
 		_lights.push_back(light);
 		_lightsCount++;
+		//std::cout << "Registering light " << light->GetParent()->GetName() << " - Light count now: " << _lightsCount << std::endl;
 	}
 
 	void LightComponent::UnregisterLight(LightComponent * light)
 	{
-		//std::cout << "Unregistering light " << light->GetParent()->GetName() << std::endl;
 		if (_lights.size() == 0) return;
-		_lightsCount--;
-		_lights.erase(std::remove(_lights.begin(), _lights.end(), light), _lights.end());
+		auto itr = std::find(_lights.begin(), _lights.end(), light);
+		if (itr != _lights.end()) {
+			_lightsCount--;
+			_lights.erase(itr);
+		}
+		std::cout << "Unregistering light " << light->GetParent()->GetName() << " - Light count now: " << _lightsCount << std::endl;
 	}
 
 	GLLight * LightComponent::GetLights()
@@ -158,7 +162,6 @@ namespace sge {
 
 	void LightComponent::Start()
 	{
-		RegisterLight(this);
 		//SetType(Lighttype::POINT);
 		//SetSpotlightAngle(180, 180);
 	}

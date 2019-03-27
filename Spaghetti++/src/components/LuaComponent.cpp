@@ -150,7 +150,7 @@ namespace sge {
 				comp->SetAmbient(0.000f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(50,50, 30), std::stof(args[0]));
+			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(80,80, 50), std::stof(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
@@ -601,7 +601,8 @@ namespace sge {
 			col->SetSound(vals[0]);
 		}
 		else {
-			//std::cout << "ATTEMPTED TO PLAY A SOUND THAT DOES NOT EXIST " << std::endl;
+			col = new SoundComponent(vals[0]);
+			obj->AddComponent(col);
 		}
 		return 0;
 	}

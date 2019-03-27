@@ -11,9 +11,9 @@ namespace sge {
 		LightFluorComp();
 		~LightFluorComp();
 	private:
-		vec4 glow = vec4(0,0.4f,0.1f,1.0f);
-		float chargePerSec = 0.40f;
-		float dischargePerSec = 0.06f;
+		vec4 glow = vec4(0,0.1f,0.02f,2.0f);
+		float chargePerSec = 0.80f;
+		float dischargePerSec = 0.02f;
 
 		FluorescentMaterial* material;
 

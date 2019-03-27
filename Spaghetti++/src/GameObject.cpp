@@ -462,7 +462,11 @@ namespace sge {
 	{
 		//TODO: Implement ability to remove a component from the game object, also considering specials like collider or rigidbody
 		//_components.erase(p_component); 
-		_components.erase(std::remove(_components.begin(), _components.end(), p_component), _components.end());
+		auto itr = std::find(_components.begin(), _components.end(), p_component);
+		if (itr != _components.end()) {
+			_components.erase(itr);
+		}
+		//_components.erase(std::remove(_components.begin(), _components.end(), p_component), _components.end());
 		p_component->OnDestroy();
 		delete p_component;
 	}
