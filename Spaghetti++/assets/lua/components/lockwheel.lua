@@ -1,9 +1,10 @@
-function start()
-end
 hit = false
 rotationT = 0
 rotation = 0
 rotationSteps = 6
+function start()
+	rotationT = ((360 / rotationSteps)) * math.random(1,rotationSteps)
+end
 function fixedupdate()
 	if hit then 
 		parent:setFluorReaction(1)
