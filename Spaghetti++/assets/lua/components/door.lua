@@ -37,9 +37,17 @@ function onraycasthit(caster)
 		--else
 		--	angle = 0
 		--end
+		parent:setSound("door_open.wav")
 		direction = -direction
 		if direction == -1 then
 			timeToClose = 7
 		end
+		if direction == -1 then
+			parent:setSound("door_open.wav")
+		else
+			parent:setSound("door_close.wav")
+		end
+
+		parent:playSound()
 	end
 end

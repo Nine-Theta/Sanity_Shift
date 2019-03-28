@@ -29,6 +29,8 @@ namespace sge {
 	{
 		_components[_state.GetState()] = this;
 		lua_State* st = _state.GetState();
+		distTarget = GetParent();
+		//std::cout << "Registered a lua component: " << st << std::endl;
 	}
 
 	LuaComponent::~LuaComponent()
@@ -68,9 +70,11 @@ namespace sge {
 	int LuaComponent::getLParent(lua_State* state)
 	{
 		LuaComponent* comp = _components[state];
+		//std::cout << state << std::endl;
+		//std::cout << comp << std::endl;
 		LuaState* ls = comp->GetState();
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
-		std::cout << "Parent should be: " << obj->GetParent()->GetName() << std::endl;
+		//std::cout << "Parent should be: " << obj->GetParent()->GetName() << std::endl;
 		ls->PushLightUserData(obj->GetParent(),"sge.gameObject");
 		return 1;
 	}
@@ -150,14 +154,14 @@ namespace sge {
 				comp->SetAmbient(0.000f);
 				obj->AddComponent(comp); break;
 			}
-			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(50,50, 30), std::stof(args[0]));
+			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(80,80, 50), std::stof(args[0]));
 				comp->SetSpotlightAngle(180, 180);
 				comp->SetAmbient(0.00f);
 				obj->AddComponent(comp); break;
 			}
 			case hash("boxcollider"): { 
 				vec3 dimensions = vec3(std::stof(args[3]), std::stof(args[2]), std::stof(args[1]));
-				std::cout << "Parsed collider and should be: " << args[1] << " and is: " << dimensions.z << std::endl;
+				//std::cout << "Parsed collider and should be: " << args[1] << " and is: " << dimensions.z << std::endl;
 				BoxCollider* comp = new BoxCollider(dimensions, std::stof(args[0]));
 				obj->AddComponent(comp); break;
 			}
@@ -274,16 +278,18 @@ namespace sge {
 	void LuaComponent::Update()
 	{
 		if (GetParent() == NULL || distTarget == NULL) return;
-		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) {
+		//if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) {
 			//std::cout << "A lua comp was not updated because the dist limit was reached: " << GetParent()->GetName() << std::endl;
-			return;
-		}
+		//	return;
+		//}
 		_state.CallFunction("update");
 	}
 	void LuaComponent::FixedUpdate()
 	{
 		if (GetParent() == NULL || distTarget == NULL) return;
 		if (glm::distance2(distTarget->GetCombinedPosition(), GetParent()->GetCombinedPosition()) > distLimitSq) return;
+		//LuaComponent* comp = _components[_state.GetState()];
+		//if (comp == NULL) std::cout << "UPDATING A BROKEN LUA COMPONENT" << std::endl;
 		_state.CallFunction("fixedupdate");
 	}
 	void LuaComponent::OnRender()
@@ -365,7 +371,7 @@ namespace sge {
 		lua_getglobal(state, function.c_str());
 		_state.PushLightUserData(object);
 		int status = lua_pcall(state, 1, 0, 0);
-		if (status) {
+		if (false && status) {
 			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
 			lua_pop(state, -1);
 			//std::cout << lua_tostring(state, -1) << std::endl;
@@ -601,7 +607,8 @@ namespace sge {
 			col->SetSound(vals[0]);
 		}
 		else {
-			//std::cout << "ATTEMPTED TO PLAY A SOUND THAT DOES NOT EXIST " << std::endl;
+			col = new SoundComponent(vals[0]);
+			obj->AddComponent(col);
 		}
 		return 0;
 	}
@@ -686,12 +693,13 @@ namespace sge {
 	int LuaComponent::getWorldPos(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
-		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		LuaState* ls = comp->GetState();
-		glm::vec2 vec = obj->GetCombinedPosition();
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		glm::vec3 vec = obj->GetCombinedPosition();
 		lua_pushnumber(state, vec.x);
 		lua_pushnumber(state, vec.y);
-		return 2;
+		lua_pushnumber(state, vec.z);
+		return 3;
 	}
 	int LuaComponent::getTime(lua_State * state)
 	{
@@ -736,9 +744,9 @@ namespace sge {
 	{
 		LuaComponent* comp = _components[state];
 		std::string name = comp->GetState()->GetArgsFromStack()[0];
-		std::cout << "Attempting to find game object: " + name << std::endl;
+		//std::cout << "Attempting to find game object: " + name << std::endl;
 		GameObject* obj = GameObject::Find(name);
-		std::cout << "Found game object: " << obj << std::endl;
+		//std::cout << "Found game object: " << obj << std::endl;
 		LuaState* ls = comp->GetState();
 		ls->PushLightUserData(obj, "sge.gameObject");
 		return 1;
@@ -759,6 +767,7 @@ namespace sge {
 	int LuaComponent::getChildren(lua_State* state) {
 		LuaComponent* comp = _components[state];
 		LuaState* ls = comp->GetState();
+		//std::cout << comp << std::endl;
 		GameObject* obj = ls->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<GameObject*> children = obj->GetChildren();
 		int childrenC = children.size();

@@ -18,7 +18,7 @@ namespace sge {
 	private:
 		Sound* _snd;
 		ALuint source;
-		ALuint effect;
+		ALuint effect = UINT32_MAX;
 		ALuint effectSlot;
 		ALuint filter;
 		vec3 lastPos;

@@ -2,6 +2,7 @@
 
 function oncollisionenter(other)
 	local name = other:getName()
+	print("Player collided with " .. name)
 	if name == "Mannequin" then
 		print("You Died")
 		gameObject.deleteAll()

@@ -37,7 +37,7 @@ namespace sge {
 		for (int i = 0; i < indices.size(); i+=3) {
 			tMesh->addTriangle(Physics::glmToBullet(verts[indices[i]]), Physics::glmToBullet(verts[indices[i + 1]]), Physics::glmToBullet(verts[indices[i + 2]]), true);
 		}
-		std::cout << "Converted a GL mesh to a mesh collider with tri count: " << indices.size() / 3 << std::endl;
+		//std::cout << "Converted a GL mesh to a mesh collider with tri count: " << indices.size() / 3 << std::endl;
 		return tMesh;
 	}
 
@@ -57,7 +57,7 @@ namespace sge {
 			meshArray = meshToBTSlow(cmesh);
 		mass = 0.f;
 		shape = new btBvhTriangleMeshShape(meshArray, true);
-		shape->setMargin(0.01f);
+		shape->setMargin(0.003f);
 		transform = Physics::glmToBullet(p_gameObj->GetCombinedTransform());
 
 		btVector3 inertia(0, 0, 0);

@@ -1,6 +1,8 @@
 phand = nil
 function start()
 	phand = gameObject.find("LeftHand")
+	dlight = gameObject.find("fuseLight" .. parent:getName())
+	dlight:setActive(false)
 end
 
 hit = false
@@ -17,6 +19,7 @@ function fixedupdate()
 		if keys.down(keys.E) then
 			fuse:getChildren()[0]:setFluorReaction(0)
 			fuse = nil
+			dlight:setActive(true)
 		end
 	else
 		fuse:getChildren()[0]:setFluorReaction(0)

@@ -30,9 +30,15 @@ namespace sge {
 		static Sound* load(std::string pFilename);
 		static void InitHRTF();
 
+		ALenum GetFormat();
+		ALfloat GetFrequency();
 	protected:
 		Sound();
 		void soundTest();
 		ALuint buffer;
+
+		ALenum format;
+		ALsizei size;
+		ALfloat frequency;
 	};
 }
