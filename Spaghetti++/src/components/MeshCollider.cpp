@@ -37,7 +37,7 @@ namespace sge {
 		for (int i = 0; i < indices.size(); i+=3) {
 			tMesh->addTriangle(Physics::glmToBullet(verts[indices[i]]), Physics::glmToBullet(verts[indices[i + 1]]), Physics::glmToBullet(verts[indices[i + 2]]), true);
 		}
-		std::cout << "Converted a GL mesh to a mesh collider with tri count: " << indices.size() / 3 << std::endl;
+		//std::cout << "Converted a GL mesh to a mesh collider with tri count: " << indices.size() / 3 << std::endl;
 		return tMesh;
 	}
 

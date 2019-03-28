@@ -74,7 +74,7 @@ namespace sge {
 		//std::cout << comp << std::endl;
 		LuaState* ls = comp->GetState();
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
-		std::cout << "Parent should be: " << obj->GetParent()->GetName() << std::endl;
+		//std::cout << "Parent should be: " << obj->GetParent()->GetName() << std::endl;
 		ls->PushLightUserData(obj->GetParent(),"sge.gameObject");
 		return 1;
 	}
@@ -161,7 +161,7 @@ namespace sge {
 			}
 			case hash("boxcollider"): { 
 				vec3 dimensions = vec3(std::stof(args[3]), std::stof(args[2]), std::stof(args[1]));
-				std::cout << "Parsed collider and should be: " << args[1] << " and is: " << dimensions.z << std::endl;
+				//std::cout << "Parsed collider and should be: " << args[1] << " and is: " << dimensions.z << std::endl;
 				BoxCollider* comp = new BoxCollider(dimensions, std::stof(args[0]));
 				obj->AddComponent(comp); break;
 			}
@@ -744,9 +744,9 @@ namespace sge {
 	{
 		LuaComponent* comp = _components[state];
 		std::string name = comp->GetState()->GetArgsFromStack()[0];
-		std::cout << "Attempting to find game object: " + name << std::endl;
+		//std::cout << "Attempting to find game object: " + name << std::endl;
 		GameObject* obj = GameObject::Find(name);
-		std::cout << "Found game object: " << obj << std::endl;
+		//std::cout << "Found game object: " << obj << std::endl;
 		LuaState* ls = comp->GetState();
 		ls->PushLightUserData(obj, "sge.gameObject");
 		return 1;
