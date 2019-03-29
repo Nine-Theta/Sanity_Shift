@@ -353,10 +353,10 @@ namespace sge {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		//fix for serious performance issue
-		if (pUVsAttrib != -1) glDisableVertexAttribArray(pUVsAttrib);
-		if (pNormalsAttrib != -1) glDisableVertexAttribArray(pNormalsAttrib);
-		if (pTangentAttrib != -1) glDisableVertexAttribArray(pTangentAttrib);
-		if (pVerticesAttrib != -1) glDisableVertexAttribArray(pVerticesAttrib);
+		//if (pUVsAttrib != -1) glDisableVertexAttribArray(pUVsAttrib);
+		//if (pNormalsAttrib != -1) glDisableVertexAttribArray(pNormalsAttrib);
+		//if (pTangentAttrib != -1) glDisableVertexAttribArray(pTangentAttrib);
+		//if (pVerticesAttrib != -1) glDisableVertexAttribArray(pVerticesAttrib);
 	}
 
 	void Mesh::drawDebugInfo(const glm::mat4& pModelMatrix, const glm::mat4& pViewMatrix, const glm::mat4& pProjectionMatrix) {

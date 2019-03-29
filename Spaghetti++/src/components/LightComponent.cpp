@@ -42,7 +42,7 @@ namespace sge {
 		if (uboLightID > 0) return;
 		glGenBuffers(1, &uboLightID);
 		glBindBuffer(GL_UNIFORM_BUFFER, uboLightID);
-		glBufferData(GL_UNIFORM_BUFFER, sizeof(_glLights), _glLights, GL_DYNAMIC_DRAW);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(_glLights), _glLights, GL_STREAM_DRAW);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
@@ -68,6 +68,7 @@ namespace sge {
 	{
 		return _glLights;
 	}
+	GLvoid* LightComponent::_lightMemory;// = NULL;
 
 	void LightComponent::UpdateLights()
 	{
@@ -77,9 +78,16 @@ namespace sge {
 		}
 		if (_glLights == NULL) return;
 		glBindBuffer(GL_UNIFORM_BUFFER, uboLightID);
-		GLvoid* p = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
-		memcpy(p, _glLights, sizeof(_glLights));
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(_glLights), NULL, GL_STREAM_DRAW);  // orphan
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(_glLights), _glLights, GL_STREAM_DRAW);
+		//if(_lightMemory == NULL || true)
+		//GLvoid* oldMem = _lightMemory;
+		//	_lightMemory = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+		//memcpy(_lightMemory, _glLights, sizeof(_glLights));
+		//if (oldMem != _lightMemory) std::cout << "New buffer pointer: " << _lightMemory << std::endl;
+		//glInvalidateBufferData(GL_UNIFORM_BUFFER);
 		glUnmapBuffer(GL_UNIFORM_BUFFER);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
 	GLuint LightComponent::GetLightUBO()
