@@ -68,7 +68,7 @@ namespace sge {
 	{
 		return _glLights;
 	}
-	GLvoid* LightComponent::_lightMemory;// = NULL;
+//	GLvoid* LightComponent::_lightMemory;// = NULL;
 
 	void LightComponent::UpdateLights()
 	{
