@@ -86,7 +86,7 @@ namespace sge {
 		//memcpy(_lightMemory, _glLights, sizeof(_glLights));
 		//if (oldMem != _lightMemory) std::cout << "New buffer pointer: " << _lightMemory << std::endl;
 		//glInvalidateBufferData(GL_UNIFORM_BUFFER);
-		glUnmapBuffer(GL_UNIFORM_BUFFER);
+		//glUnmapBuffer(GL_UNIFORM_BUFFER);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
