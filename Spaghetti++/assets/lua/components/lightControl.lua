@@ -14,10 +14,21 @@ lowerLimit = -45
 
 active = true
 enabled = true
+
+lastActive = true
 function setActive(act)
 	for i = 0,#light do
 		light[i]:setActive(act)
 	end
+	if lastActive ~= act then
+		if act then
+			parent:setSound("flashlight/click_on.wav")
+		else
+			parent:setSound("flashlight/click_off.wav")
+		end
+		parent:playSound()
+	end
+	lastActive = act
 end
 
 function fixedupdate()

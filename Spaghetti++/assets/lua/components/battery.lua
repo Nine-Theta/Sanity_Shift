@@ -1,5 +1,6 @@
 function start()
 	mesh = parent:getChildren()[0]
+	light = gameObject.find("LightCharge")
 end
 hit = false
 function fixedupdate()
@@ -18,7 +19,7 @@ end
 function onraycasthit(caster)
 	hit = true
 	if keys.down(keys.E) then
-		print("Deleting battery!")
+		light:sendMessage("charge")
 		parent:delete()
 	end
 end
