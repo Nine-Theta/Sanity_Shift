@@ -1,7 +1,8 @@
 --parent is component's parent gameObject. It supports functions 
 
+rotX = 0
 function start()
-	--x,y,z = parent:getPos()
+	rotX = parent:getWorldRotation()
 end
 
 velY = 0
@@ -9,7 +10,6 @@ velX = 0
 velZ = 0
 locked = true
 
-rotX = 0
 frames = 0
 seconds = 0
 function update()

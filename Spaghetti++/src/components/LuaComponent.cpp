@@ -158,20 +158,49 @@ namespace sge {
 				}
 				break;
 			}
-			case hash("light"): { LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stof(args[0]));
-				comp->SetSpotlightAngle(180, 180);
-				comp->SetAmbient(0.00f);
-				obj->AddComponent(comp); break;
+			case hash("light"): { 
+				if (args.size() == 5) {
+					LightComponent* comp = new LightComponent(sf::Color(std::stof(args[3]) * 255, std::stof(args[2]) * 255, std::stof(args[1]) * 255), std::stof(args[0]));
+					comp->SetSpotlightAngle(180, 180);
+					comp->SetAmbient(0.000f);
+					obj->AddComponent(comp);
+				}
+				else {
+					LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stof(args[0]));
+					comp->SetSpotlightAngle(180, 180);
+					comp->SetAmbient(0.00f);
+					obj->AddComponent(comp);
+				}
+				break;
 			}
-			case hash("spotlight"): { LightComponent* comp = new LightComponent(sf::Color(180, 180, 140), std::stof(args[0]));
-				comp->SetSpotlightAngle(10, 28);
-				comp->SetAmbient(0.000f);
-				obj->AddComponent(comp); break;
+			case hash("spotlight"): { 
+				if (args.size() == 5) {
+					LightComponent* comp = new LightComponent(sf::Color(std::stof(args[3]) * 255, std::stof(args[2]) * 255, std::stof(args[1]) * 255), std::stof(args[0]));
+					comp->SetSpotlightAngle(10, 28);
+					comp->SetAmbient(0.000f);
+					obj->AddComponent(comp);
+				}
+				else {
+					LightComponent* comp = new LightComponent(sf::Color(180, 180, 140), std::stof(args[0]));
+					comp->SetSpotlightAngle(10, 28);
+					comp->SetAmbient(0.000f);
+					obj->AddComponent(comp);
+				}
+				break;
 			}
-			case hash("pointlight"): { LightComponent* comp = new LightComponent(sf::Color(80,80, 50), std::stof(args[0]));
-				comp->SetSpotlightAngle(180, 180);
-				comp->SetAmbient(0.00f);
-				obj->AddComponent(comp); break;
+			case hash("pointlight"): { 
+				if (args.size() == 5) {
+					LightComponent* comp = new LightComponent(sf::Color(std::stof(args[3]) * 255, std::stof(args[2]) * 255, std::stof(args[1]) * 255), std::stof(args[0]));
+					comp->SetSpotlightAngle(180, 180);
+					comp->SetAmbient(0.000f);
+					obj->AddComponent(comp);
+				}
+				else {
+					LightComponent* comp = new LightComponent(sf::Color(100, 100, 120), std::stof(args[0]));
+					comp->SetSpotlightAngle(180, 180);
+					comp->SetAmbient(0.00f);
+					obj->AddComponent(comp);
+				} break;
 			}
 			case hash("boxcollider"): { 
 				vec3 dimensions = vec3(std::stof(args[3]), std::stof(args[2]), std::stof(args[1]));
