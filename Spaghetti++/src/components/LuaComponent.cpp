@@ -98,6 +98,14 @@ namespace sge {
 		return 0;
 	}
 
+	int LuaComponent::isActive(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		lua_pushboolean(state, obj->IsActive());
+		return 1;
+	}
+
 	int LuaComponent::setTrigger(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
@@ -141,6 +149,12 @@ namespace sge {
 						obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0])));
 					else if(args[4] == "glow")
 						obj->AddComponent(new MeshComponent(args[3], new FluorescentMaterial(args[2], args[1], args[0])));
+					else if (args[4] == "emit") {
+						FluorescentMaterial* mat = new FluorescentMaterial(args[2], args[1], args[0]);
+						mat->setReactionMult(0);
+						MeshComponent* comp = new MeshComponent(args[3],mat);
+						obj->AddComponent(comp);
+					}
 				}
 				break;
 			}
@@ -203,11 +217,13 @@ namespace sge {
 		{"up", up},
 		{"setParent", setParent},
 		{"setActive", setActive},
+		{"isActive", isActive},
 		{"setTrigger", setTrigger},
 		{"sendMessage", sendMessage},
 		{"callFunction", callFunction},
 		{"setText", setText},
 		{"setFluorReaction", setFluorReaction},
+		{"setFluorEmission", setFluorEmission},
 		{"playSound", playSound},
 		{"setSound", setSound},
 		{"stopSound", stopSound},
@@ -516,7 +532,21 @@ namespace sge {
 		if (mesh == NULL) return 0;
 		FluorescentMaterial* material = (FluorescentMaterial*)mesh->GetMaterial();
 		if(material != NULL)
-			material->setReactionMult(n);
+			material->setSelectionMult(n);
+		return 0;
+	}
+
+	int LuaComponent::setFluorEmission(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> n = comp->GetState()->GetNumbersFromStack();
+		MeshComponent* mesh = obj->GetComponent<MeshComponent>();
+		if (mesh == NULL) return 0;
+		FluorescentMaterial* material = (FluorescentMaterial*)mesh->GetMaterial();
+		if (material != NULL) {
+			material->setGlowCol(vec4((float)n[3],(float)n[2],(float)n[1],(float)n[0]));
+		}
 		return 0;
 	}
 

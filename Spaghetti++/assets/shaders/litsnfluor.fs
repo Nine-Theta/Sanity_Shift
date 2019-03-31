@@ -7,6 +7,7 @@ uniform sampler2D normalTexture;
 uniform vec3 lightPos;
 uniform vec3 lightPosC;
 uniform vec4 glow;
+uniform float selectionMult;
 uniform float reactionMult;
 
 uniform int lightsNr;
@@ -141,7 +142,7 @@ void main( void ) {
 		//glowCol = vec4(vec3(glow),1);
 	}
 	float glowFresnel = 0.5f * (dot(fctNormal, vec3(0,0,1))) + 0.5f;
-	glowCol = clamp(glow * glowFresnel - vec4((specCol + col),1) * 1, vec4(0,0,0,0), vec4(1,1,1,1)) * glow.w * (1 - texCol.a);
-	vec4 reactionCol = vec4(1,1,1,1) * ( 1 - dot(fctNormal, vec3(0,0,1))) * reactionMult; 
+	glowCol = clamp(glow * glowFresnel - vec4((specCol + col),1) * reactionMult, vec4(0,0,0,0), vec4(1,1,1,1)) * glow.w * (1 - texCol.a);
+	vec4 reactionCol = vec4(1,1,1,1) * ( 1 - dot(fctNormal, vec3(0,0,1))) * selectionMult; 
 	fragment_color = vec4(col,1) * texCol + vec4(specCol,1) + vec4(vec3(glowCol * glowFresnel),1) + reactionCol;
 }

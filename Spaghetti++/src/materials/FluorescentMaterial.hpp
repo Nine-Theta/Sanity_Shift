@@ -23,6 +23,7 @@ namespace sge {
 		void setDiffuseTexture(Texture* pDiffuseTexture);
 
 		void setGlowCol(vec4 color);
+		void setSelectionMult(float mult);
 		void setReactionMult(float mult);
 
 	protected:
@@ -47,12 +48,14 @@ namespace sge {
 		static GLint _aUV;
 		static GLint _aTangent;
 		static GLint _aGlowCol;
+		static GLint _aLightSelect;
 		static GLint _aLightReact;
 
 		static unsigned int block_index;
 
 		vec4 _glowCol = vec4(0.7f, 0.4f, 0.1f, 0.3f);
-		float _lightReact = 0;
+		float _lightSelect = 0;
+		float _lightReact = 1;
 		Texture* _diffuseTexture;
 		Texture* _specularTexture;
 		Texture* _normalTexture;

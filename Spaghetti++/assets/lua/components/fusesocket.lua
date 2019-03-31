@@ -3,6 +3,7 @@ function start()
 	phand = gameObject.find("LeftHand")
 	dlight = gameObject.find("fuseLight" .. parent:getName())
 	dlight:setActive(false)
+	door = gameObject.find("movable_right")
 end
 
 hit = false
@@ -20,6 +21,8 @@ function fixedupdate()
 			fuse:getChildren()[0]:setFluorReaction(0)
 			fuse = nil
 			dlight:setActive(true)
+			parent:removeComponent("boxcollider")
+			door:sendMessage("fuse")
 		end
 	else
 		fuse:getChildren()[0]:setFluorReaction(0)
