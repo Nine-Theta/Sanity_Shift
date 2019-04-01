@@ -12,6 +12,7 @@ namespace sge {
 		bool IsPlaying();
 		void Play();
 		void Stop(float seconds = 0.1f);
+		void SetVolume(float volume);
 		bool IsDirect();
 		SoundComponent(std::string filepath);
 		~SoundComponent();
@@ -24,6 +25,7 @@ namespace sge {
 		vec3 lastPos;
 		float volumeGain = 1;
 		float volume = 1;
+		float maxVolume = 1;
 
 		virtual void loadEffects();
 

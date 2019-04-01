@@ -234,7 +234,7 @@ namespace sge {
 		diff /= TimeH::FixedDelta();
 		alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
 		alSource3f(source, AL_VELOCITY, diff.x,diff.y,diff.z);
-		alSourcef(source, AL_GAIN, volume);
+		alSourcef(source, AL_GAIN, volume * maxVolume);
 
 		if (!IsDirect()) {
 			alFilterf(filter, AL_LOWPASS_GAIN, 0.75f);
@@ -286,6 +286,11 @@ namespace sge {
 		volumeGain = -seconds;
 	}
 
+	void SoundComponent::SetVolume(float volume)
+	{
+		maxVolume = volume;
+	}
+
 	std::string vec2string(vec3 vec) {
 		std::string point = "P:" + std::to_string(vec.x) + "," + std::to_string(vec.y) + "," + std::to_string(vec.z);
 		return point;
@@ -296,11 +301,12 @@ namespace sge {
 		if (CameraComponent::GetMain() == NULL) return false;
 		vec3 cam = CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 		vec3 pos = GetParent()->GetCombinedPosition();
-		RaycastHit hit = Physics::Raycast(pos + .7f * -normalize(pos - cam), -normalize(pos - cam), length(pos - cam) - .7f);
+		if (length(cam - pos) < 2.f) return true;
+		RaycastHit hit = Physics::Raycast(pos + .2f * -normalize(pos - cam), -normalize(pos - cam), length(pos - cam) - .2f);
 		//std::string point = "P:" + std::to_string(hit.point.x) + "," + std::to_string(hit.point.y) + "," + std::to_string(hit.point.z);
 		//std::cout << length(hit.point - cam) << " Listener: " << vec2string(pos) << " LENGTH: " << length(pos-cam) << " Collider: " << (hit.collider != NULL ? hit.collider->GetParent()->GetName() : "NULL") << std::endl;
 		if (!hit.hit) return true;
-		if (length(hit.point - cam) < 0.9f) return true;
+		if (length(hit.point - cam) < 1.25f) return true;
 		return false;
 	}
 

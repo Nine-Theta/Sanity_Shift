@@ -256,6 +256,7 @@ namespace sge {
 		{"playSound", playSound},
 		{"setSound", setSound},
 		{"stopSound", stopSound},
+		{"setVolume", setVolume},
 		{"addForce", addForce},
 		{"setDistanceLimit", setDistanceLimit},
 		{NULL, NULL} // - signals the end of the registry
@@ -688,6 +689,24 @@ namespace sge {
 		}
 		return 0;
 	}
+	int LuaComponent::setVolume(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		SoundComponent* col = obj->GetComponent<SoundComponent>();
+		if (col != NULL) {
+			if (vals.size() > 0)
+				col->SetVolume((float)vals[0]);
+			else
+				col->Stop();
+		}
+		else {
+			std::cout << "ATTEMPTED TO CHANGE VOLUME ON A NON-EXISTANT SOUND " << std::endl;
+		}
+		return 0;
+	}
+
 	int LuaComponent::setWorldPos(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];

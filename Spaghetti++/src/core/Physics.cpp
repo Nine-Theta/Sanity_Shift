@@ -98,9 +98,9 @@ namespace sge {
 				col.contactPoints = numContacts;
 				if (col.otherCollider->GetParent() != NULL) {
 					if (pair.trigger)
-						col.otherCollider->GetParent()->OnCollisionStay(col);
-					else
 						col.otherCollider->GetParent()->OnTriggerStay(col);
+					else
+						col.otherCollider->GetParent()->OnCollisionStay(col);
 				}
 
 				Collision col2;
@@ -111,9 +111,9 @@ namespace sge {
 				col2.trigger = pair.trigger;
 				if (col2.otherCollider->GetParent() != NULL) {
 					if(pair.trigger)
-						col2.otherCollider->GetParent()->OnCollisionStay(col2);
-					else
 						col2.otherCollider->GetParent()->OnTriggerStay(col2);
+					else
+						col2.otherCollider->GetParent()->OnCollisionStay(col2);
 				}
 
 

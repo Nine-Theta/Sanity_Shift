@@ -78,7 +78,7 @@ namespace sge {
 			if (dist > 1) {
 				dir = normalize(vec3(dir.x, 0, dir.z));
 				//p_gameObj->SetWorldPosition(p_gameObj->GetCombinedPosition() + dir * .8f * TimeH::FixedDelta());
-				_col->GetRigidbody()->setLinearVelocity(Physics::glmToBullet(dir * 0.8f));
+				_col->GetRigidbody()->setLinearVelocity(Physics::glmToBullet(dir * 1.8f));
 				float facing = orientedAngle(vec2(0, -1), vec2(dir.x, -dir.z));
 				btTransform t = _col->GetRigidbody()->getWorldTransform();
 				t.setRotation(btQuaternion(facing, 0, 0));
@@ -89,7 +89,7 @@ namespace sge {
 			_col->GetRigidbody()->setLinearVelocity(btVector3(0, 0, 0));
 		}
 
-		if (intensity <= 0.f || dot(_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition(), _player->forward()) > 0.1f) {
+		if (intensity <= 0.f || dot(_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition(), _player->forward()) > 0.1f || (3.f > length(_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition()) && _move && intensity < 0.7f)) {
 			_timer -= TimeH::DeltaTime();
 			if (_timer > 0) return;
 			if (_toChange) {

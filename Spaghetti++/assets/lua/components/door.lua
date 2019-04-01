@@ -8,7 +8,7 @@ end
 
 function start()
 	door = parent:getParent()
-	parent:setDistanceLimit(15)
+	parent:setDistanceLimit(35)
 	print("DOOR INITIALISED")
 end
 maxAngle = 100
@@ -19,9 +19,14 @@ ctime = 1
 
 timeToClose = 0
 function fixedupdate()
+	lastTime = timeToClose
 	timeToClose = timeToClose - time.fixedDelta()
 	if timeToClose < 0 then
 		direction = 1
+		if lastTime > 0 then
+			parent:getParent():setSound("door_close.wav")
+			parent:getParent():playSound()
+		end
 	end
 	ctime = math.Clamp(ctime + (time.fixedDelta() / secs) * direction,0,1)
 	angleS = (1 - math.pow(ctime,4)) * maxAngle
@@ -40,14 +45,14 @@ function onraycasthit(caster)
 		parent:setSound("door_open.wav")
 		direction = -direction
 		if direction == -1 then
-			timeToClose = 7
+			timeToClose = math.random(12,20)
 		end
 		if direction == -1 then
-			parent:setSound("door_open.wav")
+			parent:getParent():setSound("door_open.wav")
 		else
-			parent:setSound("door_close.wav")
+			parent:getParent():setSound("door_close.wav")
 		end
 
-		parent:playSound()
+		parent:getParent():playSound()
 	end
 end
