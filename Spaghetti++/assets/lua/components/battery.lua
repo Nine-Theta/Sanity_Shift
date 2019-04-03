@@ -20,6 +20,10 @@ function onraycasthit(caster)
 	hit = true
 	if keys.down(keys.E) then
 		light:sendMessage("charge")
+		obj = gameObject.new()
+		obj:addComponent("sound","battery_pickup.wav")
+		obj:addComponent("lua","playdestroy.lua")
+		obj:setWorldPos(parent:getWorldPos())
 		parent:delete()
 	end
 end

@@ -231,6 +231,7 @@ namespace sge {
 		{"addComponent", addComponent},
 		{"removeComponent", removeComponent},
 		{"delete", gDelete},
+		{"destroy", gDelete},
 		{"getName", getName},
 		{"setName", setName},
 		{"getPos", getPos},

@@ -2,7 +2,7 @@
 
 rotX = 0
 function start()
-	rotX = parent:getWorldRotation()
+	rotX = 180--parent:getWorldRotation()
 end
 
 velY = 0

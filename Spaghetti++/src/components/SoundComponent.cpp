@@ -92,10 +92,10 @@ namespace sge {
 
 	SoundComponent::~SoundComponent()
 	{
-		alDeleteSources(1, &source);
-		alDeleteEffects(1, &effect);
-		alDeleteAuxiliaryEffectSlots(1, &effectSlot);
-		alDeleteFilters(1, &filter);
+		alDeleteSources(1, &source);		//REINTRODUCE WHEN NO LONGER USING STATIC EFFECTS!!
+		//alDeleteEffects(1, &effect);
+		//alDeleteAuxiliaryEffectSlots(1, &effectSlot);
+		//alDeleteFilters(1, &filter);
 	}
 
 	float SoundComponent::filterCount = 0;
