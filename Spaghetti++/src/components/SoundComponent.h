@@ -13,19 +13,23 @@ namespace sge {
 		void Play();
 		void Stop(float seconds = 0.1f);
 		void SetVolume(float volume);
+		void SetRolloffFactor(float factor);
 		bool IsDirect();
 		SoundComponent(std::string filepath);
 		~SoundComponent();
 	private:
 		Sound* _snd;
 		ALuint source;
-		ALuint effect = UINT32_MAX;
-		ALuint effectSlot;
-		ALuint filter;
+		static ALuint effect;// = UINT32_MAX;
+		static ALuint effectSlot;
+		static ALuint filter;
 		vec3 lastPos;
 		float volumeGain = 1;
 		float volume = 1;
 		float maxVolume = 1;
+		float rolloffFactor = 1;
+
+		static float filterCount;
 
 		virtual void loadEffects();
 

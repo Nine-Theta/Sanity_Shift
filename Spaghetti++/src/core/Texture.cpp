@@ -45,6 +45,7 @@ Texture * Texture::loadDDS(const std::string & pFilename)
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexEnvf(GL_TEXTURE_FILTER_CONTROL, GL_TEXTURE_LOD_BIAS, -0.5f);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	std::cout << "Loaded texture of type DDS: " << pFilename << "\n";
 	return texture;

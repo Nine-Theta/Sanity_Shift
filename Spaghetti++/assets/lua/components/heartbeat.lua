@@ -26,7 +26,11 @@ minTime = 0.5
 playing = false
 function fixedupdate()
 	nextStep = nextStep - time.fixedDelta()
-	closest = (closestT - closest) * 0.002 + closest
+	if closest > closestT then
+		closest = (closestT - closest) * 0.004 + closest
+	else
+		closest = (closestT - closest) * 0.002 + closest
+	end
 	coeffOld = coeff
 	coeff = closest / maxRad
 	--print(coeff)

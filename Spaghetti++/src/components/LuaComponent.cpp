@@ -664,10 +664,22 @@ namespace sge {
 		std::vector<std::string> vals = comp->GetState()->GetArgsFromStack();
 		SoundComponent* col = obj->GetComponent<SoundComponent>();
 		if (col != NULL) {
-			col->SetSound(vals[0]);
+			if (vals.size() > 1) {
+				col->SetRolloffFactor((float)stof(vals[0]));
+				col->SetSound(vals[1]);
+			}
+			else {
+				col->SetSound(vals[0]);
+			}
 		}
 		else {
-			col = new SoundComponent(vals[0]);
+			if (vals.size() > 1) {
+				col = new SoundComponent(vals[1]);
+				col->SetRolloffFactor(stof(vals[0]));	//backwards args from stack kinda screwed this one
+			}
+			else {
+				col = new SoundComponent(vals[0]);
+			}
 			obj->AddComponent(col);
 		}
 		return 0;

@@ -20,6 +20,8 @@ function fixedupdate()
 		fuse:setRotationQ(1,0,0,0)
 		if keys.down(keys.E) then
 			fuse:getChildren()[0]:setFluorReaction(0)
+			fuse:setSound("plug_in.wav")
+			fuse:playSound()
 			fuse = nil
 			dlight:setActive(true)
 			dlamp:setFluorEmission(0.9,0.9,0.6,2)

@@ -98,44 +98,51 @@ namespace sge {
 		alDeleteFilters(1, &filter);
 	}
 
+	float SoundComponent::filterCount = 0;
+	ALuint SoundComponent::effect = UINT32_MAX;
+	ALuint SoundComponent::effectSlot;
+	ALuint SoundComponent::filter;
+
 	void SoundComponent::loadEffects()
 	{
 #define LOAD_PROC(x,y)  ((x) = (y)alGetProcAddress(#x))
-		LOAD_PROC(alGenEffects,LPALGENEFFECTS);
-		LOAD_PROC(alDeleteEffects,LPALDELETEEFFECTS);
-		LOAD_PROC(alIsEffect,LPALISEFFECT);
-		LOAD_PROC(alEffecti,LPALEFFECTI);
-		LOAD_PROC(alEffectiv,LPALEFFECTIV);
-		LOAD_PROC(alEffectf,LPALEFFECTF);
-		LOAD_PROC(alEffectfv,LPALEFFECTFV);
-		LOAD_PROC(alGetEffecti,LPALGETEFFECTI);
-		LOAD_PROC(alGetEffectiv,LPALGETEFFECTIV);
-		LOAD_PROC(alGetEffectf,LPALGETEFFECTF);
-		LOAD_PROC(alGetEffectfv,LPALGETEFFECTFV);
-		LOAD_PROC(alGenAuxiliaryEffectSlots,LPALGENAUXILIARYEFFECTSLOTS);
-		LOAD_PROC(alDeleteAuxiliaryEffectSlots,LPALDELETEAUXILIARYEFFECTSLOTS);
-		LOAD_PROC(alIsAuxiliaryEffectSlot,LPALISAUXILIARYEFFECTSLOT);
-		LOAD_PROC(alAuxiliaryEffectSloti,LPALAUXILIARYEFFECTSLOTI);
-		LOAD_PROC(alAuxiliaryEffectSlotiv,LPALAUXILIARYEFFECTSLOTIV);
-		LOAD_PROC(alAuxiliaryEffectSlotf,LPALAUXILIARYEFFECTSLOTF);
-		LOAD_PROC(alAuxiliaryEffectSlotfv,LPALAUXILIARYEFFECTSLOTFV);
-		LOAD_PROC(alGetAuxiliaryEffectSloti,LPALGETAUXILIARYEFFECTSLOTI);
-		LOAD_PROC(alGetAuxiliaryEffectSlotiv,LPALGETAUXILIARYEFFECTSLOTIV);
-		LOAD_PROC(alGetAuxiliaryEffectSlotf,LPALGETAUXILIARYEFFECTSLOTF);
-		LOAD_PROC(alGetAuxiliaryEffectSlotfv,LPALGETAUXILIARYEFFECTSLOTFV);
+		if (alGenEffects == NULL) {
+			LOAD_PROC(alGenEffects, LPALGENEFFECTS);
+			LOAD_PROC(alDeleteEffects, LPALDELETEEFFECTS);
+			LOAD_PROC(alIsEffect, LPALISEFFECT);
+			LOAD_PROC(alEffecti, LPALEFFECTI);
+			LOAD_PROC(alEffectiv, LPALEFFECTIV);
+			LOAD_PROC(alEffectf, LPALEFFECTF);
+			LOAD_PROC(alEffectfv, LPALEFFECTFV);
+			LOAD_PROC(alGetEffecti, LPALGETEFFECTI);
+			LOAD_PROC(alGetEffectiv, LPALGETEFFECTIV);
+			LOAD_PROC(alGetEffectf, LPALGETEFFECTF);
+			LOAD_PROC(alGetEffectfv, LPALGETEFFECTFV);
+			LOAD_PROC(alGenAuxiliaryEffectSlots, LPALGENAUXILIARYEFFECTSLOTS);
+			LOAD_PROC(alDeleteAuxiliaryEffectSlots, LPALDELETEAUXILIARYEFFECTSLOTS);
+			LOAD_PROC(alIsAuxiliaryEffectSlot, LPALISAUXILIARYEFFECTSLOT);
+			LOAD_PROC(alAuxiliaryEffectSloti, LPALAUXILIARYEFFECTSLOTI);
+			LOAD_PROC(alAuxiliaryEffectSlotiv, LPALAUXILIARYEFFECTSLOTIV);
+			LOAD_PROC(alAuxiliaryEffectSlotf, LPALAUXILIARYEFFECTSLOTF);
+			LOAD_PROC(alAuxiliaryEffectSlotfv, LPALAUXILIARYEFFECTSLOTFV);
+			LOAD_PROC(alGetAuxiliaryEffectSloti, LPALGETAUXILIARYEFFECTSLOTI);
+			LOAD_PROC(alGetAuxiliaryEffectSlotiv, LPALGETAUXILIARYEFFECTSLOTIV);
+			LOAD_PROC(alGetAuxiliaryEffectSlotf, LPALGETAUXILIARYEFFECTSLOTF);
+			LOAD_PROC(alGetAuxiliaryEffectSlotfv, LPALGETAUXILIARYEFFECTSLOTFV);
 
-		//Filters
-		LOAD_PROC(alGenFilters, LPALGENFILTERS);
-		LOAD_PROC(alDeleteFilters, LPALDELETEFILTERS);
-		LOAD_PROC(alIsFilter, LPALISFILTER);
-		LOAD_PROC(alFilteri, LPALFILTERI);
-		LOAD_PROC(alFilteriv, LPALFILTERIV);
-		LOAD_PROC(alFilterf, LPALFILTERF);
-		LOAD_PROC(alFilterfv, LPALFILTERFV);
-		LOAD_PROC(alGetFilteri, LPALGETFILTERI);
-		LOAD_PROC(alGetFilteriv, LPALGETFILTERIV);
-		LOAD_PROC(alGetFilterf, LPALGETFILTERF);
-		LOAD_PROC(alGetFilterfv, LPALGETFILTERFV);
+			//Filters
+			LOAD_PROC(alGenFilters, LPALGENFILTERS);
+			LOAD_PROC(alDeleteFilters, LPALDELETEFILTERS);
+			LOAD_PROC(alIsFilter, LPALISFILTER);
+			LOAD_PROC(alFilteri, LPALFILTERI);
+			LOAD_PROC(alFilteriv, LPALFILTERIV);
+			LOAD_PROC(alFilterf, LPALFILTERF);
+			LOAD_PROC(alFilterfv, LPALFILTERFV);
+			LOAD_PROC(alGetFilteri, LPALGETFILTERI);
+			LOAD_PROC(alGetFilteriv, LPALGETFILTERIV);
+			LOAD_PROC(alGetFilterf, LPALGETFILTERF);
+			LOAD_PROC(alGetFilterfv, LPALGETFILTERFV);
+		}
 #undef LOAD_PROC
 		if (effect == UINT32_MAX) {
 			alGenEffects(1, &effect);
@@ -195,6 +202,8 @@ namespace sge {
 
 
 			alFilteri(filter, AL_FILTER_TYPE, AL_FILTER_LOWPASS);
+			++filterCount;
+			std::cout << "Generated a new sound effect buffer: " << filterCount << std::endl;
 		}
 
 		alSourcei(source, AL_DIRECT_FILTER, filter);
@@ -246,6 +255,7 @@ namespace sge {
 		}
 		alSource3i(source, AL_AUXILIARY_SEND_FILTER, effectSlot, 0, filter);
 		alSourcei(source, AL_DIRECT_FILTER, filter);
+		alSourcef(source, AL_ROLLOFF_FACTOR, rolloffFactor);
 		//std::cout << IsDirect() << std::endl;
 		//alDopplerFactor(1);
 		//alDopplerVelocity(343);
@@ -289,6 +299,11 @@ namespace sge {
 	void SoundComponent::SetVolume(float volume)
 	{
 		maxVolume = volume;
+	}
+
+	void SoundComponent::SetRolloffFactor(float factor)
+	{
+		rolloffFactor = factor;
 	}
 
 	std::string vec2string(vec3 vec) {

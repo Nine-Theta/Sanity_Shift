@@ -17,6 +17,8 @@ function onmessage(msg)
 	end
 	if fuse == 0 then
 		parent:setPos(-1.3,0,0)
+		parent:setSound("electric_door_open.wav",0.001)
+		parent:playSound()
 	end
 	print("Fuses left until door: " .. fuse)
 end

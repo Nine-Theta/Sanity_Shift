@@ -38,7 +38,7 @@ namespace sge {
 		_material = new SpecularMaterial("Mannequin/Diffuse.dds", "Mannequin/Specular.dds", "Mannequin/Normal.dds");
 		_comp = new MeshComponent("Mannequin/Mannequin_" + std::to_string(1) + ".obj", _material);
 		p_gameObj->AddComponent(_comp);
-		mannequins = 20;
+		mannequins = 11;
 		_mesh.resize(mannequins);
 		for (int i = 1; i <= mannequins; i++) {
 			_mesh[i - 1] = AssetLoader::GetMesh("Mannequin/Mannequin_" + std::to_string(i) + ".obj"); //Mesh::load("Mannequin/Mannequin_" + std::to_string(i) + ".obj");
