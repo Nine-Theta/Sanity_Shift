@@ -67,7 +67,9 @@ namespace sge {
 			if (event.type == sf::Event::Resized) {
 				std::cout << ("Video mode changed to " + std::to_string(event.size.width) + " - " + std::to_string(event.size.height)) << std::endl;
 				CameraComponent::GetMain()->SetProjection(Settings::GetInt("fov"), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f);//glm::perspective(glm::radians(60.0f), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f));	//fix projection
-				glViewport(0, 0, event.size.width, event.size.height);
+				glViewport(0, 0, event.size.width, event.size.height); //remember projection on scenes
+				Settings::SetSetting("width", std::to_string(event.size.width));
+				Settings::SetSetting("height", std::to_string(event.size.height));
 			}
 		}
 		while (TimeH::DoFixedStep()) {
