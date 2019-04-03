@@ -4,7 +4,7 @@ function start()
 	dlight = gameObject.find("fuseLight" .. parent:getName())
 	dlight:setActive(false)
 	dlamp = dlight:getParent()
-	door = gameObject.find("movable_right")
+	door = gameObject.find("electricdoor")
 end
 
 hit = false

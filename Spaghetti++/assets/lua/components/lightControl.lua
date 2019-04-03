@@ -1,11 +1,6 @@
 --parent is component's parent gameObject. It supports functions 
 
-function start()
-	--print("Initialised test lua component")
-	--print(test.test())
-	light = parent:getChildren()
-	--also controls the flashlight now, so slightly misleading name but if it works...
-end
+
 
 rotation = 0
 verticalSensitivity = 10 --default: 10
@@ -13,7 +8,7 @@ upperLimit = 45
 lowerLimit = -45
 
 active = true
-enabled = true
+enabled = false
 
 lastActive = true
 function setActive(act)
@@ -29,6 +24,14 @@ function setActive(act)
 		parent:playSound()
 	end
 	lastActive = act
+end
+
+function start()
+	--print("Initialised test lua component")
+	--print(test.test())
+	light = parent:getChildren()
+	--also controls the flashlight now, so slightly misleading name but if it works...
+	setActive(false)
 end
 
 function fixedupdate()
