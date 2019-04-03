@@ -417,8 +417,8 @@ namespace sge {
 		lua_State* state = _state.GetState();
 		lua_getglobal(state, function.c_str());
 		_state.PushLightUserData(object);
-		int status = lua_pcall(state, 1, 0, 0);
-		if (false && status) {
+		int status = lua_pcall(state, 1, 1, 0);
+		if ( status) {
 			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
 			lua_pop(state, -1);
 			//std::cout << lua_tostring(state, -1) << std::endl;
@@ -862,6 +862,7 @@ namespace sge {
 		GameObject* obj = ls->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<GameObject*> children = obj->GetChildren();
 		int childrenC = children.size();
+		//std::cout << "Returning lua children: " << children.size() << std::endl;
 		lua_newtable(state);
 		for (int i = 0; i < childrenC; i++) {
 			//comp->GetState()->PushToTable(std::to_string(i), children[i]);
