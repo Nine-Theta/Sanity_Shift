@@ -9,11 +9,13 @@ end
 function start()
 	
 end
-fuse = 1
+fuse = 5
 
 function onmessage(msg)
 	if msg == "fuse" then
 		fuse = fuse - 1
+	elseif msg == "unfuse" then
+		fuse = fuse + 1
 	end
 	if fuse == 0 then
 		x,y,z = parent:getPos()

@@ -4,7 +4,7 @@ function start()
 	for i = 0, #doors do
 		if doors[i] ~= parent then
 			--doors[i]:removeComponent("lua")
-			doors[i]:getChildren()[0]:getChildren()[0]:removeComponent("lua")
+			doors[i]:getChildren()[0]:getChildren()[0]:sendMessage("lock")
 		end
 	end
 	code = parent:getName()
@@ -27,7 +27,7 @@ function fixedupdate()
 		for i = 0, #doors do
 			if doors[i] ~= parent then
 			--doors[i]:removeComponent("lua")
-				doors[i]:getChildren()[0]:getChildren()[0]:addComponent("lua","door.lua")
+				doors[i]:getChildren()[0]:getChildren()[0]:sendMessage("unlock")
 			end
 		end
 		parent:removeComponent("lua")
