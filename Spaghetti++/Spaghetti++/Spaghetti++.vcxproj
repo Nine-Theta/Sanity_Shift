@@ -70,6 +70,7 @@
     <ClCompile Include="..\src\materials\SpecularMaterial.cpp" />
     <ClCompile Include="..\src\materials\TerrainMaterial.cpp" />
     <ClCompile Include="..\src\materials\TextureMaterial.cpp" />
+    <ClCompile Include="..\src\materials\TransparencyMaterial.cpp" />
     <ClCompile Include="..\src\materials\WobbleMaterial.cpp" />
     <ClCompile Include="..\src\Settings.cpp" />
     <ClCompile Include="..\src\SoundManager.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="..\src\materials\SpecularMaterial.hpp" />
     <ClInclude Include="..\src\materials\TerrainMaterial.hpp" />
     <ClInclude Include="..\src\materials\TextureMaterial.hpp" />
+    <ClInclude Include="..\src\materials\TransparencyMaterial.hpp" />
     <ClInclude Include="..\src\materials\WobbleMaterial.hpp" />
     <ClInclude Include="..\src\resource.h" />
     <ClInclude Include="..\src\Settings.h" />

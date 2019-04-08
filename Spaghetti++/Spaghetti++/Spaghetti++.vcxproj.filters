@@ -204,6 +204,9 @@
     <ClCompile Include="..\src\BulletDebugDraw.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\materials\TransparencyMaterial.cpp">
+      <Filter>Quelldateien\Materials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Spaghetti++.rc">
@@ -384,6 +387,9 @@
     </ClInclude>
     <ClInclude Include="..\src\BulletDebugDraw.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\materials\TransparencyMaterial.hpp">
+      <Filter>Headerdateien\Materials</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
