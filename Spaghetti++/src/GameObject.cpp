@@ -168,8 +168,11 @@ namespace sge {
 	{
 		vec3 forward = normalize(target - GetCombinedPosition());
 		vec3 left = cross(pUp, forward);
-		vec3 up = cross(left, forward);
-		mat4 newMat = lookAt(GetCombinedPosition(), target, pUp);
+		vec3 up = cross(forward, left);
+		mat4 newMat = lookAt(target, GetCombinedPosition(), pUp);
+		newMat[0] = normalize(vec4(left,0));
+		newMat[1] = normalize(vec4(up,0));
+		newMat[2] = normalize(vec4(forward, 0));
 		newMat[3] = _combinedTransform[3];
 		_combinedTransform = newMat;
 		if (GetParent() != NULL)

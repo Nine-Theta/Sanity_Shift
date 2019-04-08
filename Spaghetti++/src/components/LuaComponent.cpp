@@ -242,6 +242,7 @@ namespace sge {
 		{"setRotation", setRotation},
 		{"setWorldRotation", setWorldRotation},
 		{"setRotationQ", setRotationQ},
+		{"lookAt", lookAt},
 		{"forward", forward},
 		{"right", right},
 		{"up", up},
@@ -779,6 +780,14 @@ namespace sge {
 		obj->SetRotation(quat((float)vals[3], (float)vals[2], (float)vals[1], (float)vals[0]));
 		//obj->SetRotation(glm::vec3(1, 0, 0), -40);
 		//obj->Rotate(glm::vec3(0, 1, 0), 20);
+		return 0;
+	}
+	int LuaComponent::lookAt(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		obj->LookAt(vec3((float)vals[2], (float)vals[1], (float)vals[0]),vec3(0,1,0));
 		return 0;
 	}
 	int LuaComponent::getWorldPos(lua_State * state)

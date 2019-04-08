@@ -7,6 +7,7 @@ function start()
 	door = gameObject.find("ChapelDoorLocked")
 	door:sendMessage("invert")
 	door:sendMessage("lock")
+	dlamp:setFluorEmission(0.9,0.9,0.6,0)
 	--door:removeComponent("lua")
 end
 

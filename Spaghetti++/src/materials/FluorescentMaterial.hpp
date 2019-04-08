@@ -53,7 +53,7 @@ namespace sge {
 
 		static unsigned int block_index;
 
-		vec4 _glowCol = vec4(0.7f, 0.4f, 0.1f, 0.3f);
+		vec4 _glowCol = vec4(0, 0.1f, 0.02f, 2.0f);
 		float _lightSelect = 0;
 		float _lightReact = 1;
 		Texture* _diffuseTexture;
