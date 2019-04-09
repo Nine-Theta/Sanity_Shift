@@ -132,21 +132,20 @@ namespace sge {
 		//mesh->GetMesh()->drawDebugInfo(mMatrix, vMatrix, pMatrix);
 		//mesh->GetMesh()->streamToOpenGL(_aVertex, _aNormal, _aUV);
 		if (_debug) {
-			vec4 clipPos = mvpMatrix * vec4(0, 0, 0, 1);
-			vec2 screenPos = vec2(clipPos.x / clipPos.w, clipPos.y / clipPos.w); //pMatrix * vMatrix * vec4(0, 2, 0, 1);
-			std::cout << "Debug screen pos: " << screenPos.x << " - " << screenPos.y << " - " << clipPos.w << std::endl;
+			//pMatrix * vMatrix * vec4(0, 2, 0, 1);
+			//std::cout << "Debug screen pos: " << screenPos.x << " - " << screenPos.y << " - " << clipPos.w << std::endl;
 			ShaderProgram::reset();
 			glPointSize(4.f);
-			//glMatrixMode(GL_PROJECTION);
-			//glLoadMatrixf(glm::value_ptr(cam->GetProjection()));
-			//glMatrixMode(GL_MODELVIEW);
-			//glLoadMatrixf(glm::value_ptr(cam->GetView()));
 			glLoadIdentity();
-
+			vec3* bbox = mesh->GetMesh()->GetBoundingBox();
 			glBegin(GL_POINTS);
 			glColor3f(1, 0, 0);
-			glVertex2fv(glm::value_ptr(screenPos));
-		//	glVertex2fv(glm::value_ptr(screenPos));
+			for (int i = 0; i < 8; ++i) {
+				vec4 clipPos = mvpMatrix * vec4(bbox[i], 1);
+				vec2 screenPos = vec2(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
+				glVertex2fv(glm::value_ptr(screenPos));
+				//	glVertex2fv(glm::value_ptr(screenPos));
+			}
 			glEnd();
 			glLoadIdentity();
 			/*glMatrixMode(GL_PROJECTION);
