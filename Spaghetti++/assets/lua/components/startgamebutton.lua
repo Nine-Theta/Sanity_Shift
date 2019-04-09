@@ -26,13 +26,11 @@ function onraycasthit(caster)
 end
 
 function Selected()
-	print("startbutton invoked")
 	buttonSelected:setActive(true)
 	buttonIdle:setActive(false)
 end
 
 function Deselected()
-	print("startbutton invoked2")
 	buttonSelected:setActive(false)
 	buttonIdle:setActive(true)
 end

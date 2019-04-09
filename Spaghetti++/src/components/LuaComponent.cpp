@@ -12,6 +12,7 @@
 #include "BoxCollider.h"
 #include "MeshCollider.h"
 #include "materials/SpecularMaterial.hpp"
+#include "materials/TransparencyMaterial.hpp"
 #include "materials/FluorescentMaterial.hpp"
 #include "Input.h"
 #include "game.h"
@@ -154,9 +155,11 @@ namespace sge {
 					else if (args[4] == "emit") {
 						FluorescentMaterial* mat = new FluorescentMaterial(args[2], args[1], args[0]);
 						mat->setReactionMult(0);
-						MeshComponent* comp = new MeshComponent(args[3],mat);
+						MeshComponent* comp = new MeshComponent(args[3], mat);
 						obj->AddComponent(comp);
 					}
+					else if (args[4] == "transparent")
+						obj->AddComponent(new MeshComponent(args[3], new TransparencyMaterial(args[2], args[1], args[0])));
 				}
 				break;
 			}

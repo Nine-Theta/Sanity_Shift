@@ -1,7 +1,7 @@
 --parent is component's parent gameObject. It supports functions 
 
 function start()
-	parent:playSound()
+	--parent:playSound()
 	--audio.play("frolic.wav")
 end
 

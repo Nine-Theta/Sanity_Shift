@@ -9,6 +9,6 @@ function oncollisionenter(other)
 		obj = gameObject.new()
 		obj:setName("Loader")
 		obj:addComponent("lua", "sceneloader.lua")
-		obj:sendMessage("../deathscene.lua")
+		obj:sendMessage("../deathscene_mask.lua")
 	end
 end
