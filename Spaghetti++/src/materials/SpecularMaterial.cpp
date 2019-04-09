@@ -148,6 +148,7 @@ namespace sge {
 			}
 			glEnd();
 			glLoadIdentity();
+			mesh->GetMesh()->drawDebugInfo(mMatrix, vMatrix, pMatrix);
 			/*glMatrixMode(GL_PROJECTION);
 			glLoadMatrixf(glm::value_ptr(cam->GetProjection()));
 			glMatrixMode(GL_MODELVIEW);

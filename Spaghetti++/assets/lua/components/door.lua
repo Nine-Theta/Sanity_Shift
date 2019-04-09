@@ -63,6 +63,8 @@ function onraycasthit(caster)
 		--end
 		
 	if not active then
+		parent:setSound("locked_door_rattle.wav")
+		parent:playSound()
 		return
 	end
 		parent:setSound("door_open.wav")

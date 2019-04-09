@@ -411,17 +411,26 @@ namespace sge {
 	void LuaComponent::CallFunction(std::string function)
 	{
 		lua_State* state = _state.GetState();
-		lua_getglobal(state, function.c_str());
-		//_state.PushLightUserData(other->GetParent());
-		lua_pcall(state, 0, 0, 0);
-		/*if (status) {
+		lua_getglobal(state, function.c_str()); // function to be called
+		if (!lua_isfunction(state, lua_gettop(state))) {
+			lua_pop(state, 1);
+			return;
+		}
+		int status = lua_pcall(state, 1, 1, 0);
+		if (status) {
 			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
-		}*/
+			lua_pop(state, -1);
+			//std::cout << lua_tostring(state, -1) << std::endl;
+		}
 	}
 	void LuaComponent::CallFunctionWithGameObject(std::string function, GameObject * object)
 	{
 		lua_State* state = _state.GetState();
-		lua_getglobal(state, function.c_str());
+		lua_getglobal(state, function.c_str()); // function to be called
+		if (!lua_isfunction(state, lua_gettop(state))) {
+			lua_pop(state, 1);
+			return;
+		}
 		_state.PushLightUserData(object);
 		int status = lua_pcall(state, 1, 1, 0);
 		if ( status) {
