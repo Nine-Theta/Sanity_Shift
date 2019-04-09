@@ -149,6 +149,8 @@ namespace sge {
 						obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0])));
 					else if(args[4] == "glow")
 						obj->AddComponent(new MeshComponent(args[3], new FluorescentMaterial(args[2], args[1], args[0])));
+					else if (args[4] == "debug")
+						obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0],true)));
 					else if (args[4] == "emit") {
 						FluorescentMaterial* mat = new FluorescentMaterial(args[2], args[1], args[0]);
 						mat->setReactionMult(0);

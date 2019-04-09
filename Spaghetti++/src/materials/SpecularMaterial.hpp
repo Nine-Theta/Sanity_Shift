@@ -16,7 +16,7 @@ namespace sge {
 	class SpecularMaterial : public AbstractMaterial
 	{
 	public:
-		SpecularMaterial(std::string diffuse, std::string specular, std::string normal);
+		SpecularMaterial(std::string diffuse, std::string specular, std::string normal, bool debug = false);
 		virtual ~SpecularMaterial();
 
 		virtual void render(sge::MeshComponent* mesh, sge::CameraComponent* cam) override;
@@ -50,6 +50,8 @@ namespace sge {
 		Texture* _diffuseTexture;
 		Texture* _specularTexture;
 		Texture* _normalTexture;
+
+		bool _debug;
 
 		SpecularMaterial(const SpecularMaterial&);
 		SpecularMaterial& operator=(const SpecularMaterial&);
