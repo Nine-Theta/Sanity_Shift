@@ -5,6 +5,7 @@ function start()
 	dlight:setActive(false)
 	dlamp = dlight:getParent()
 	door = gameObject.find("electricdoor")
+	dlamp:setFluorEmission(0.9,0.9,0.6,0)
 end
 
 hit = false
