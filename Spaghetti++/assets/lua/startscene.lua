@@ -1,5 +1,5 @@
 function init()
-print("init")
+print(math.atan2(0.5, 0.5)*180/3.14)
 	local obj1 = gameObject.new()
 	obj1:setName("13cube")
 	obj1:setPos(0,1.82,5)
