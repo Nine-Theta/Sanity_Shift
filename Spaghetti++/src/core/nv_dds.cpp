@@ -166,11 +166,13 @@
 using namespace std;
 using namespace nv_dds;
 
-#define GL_BGR_EXT                                        0x80E0
-#define GL_COMPRESSED_RGB_S3TC_DXT1_EXT                   0x83F0
-#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT                  0x83F1
-#define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT                  0x83F2
-#define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT                  0x83F3
+#define GL_BGR_EXT											0x80E0
+#define GL_COMPRESSED_RGB_S3TC_DXT1_EXT						0x83F0
+#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT					0x83F1
+#define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT					0x83F2
+#define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT					0x83F3
+#define GL_COMPRESSED_RGBA_BPTC_UNORM						0x8e8c
+#define GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM					0x8e8d
 
 ///////////////////////////////////////////////////////////////////////////////
 // CDDSImage private functions
@@ -212,6 +214,7 @@ const uint32_t DDSF_VOLUME = 0x00200000;
 const uint32_t FOURCC_DXT1 = 0x31545844; //(MAKEFOURCC('D','X','T','1'))
 const uint32_t FOURCC_DXT3 = 0x33545844; //(MAKEFOURCC('D','X','T','3'))
 const uint32_t FOURCC_DXT5 = 0x35545844; //(MAKEFOURCC('D','X','T','5'))
+const uint32_t FOURCC_DX10 = 0x30315844; //(MAKEFOURCC('D','X','1','0'))
 
 struct DDS_PIXELFORMAT {
     uint32_t dwSize;
@@ -541,8 +544,12 @@ void CDDSImage::load(istream& is, bool flipImage) {
             m_format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
             m_components = 4;
             break;
+		case FOURCC_DX10:
+			m_format = GL_COMPRESSED_RGBA_BPTC_UNORM;
+			m_components = 4;
+			break;
         default:
-            throw runtime_error("unknown texture compression '"+fourcc(ddsh.ddspf.dwFourCC)+"'");
+            throw runtime_error("unknown texture compression '"+fourcc(ddsh.ddspf.dwFourCC)+"'" + "(" + std::to_string(ddsh.ddspf.dwFourCC) + ")");
         }
     } else if (ddsh.ddspf.dwRGBBitCount == 32 &&
                ddsh.ddspf.dwRBitMask == 0x00FF0000 &&
@@ -599,6 +606,12 @@ void CDDSImage::load(istream& is, bool flipImage) {
         // calculate surface size
         unsigned int size = (this->*sizefunc)(width, height) * depth;
 
+		// BC7 header extension hack
+		if (m_format == GL_COMPRESSED_RGBA_BPTC_UNORM) {
+			uint8_t *headerp2 = new uint8_t[20];
+			is.read((char*)headerp2, 20);
+			delete[] headerp2;
+		}
         // load surface
         uint8_t *pixels = new uint8_t[size];
         is.read((char*)pixels, size);
@@ -955,7 +968,9 @@ void CDDSImage::upload_textureCubemap() {
 bool CDDSImage::is_compressed() {
 	return (m_format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)
 			|| (m_format == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT)
-			|| (m_format == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT);
+			|| (m_format == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
+			|| (m_format == GL_COMPRESSED_RGBA_BPTC_UNORM)
+			|| (m_format == GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
