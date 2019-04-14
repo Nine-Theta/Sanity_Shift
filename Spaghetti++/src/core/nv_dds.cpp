@@ -215,6 +215,7 @@ const uint32_t FOURCC_DXT1 = 0x31545844; //(MAKEFOURCC('D','X','T','1'))
 const uint32_t FOURCC_DXT3 = 0x33545844; //(MAKEFOURCC('D','X','T','3'))
 const uint32_t FOURCC_DXT5 = 0x35545844; //(MAKEFOURCC('D','X','T','5'))
 const uint32_t FOURCC_DX10 = 0x30315844; //(MAKEFOURCC('D','X','1','0'))
+const uint32_t FOURCC_BC5U = 0x55354342; //(MAKEFOURCC('B','C','5','U'))
 
 struct DDS_PIXELFORMAT {
     uint32_t dwSize;
@@ -548,6 +549,9 @@ void CDDSImage::load(istream& is, bool flipImage) {
 			m_format = GL_COMPRESSED_RGBA_BPTC_UNORM;
 			m_components = 4;
 			break;
+		case FOURCC_BC5U:
+			//m_format = 
+			throw runtime_error("BC5 format not yet supported!");
         default:
             throw runtime_error("unknown texture compression '"+fourcc(ddsh.ddspf.dwFourCC)+"'" + "(" + std::to_string(ddsh.ddspf.dwFourCC) + ")");
         }

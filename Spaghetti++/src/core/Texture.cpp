@@ -4,6 +4,8 @@
 
 #include <assert.h>
 #include <stdint.h>
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
 
 #include <SFML/Graphics.hpp>
 #include "core/Texture.hpp"
@@ -108,8 +110,10 @@ Texture* Texture::load(const std::string& pFilename)
 			return texture;
 		}
 		catch(std::exception& e){
-			if(pch==NULL)
+			if (pch == NULL) {
 				std::cout << e.what() << '\n';
+				//std::this_thread::sleep_for(std::chrono::seconds(15));
+			}
 			else {
 				std::cout << "Fallback to the old PNG system, attempting to load as PNG" << std::endl;
 				char* pch = (char*)strstr(mFilename.c_str(), ".dds");
