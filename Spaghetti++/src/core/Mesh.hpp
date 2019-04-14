@@ -38,6 +38,8 @@ namespace sge {
 		std::vector<unsigned int> &GetIndices();
 		std::vector<glm::vec3> &GetVertices();
 
+		glm::vec3* GetBoundingBox();
+
 		unsigned GetPolyCount();
 
 	protected:
@@ -59,6 +61,8 @@ namespace sge {
 
 		//references to the vertices/normals & uvs in previous vectors
 		std::vector<unsigned int> _indices;
+
+		glm::vec3 _boundingBox[8];
 
 		//buffer vertices, normals, and uv's
 		void _buffer();

@@ -71,6 +71,7 @@ namespace sge {
 		static int setWorldRotation(lua_State* state);
 		static int setRotation(lua_State* state);
 		static int setRotationQ(lua_State* state);
+		static int lookAt(lua_State* state);
 		static int getWorldPos(lua_State* state);
 		static int setWorldPos(lua_State* state);
 		static int setDistanceLimit(lua_State* state);

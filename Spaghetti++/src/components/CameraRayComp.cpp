@@ -16,6 +16,7 @@ namespace sge {
 	void sge::CameraRayComp::Start()
 	{
 		lua = p_gameObj->GetComponent<LuaComponent>();
+		hitPos = GameObject::Find("FlashlightTarget");
 	}
 
 	void sge::CameraRayComp::OnDestroy()
@@ -28,8 +29,17 @@ namespace sge {
 
 	void sge::CameraRayComp::FixedUpdate()
 	{
-		RaycastHit hit = Physics::Raycast(p_gameObj->GetCombinedPosition() + p_gameObj->forward() * 0.5f, p_gameObj->forward(), 5);
-		//std::cout << "Raycast hit a collider: " << (hit.hit ? hit.collider->GetParent()->GetName() : "No") << std::endl;
+		RaycastHit hit = Physics::Raycast(p_gameObj->GetCombinedPosition() + p_gameObj->forward() * 0.7f, p_gameObj->forward(), 5);
+		//std::cout << "Raycast hit a collider: " << (hit.hit ? hit.collider->GetParent()->GetParent()->GetName() : "No") << std::endl;
+		if (hitPos != NULL) {
+			float camDistance;
+			if (hit.hit)
+				camDistance = dot(hit.point - p_gameObj->GetCombinedPosition(), p_gameObj->forward());
+			else
+				camDistance = 6.f;
+			focusDistance -= (focusDistance - camDistance) * 0.1f;
+			hitPos->SetWorldPosition(p_gameObj->GetCombinedPosition() + p_gameObj->forward() * focusDistance);
+		}
 		if (!hit.hit) return;
 		if (lua != NULL)
 			lua->CallFunctionWithGameObject("raycastresult",hit.collider->GetParent());

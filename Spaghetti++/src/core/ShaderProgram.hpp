@@ -30,6 +30,7 @@ class ShaderProgram
 		void finalize();
 		//tell opengl this is now the current shader program
 		void use();
+		static void reset();
 
         //get access to uniforms within the shader
 		GLuint getUniformLocation (const std::string& pName);

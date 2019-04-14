@@ -150,6 +150,8 @@ namespace sge {
 						obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0])));
 					else if(args[4] == "glow")
 						obj->AddComponent(new MeshComponent(args[3], new FluorescentMaterial(args[2], args[1], args[0])));
+					else if (args[4] == "debug")
+						obj->AddComponent(new MeshComponent(args[3], new SpecularMaterial(args[2], args[1], args[0],true)));
 					else if (args[4] == "emit") {
 						FluorescentMaterial* mat = new FluorescentMaterial(args[2], args[1], args[0]);
 						mat->setReactionMult(0);
@@ -245,6 +247,7 @@ namespace sge {
 		{"setRotation", setRotation},
 		{"setWorldRotation", setWorldRotation},
 		{"setRotationQ", setRotationQ},
+		{"lookAt", lookAt},
 		{"forward", forward},
 		{"right", right},
 		{"up", up},
@@ -408,20 +411,29 @@ namespace sge {
 	void LuaComponent::CallFunction(std::string function)
 	{
 		lua_State* state = _state.GetState();
-		lua_getglobal(state, function.c_str());
-		//_state.PushLightUserData(other->GetParent());
-		lua_pcall(state, 0, 0, 0);
-		/*if (status) {
+		lua_getglobal(state, function.c_str()); // function to be called
+		if (!lua_isfunction(state, lua_gettop(state))) {
+			lua_pop(state, 1);
+			return;
+		}
+		int status = lua_pcall(state, 1, 1, 0);
+		if (status) {
 			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
-		}*/
+			lua_pop(state, -1);
+			//std::cout << lua_tostring(state, -1) << std::endl;
+		}
 	}
 	void LuaComponent::CallFunctionWithGameObject(std::string function, GameObject * object)
 	{
 		lua_State* state = _state.GetState();
-		lua_getglobal(state, function.c_str());
+		lua_getglobal(state, function.c_str()); // function to be called
+		if (!lua_isfunction(state, lua_gettop(state))) {
+			lua_pop(state, 1);
+			return;
+		}
 		_state.PushLightUserData(object);
-		int status = lua_pcall(state, 1, 0, 0);
-		if (false && status) {
+		int status = lua_pcall(state, 1, 1, 0);
+		if ( status) {
 			std::cout << "Lua error: " << std::to_string(status) << "\n" << lua_tostring(state, -1) << "\n" << "Stack: " << lua_gettop(state) << std::endl;
 			lua_pop(state, -1);
 			//std::cout << lua_tostring(state, -1) << std::endl;
@@ -784,6 +796,14 @@ namespace sge {
 		//obj->Rotate(glm::vec3(0, 1, 0), 20);
 		return 0;
 	}
+	int LuaComponent::lookAt(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		std::vector<double> vals = comp->GetState()->GetNumbersFromStack();
+		obj->LookAt(vec3((float)vals[2], (float)vals[1], (float)vals[0]),vec3(0,1,0));
+		return 0;
+	}
 	int LuaComponent::getWorldPos(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
@@ -865,6 +885,7 @@ namespace sge {
 		GameObject* obj = ls->GetObjectFromStack<GameObject>("sge.gameObject");
 		std::vector<GameObject*> children = obj->GetChildren();
 		int childrenC = children.size();
+		//std::cout << "Returning lua children: " << children.size() << std::endl;
 		lua_newtable(state);
 		for (int i = 0; i < childrenC; i++) {
 			//comp->GetState()->PushToTable(std::to_string(i), children[i]);

@@ -4,6 +4,9 @@ rotation = 0
 rotationSteps = 6
 function start()
 	rotationT = ((360 / rotationSteps)) * math.random(1,rotationSteps)
+	local number = math.floor((rotationT % 360) / (360 / rotationSteps) + 1)
+	--print("Code lock changed to: " .. number)
+	parent:setName(number)
 end
 function fixedupdate()
 	if hit then 
