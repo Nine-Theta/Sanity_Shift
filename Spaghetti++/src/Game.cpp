@@ -283,8 +283,8 @@ namespace sge {
 
 	void Game::DestroyAllObjects()
 	{
-		for (GameObject* obj : _allObjects) {
-			GameObject::Destroy(obj);
+		for (GameObject* obj : _rootObjects) {
+			GameObject::Destroy(obj,false);
 		}
 	}
 

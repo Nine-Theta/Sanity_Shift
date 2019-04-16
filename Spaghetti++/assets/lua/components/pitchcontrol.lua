@@ -6,6 +6,10 @@ function start()
 	light = gameObject.find("Flashlight") 
 	--also controls the flashlight now, so slightly misleading name but if it works...
 	parent:playSound()
+	local menuMusic = gameObject.find("Music")
+	if menuMusic ~= nil then
+		menuMusic:stopSound(7)
+	end
 	x,y,z = parent:getPos()
 	local heartbeat = gameObject.new()
 	heartbeat:setParent(parent)
@@ -21,9 +25,12 @@ verticalSensitivity = 10 --default: 10
 upperLimit = 80
 lowerLimit = -80
 
+following = false
 enabled = true
 function update()
-
+	if following then
+		return
+	end
 	if mouse.moved() then
 		local mX, mY = mouse.delta()
 		
@@ -38,6 +45,9 @@ function update()
 end
 	
 function fixedupdate()
+	if following then
+		return
+	end
 	if mouse.buttonDown(1) then
 		enabled = not enabled
 	end
@@ -45,6 +55,19 @@ function fixedupdate()
 		--light:setActive(not enabled)
 	else
 		--light:setActive(enabled)
+	end
+end
+
+function onmessage(msg)
+	if msg == "follow" then
+		following = true
+	end
+end
+
+function ondestroy()
+	local menuMusic = gameObject.find("Music")
+	if menuMusic ~= nil then
+		menuMusic:destroy()
 	end
 end
 

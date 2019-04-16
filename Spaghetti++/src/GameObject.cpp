@@ -45,6 +45,16 @@ namespace sge {
 		return Game::GetInstance().FindGameObject(name);
 	}
 
+	void GameObject::SetKeepOnSoftDestroy(bool keep)
+	{
+		keepOnSoftDelete = keep;
+	}
+
+	bool GameObject::ToKeepOnSoftDestroy()
+	{
+		return keepOnSoftDelete;
+	}
+
 	void GameObject::DestroyAll()
 	{
 		return Game::GetInstance().DestroyAllObjects();
@@ -470,24 +480,36 @@ namespace sge {
 		if (itr != _components.end()) {
 			_components.erase(itr);
 			//std::cout << "Deleting component: " << p_component << std::endl;
+			p_component->OnDestroy();
+			delete p_component;
 		}
 		//std::cout << GetName() << " has components after deletion: " << _components.size() << std::endl;
 		//_components.erase(std::remove(_components.begin(), _components.end(), p_component), _components.end());
-		p_component->OnDestroy();
-		delete p_component;
 	}
 
-	void GameObject::Destroy(GameObject * p_object) //OVERRIDING DELETE BROKE EVERYTHING. Now this is how it's done until I figure that out
+	void GameObject::Destroy(GameObject * p_object, bool hardDelete) //OVERRIDING DELETE BROKE EVERYTHING. Now this is how it's done until I figure that out
 	{
+		
 		//std::cout << "Destroying a game object..." << std::endl;
 		GameObject* obj = (GameObject*)p_object;
 		if (obj->GetObjectState() < GOState::DESTROYED) {
+			if (hardDelete || !p_object->ToKeepOnSoftDestroy()) {
+				for (GameObject* child : p_object->GetChildren()) {
+					GameObject::Destroy(child, hardDelete);
+				}
+			}
+
+			if (p_object->ToKeepOnSoftDestroy() && !hardDelete) {
+				p_object->SetParent(NULL);
+				return;
+			}
 			//std::cout << "Marked game object for deletion, will destroy after frame: " << obj->GetName() << " - " << obj << std::endl;
 			Game::GetInstance().RemoveGameObject(obj);
 			obj->SetObjectState(GOState::DESTROYED);
 		}
 		else if (obj->GetObjectState() == GOState::DELETED) {
 			//std::cout << "Deleted a game object from memory: " << obj->GetName() << " - " << obj << std::endl;
+			assert(p_object, "Attempt to delete a null object, this shouldn't even be able to happen!");
 			delete p_object;
 		}
 		else {

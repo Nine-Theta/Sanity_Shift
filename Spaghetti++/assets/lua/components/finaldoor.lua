@@ -25,12 +25,19 @@ ctime = 1
 toPlaySound = false
 active = true
 timeToClose = 15
+
+cam = nil
 function fixedupdate()
+	if ctime == 0 then
+		cam:sendMessage("follow")
+		cam:getParent():sendMessage("follow")
+		return
+	end
 	lastTime = timeToClose
 	timeToClose = timeToClose - time.fixedDelta()
 	if toPlaySound then
 		if direction == -1 and ctime == 1 then
-			parent:getParent():setSound("door/door_open" .. math.random(1,3) .. ".wav")
+			parent:getParent():setSound("door_open.wav")
 		elseif ctime == 0 then
 			parent:getParent():setSound("door_close.wav")
 		end
@@ -54,6 +61,7 @@ function fixedupdate()
 end
 
 function onraycasthit(caster)
+	cam = caster
 	if keys.down(keys.E) then
 	print("Toggling door")
 		--if direction == then
@@ -86,7 +94,7 @@ function ondestroy()
 	--door:setPos(1,1,1)
 	if toPlaySound then
 		if direction == -1 then
-			parent:getParent():setSound("door/door_open" .. math.random(1,3) .. ".wav")
+			parent:getParent():setSound("door_open.wav")
 		elseif ctime ~= 1 then
 			parent:getParent():setSound("door_close.wav")
 		end

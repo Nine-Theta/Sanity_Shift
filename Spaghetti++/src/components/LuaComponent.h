@@ -49,6 +49,7 @@ namespace sge {
 		static int setParent(lua_State* state);
 		static int setActive(lua_State* state);
 		static int isActive(lua_State* state);
+		static int setKeepOnSoftDestroy(lua_State* state);
 		static int setTrigger(lua_State* state);
 		static int sendMessage(lua_State* state);
 		static int callFunction(lua_State* state);

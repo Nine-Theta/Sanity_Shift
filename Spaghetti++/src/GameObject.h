@@ -32,6 +32,7 @@ namespace sge {
 		void FlagMoved();
 
 		bool parentChanged = false;
+		bool keepOnSoftDelete = false;
 	public:
 		GameObject();
 		GameObject(GameObject* p_parent);
@@ -43,10 +44,12 @@ namespace sge {
 		Collider* GetCollider();
 		void OnDestroy();
 		static GameObject* Create();
-		static void Destroy(GameObject* p_object);
+		static void Destroy(GameObject* p_object, bool hardDelete = true);
 		static void DestroyAll();
 		static GameObject* Create(GameObject* p_parent);
 		static GameObject* Find(std::string name);
+		void SetKeepOnSoftDestroy(bool keep);
+		bool ToKeepOnSoftDestroy();
 		void SetParent(GameObject* p_parent);
 		void SetName(std::string newName);
 		std::string GetName();

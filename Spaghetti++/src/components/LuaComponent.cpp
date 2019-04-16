@@ -107,6 +107,14 @@ namespace sge {
 		return 1;
 	}
 
+	int LuaComponent::setKeepOnSoftDestroy(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		obj->SetKeepOnSoftDestroy(comp->GetState()->GetBoolsFromStack()[0]);
+		return 0;
+	}
+
 	int LuaComponent::setTrigger(lua_State * state)
 	{
 		LuaComponent* comp = _components[state];
@@ -254,6 +262,7 @@ namespace sge {
 		{"setParent", setParent},
 		{"setActive", setActive},
 		{"isActive", isActive},
+		{"setKeepOnSoftDestroy", setKeepOnSoftDestroy},
 		{"setTrigger", setTrigger},
 		{"sendMessage", sendMessage},
 		{"callFunction", callFunction},
