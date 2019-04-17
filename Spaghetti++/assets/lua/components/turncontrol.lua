@@ -20,9 +20,17 @@ count = 0
 targetRot = 0
 function update()
 	if(collided) then
-			d = d * 0.99
+			d = d * 0.98
 			parent:setWorldRotation(0,1,0,targetRot + d)
-			--count = count + 1
+			
+			
+			if(targetRot +d <= targetRot + 0.12 or targetRot +d <= targetRot - 0.12) then
+				gameObject.deleteAll()
+				obj = gameObject.new()
+				obj:setName("Loader")
+				obj:addComponent("lua", "sceneloader.lua")
+				obj:sendMessage("../deathscene3.lua")
+			end
 	else
 	if mouse.moved() and locked then
 		local mX, mY = mouse.delta()
