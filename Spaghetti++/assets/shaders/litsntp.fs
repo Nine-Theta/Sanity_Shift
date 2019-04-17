@@ -117,7 +117,7 @@ void main( void ) {
 	//fBTN = mat3(normalize(fBitangent),normalize(fTangent),normalize(fNormal));
 	//fcBTN = mat3(normalize(fcBitangent),normalize(fcTangent),normalize(fcNormal));
     
-    if(texture(diffuseTexture,texCoord).a <= 0.1f)
+    if(texture(diffuseTexture,texCoord).a != 1.0f)
     {
         discard;
     }
