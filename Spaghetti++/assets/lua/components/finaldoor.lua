@@ -29,8 +29,13 @@ timeToClose = 15
 cam = nil
 function fixedupdate()
 	if ctime == 0 then
-		cam:sendMessage("follow")
-		cam:getParent():sendMessage("follow")
+		--cam:sendMessage("follow")
+		cam:removeComponent("lua")
+		cam:addComponent("lua","animFollow.lua")
+		--cam:getParent():sendMessage("follow")
+		cam:getParent():removeComponent("lua")
+		cam:removeComponent("raycast")
+		parent:removeComponent("lua")
 		return
 	end
 	lastTime = timeToClose
