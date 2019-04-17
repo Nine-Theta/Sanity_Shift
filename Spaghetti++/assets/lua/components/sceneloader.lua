@@ -34,7 +34,7 @@ end
 function update()
 	once = once + 1
 	if(once == 4) then	
-		--gameObject.deleteAll()
+		gameObject.deleteAll()
 		parent:destroy()
 		--once = 3
 		local player = gameObject.find("Player")
