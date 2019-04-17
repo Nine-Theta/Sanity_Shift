@@ -5,19 +5,11 @@ function start()
 
 test = gameObject.find("tptest")
 
-waitTime = 60
 maskPart = 0
 
 end
 
-function Wait()
-
-waitTime = waitTime - 1
-
-end
-
 function SpawnPart()
-	print(maskPart)
 	
 	if		maskPart == 0 then test:addComponent("mesh", "transparent", "plane_up.obj","DeathMask/Mask_1.dds","black.dds","flat_n.png")
     elseif	maskPart == 1 then test:addComponent("mesh", "transparent", "plane_up.obj","DeathMask/Mask_2.dds","black.dds","flat_n.png")
@@ -28,18 +20,15 @@ function SpawnPart()
 	elseif	maskPart == 6 then test:addComponent("mesh", "transparent", "plane_up.obj","DeathMask/Mask_7.dds","black.dds","flat_n.png")
 	end
 	
+	print("yes")
+	
 maskPart = maskPart + 1
-waitTime = 80
 end
 	
 function fixedupdate()
 	
-	if(maskPart <= 6) then
-		if (waitTime <= 0) then
-			SpawnPart()
-		else
-		Wait()
-		end
+	if(keys.down(keys.Numpad1)) then
+		SpawnPart()
 	end
 	
 end
