@@ -52,6 +52,7 @@ print(math.atan2(0.5, 0.5)*180/3.14)
 	local obj1 = gameObject.new()
 	obj1:setName("Player")
 	obj1:setPos(0,1,-5)
+	obj1:setKeepOnSoftDestroy(true)
 	--obj1:addComponent("lua","movementrbody.lua")
 	obj1:addComponent("capsulecollider","0.49","1.85","0") --disabled fun
 		local obj2 = gameObject.new()

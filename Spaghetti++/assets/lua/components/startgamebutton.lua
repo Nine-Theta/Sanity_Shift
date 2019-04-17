@@ -37,11 +37,12 @@ end
 
 function Invoke()
 	--print("startbutton invoked")
-	gameObject.deleteAll()
 	obj = gameObject.new()
 	obj:setName("Loader")
 	obj:addComponent("lua", "sceneloader.lua")
 	obj:sendMessage("../scene.lua")
+	
+	--gameObject.find("Background"):destroy()
 end
 	
 function fixedupdate()

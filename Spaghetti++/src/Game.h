@@ -28,6 +28,7 @@ namespace sge {
 
 		static Game *instance;
 		bool running = false;
+		bool destructionPhase = false;
 		std::list<sge::GameObject*> _allObjects;
 		std::list<sge::ObjectBehaviour*> _newComponents;
 
@@ -44,6 +45,7 @@ namespace sge {
 		void RemoveFromNewComponents(ObjectBehaviour* p_comp);
 		void DestroyAllObjects();
 		void CloseGame();
+		bool IsDestroying();
 		GameObject* FindGameObject(std::string name);
 		size_t GetObjectCount();
 		static sge::Game& GetInstance();
