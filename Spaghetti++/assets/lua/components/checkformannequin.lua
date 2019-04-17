@@ -5,10 +5,10 @@ function oncollisionenter(other)
 	print("Player collided with " .. name)
 	if name == "Mannequin" then
 		print("You Died")
-		gameObject.deleteAll()
-		obj = gameObject.new()
-		obj:setName("Loader")
-		obj:addComponent("lua", "sceneloader.lua")
-		obj:sendMessage("../deathscene_mask.lua")
+		--gameObject.deleteAll()
+		--obj = gameObject.new()
+		--obj:setName("Loader")
+		--obj:addComponent("lua", "sceneloader.lua")
+		--obj:sendMessage("../deathscene_mask.lua")
 	end
 end
