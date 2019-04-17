@@ -53,8 +53,8 @@ namespace sge {
 	}
 	CameraComponent::CameraComponent()
 	{
-		width = sge::Settings::GetInt("width");
-		height = sge::Settings::GetInt("height");
+		width = Settings::GetInt("fullscreen") ? sf::VideoMode::getDesktopMode().width : sge::Settings::GetInt("width");
+		height = Settings::GetInt("fullscreen") ? sf::VideoMode::getDesktopMode().height : sge::Settings::GetInt("height");
 		if (main == NULL) {
 			main = this;
 			this->SetProjection(Settings::GetInt("fov"), width / height, 0.1f, 1000.0f);

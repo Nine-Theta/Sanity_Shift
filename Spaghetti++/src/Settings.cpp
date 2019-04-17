@@ -22,6 +22,8 @@ namespace sge {
 		SetSetting("texDir", settings.GetString("texDir"));
 		SetSetting("shaderDir", settings.GetString("shaderDir"));
 		SetSetting("sndDir", settings.GetString("sndDir"));
+		SetSetting("fullscreen", settings.GetString("fullscreen"));
+		SetSetting("vsync", settings.GetString("vsync"));
 	}
 	std::string Settings::GetSetting(std::string key)
 	{
@@ -34,6 +36,10 @@ namespace sge {
 	float Settings::GetFloat(std::string key)
 	{
 		return std::stof(_settings[key]);
+	}
+	bool Settings::GetBool(std::string key)
+	{
+		return _settings[key] == "true";
 	}
 	void Settings::SetSetting(std::string key, std::string value)
 	{

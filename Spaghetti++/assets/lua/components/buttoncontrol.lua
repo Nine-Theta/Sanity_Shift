@@ -14,6 +14,7 @@ selected = 0
 
 buttonArray[selected]:callFunction("Selected")	
 parent:setSound("menu_clicks.wav")
+mouse.setLock(true)
 end
 
 function update() --currently disabled

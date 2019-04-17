@@ -26,11 +26,13 @@
 
 #include "core/Sound.hpp"
 
+#include "SFML/Window/VideoMode.hpp"
+
 namespace sge {
 	sf::CircleShape shape(100.f);
 
 	Game* Game::instance = NULL;
-	Game::Game() : sf::Window(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), sf::Style::Default, sf::ContextSettings(24, 8, 3, 4, 6))
+	Game::Game() : sf::Window(sf::VideoMode(sge::Settings::GetInt("fullscreen") ? sf::VideoMode::getDesktopMode().width + 1 : sge::Settings::GetInt("width"), Settings::GetInt("fullscreen") ? sf::VideoMode::getDesktopMode().height : sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), Settings::GetInt("fullscreen") ? sf::Style::None : sf::Style::Default, sf::ContextSettings(24, 8, 3, 4, 6))
 	{
 		_initializeGlew();
 		_printVersionInfo();
@@ -38,6 +40,7 @@ namespace sge {
 		Sound::InitHRTF();
 		LightComponent::GenLightUBO();
 		Physics::Init();
+		setVerticalSyncEnabled(Settings::GetInt("vsync"));
 		/*_allObjects = new std::list<sge::GameObject*>;
 		_newComponents = new std::list<sge::ObjectBehaviour*>;
 		_rootObjects = new std::list<sge::GameObject*>;
