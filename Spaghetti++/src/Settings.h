@@ -13,6 +13,7 @@ namespace sge {
 		static std::string GetSetting(std::string);
 		static int GetInt(std::string);
 		static float GetFloat(std::string);
+		static bool GetBool(std::string);
 		static void SetSetting(std::string, std::string);
 	private:
 		static std::map<std::string, std::string> _settings;

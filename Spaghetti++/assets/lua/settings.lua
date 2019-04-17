@@ -1,7 +1,9 @@
 
 width = 1280
 height = 1024
-windowname = "Spaghetti+++Lua"
+fullscreen = 1		--overrides resolution if active
+vsync = 1
+windowname = "Sanity Shift"
 fov=45
 meshDir="models/"
 texDir="textures/"
