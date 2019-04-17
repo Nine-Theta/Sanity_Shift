@@ -41,7 +41,7 @@ function fixedupdate()
 		direction = 1
 		if lastTime > 0 then
 			parent:getParent():setSound("door_close.wav")
-			parent:getParent():playSound()
+			--parent:getParent():playSound()
 		end
 	end
 	ctime = math.Clamp(ctime + (time.fixedDelta() / secs) * direction,0,1)
