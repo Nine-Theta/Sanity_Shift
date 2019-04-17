@@ -113,3 +113,9 @@ void ShaderProgram::use()
     glUseProgram(_programId);
 	_activeID = _programId;
 }
+
+void ShaderProgram::reset()
+{
+	glUseProgram(0);
+	_activeID = 0;
+}

@@ -28,7 +28,7 @@ namespace sge {
 
 	unsigned int SpecularMaterial::block_index = 0;
 
-	SpecularMaterial::SpecularMaterial(std::string diffuse, std::string specular, std::string normal){
+	SpecularMaterial::SpecularMaterial(std::string diffuse, std::string specular, std::string normal, bool debug):_debug(debug){
 		_diffuseTexture = AssetLoader::GetTexture(diffuse);
 		_specularTexture = AssetLoader::GetTexture(specular);
 		_normalTexture = AssetLoader::GetTexture(normal);
@@ -131,6 +131,36 @@ namespace sge {
 		_renderedPolys += mesh->GetMesh()->GetPolyCount();
 		//mesh->GetMesh()->drawDebugInfo(mMatrix, vMatrix, pMatrix);
 		//mesh->GetMesh()->streamToOpenGL(_aVertex, _aNormal, _aUV);
+		if (_debug) {
+			//pMatrix * vMatrix * vec4(0, 2, 0, 1);
+			//std::cout << "Debug screen pos: " << screenPos.x << " - " << screenPos.y << " - " << clipPos.w << std::endl;
+			ShaderProgram::reset();
+			glPointSize(4.f);
+			glLoadIdentity();
+			vec3* bbox = mesh->GetMesh()->GetBoundingBox();
+			glBegin(GL_POINTS);
+			glColor3f(1, 0, 0);
+			for (int i = 0; i < 8; ++i) {
+				vec4 clipPos = mvpMatrix * vec4(bbox[i], 1);
+				vec2 screenPos = vec2(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
+				glVertex2fv(glm::value_ptr(screenPos));
+				//	glVertex2fv(glm::value_ptr(screenPos));
+			}
+			glEnd();
+			glLoadIdentity();
+			mesh->GetMesh()->drawDebugInfo(mMatrix, vMatrix, pMatrix);
+			/*glMatrixMode(GL_PROJECTION);
+			glLoadMatrixf(glm::value_ptr(cam->GetProjection()));
+			glMatrixMode(GL_MODELVIEW);
+			glLoadMatrixf(glm::value_ptr(cam->GetView()));
+			//glLoadIdentity();
+
+			glBegin(GL_POINTS);
+			glColor3f(0, 1, 0);
+			vec3 pos = mesh->GetParent()->GetCombinedPosition();
+			glVertex3fv(glm::value_ptr(pos));
+			glEnd();*/
+		}
 	}
 
 }

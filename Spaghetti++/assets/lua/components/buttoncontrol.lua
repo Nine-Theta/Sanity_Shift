@@ -13,6 +13,7 @@ buttonCount = 3
 selected = 0
 
 buttonArray[selected]:callFunction("Selected")	
+parent:setSound("menu_clicks.wav")
 end
 
 function update() --currently disabled
@@ -23,6 +24,8 @@ function UpdateSelection(change)
 	buttonArray[selected]:callFunction("Deselected")
 	selected = (selected + change) % buttonCount
 	buttonArray[selected]:callFunction("Selected")	
+	
+	parent:playSound()
 end
 
 function InvokeButton(button)

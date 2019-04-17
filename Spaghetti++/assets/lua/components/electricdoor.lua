@@ -9,14 +9,17 @@ end
 function start()
 	
 end
-fuse = 6
+fuse = 5
 
 function onmessage(msg)
 	if msg == "fuse" then
 		fuse = fuse - 1
+	elseif msg == "unfuse" then
+		fuse = fuse + 1
 	end
 	if fuse == 0 then
-		parent:setPos(-1.3,0,0)
+		x,y,z = parent:getPos()
+		parent:setPos(-2.1,y,z)
 		parent:setSound("electric_door_open.wav",0.001)
 		parent:playSound()
 	end

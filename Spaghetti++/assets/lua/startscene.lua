@@ -216,6 +216,12 @@ print(math.atan2(0.5, 0.5)*180/3.14)
 			objexitNA:setParent(objexit)
 		objexit:addComponent("lua", "exitgamebutton.lua")
 		objexit:setParent(objmenu)
+		
+		local music = gameObject.new()
+		music:setName("Music")
+		music:setSound("menu_music.wav")
+		music:setKeepOnSoftDestroy(true)
+		music:playSound()
 	--]]--
 	print("init end")
 end

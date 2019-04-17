@@ -30,7 +30,7 @@ namespace sge {
 	sf::CircleShape shape(100.f);
 
 	Game* Game::instance = NULL;
-	Game::Game() : sf::Window(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), sf::Style::Default, sf::ContextSettings(24, 8, 3, 3, 3))
+	Game::Game() : sf::Window(sf::VideoMode(sge::Settings::GetInt("width"), sge::Settings::GetInt("height")), sge::Settings::GetSetting("windowname"), sf::Style::Default, sf::ContextSettings(24, 8, 3, 4, 6))
 	{
 		_initializeGlew();
 		_printVersionInfo();
@@ -67,7 +67,9 @@ namespace sge {
 			if (event.type == sf::Event::Resized) {
 				std::cout << ("Video mode changed to " + std::to_string(event.size.width) + " - " + std::to_string(event.size.height)) << std::endl;
 				CameraComponent::GetMain()->SetProjection(Settings::GetInt("fov"), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f);//glm::perspective(glm::radians(60.0f), (float)event.size.width / (float)event.size.height, 0.1f, 1000.0f));	//fix projection
-				glViewport(0, 0, event.size.width, event.size.height);
+				glViewport(0, 0, event.size.width, event.size.height); //remember projection on scenes
+				Settings::SetSetting("width", std::to_string(event.size.width));
+				Settings::SetSetting("height", std::to_string(event.size.height));
 			}
 		}
 		while (TimeH::DoFixedStep()) {
@@ -281,8 +283,8 @@ namespace sge {
 
 	void Game::DestroyAllObjects()
 	{
-		for (GameObject* obj : _allObjects) {
-			GameObject::Destroy(obj);
+		for (GameObject* obj : _rootObjects) {
+			GameObject::Destroy(obj,false);
 		}
 	}
 

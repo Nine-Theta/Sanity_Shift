@@ -4,6 +4,8 @@
 
 #include <assert.h>
 #include <stdint.h>
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
 
 #include <SFML/Graphics.hpp>
 #include "core/Texture.hpp"
@@ -25,10 +27,13 @@ Texture * Texture::loadDDS(const std::string & pFilename)
 	image.load(pFilename);
 	Texture * texture = new Texture();
 	glBindTexture(GL_TEXTURE_2D, texture->getId());
+	//image.upload_texture2D();
+	
+	glCompressedTexImage2DARB(GL_TEXTURE_2D, 0, image.get_format(),image.get_width(), image.get_height(), 0, image.get_size(),image);
 
-	glCompressedTexImage2DARB(GL_TEXTURE_2D, 0, image.get_format(),
-		image.get_width(), image.get_height(), 0, image.get_size(),
-		image);
+
+	//glTexImage2D(GL_TEXTURE_2D, 0, image.get_format(), image.get_width(), image.get_height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	//assert(image.get_format() != GL_COMPRESSED_RGBA_BPTC_UNORM);
 	texture->SetSize(glm::vec2(image.get_width(), image.get_height()));
 	for (int i = 0; i < image.get_num_mipmaps(); i++)
 	{
@@ -105,8 +110,10 @@ Texture* Texture::load(const std::string& pFilename)
 			return texture;
 		}
 		catch(std::exception& e){
-			if(pch==NULL)
+			if (pch == NULL) {
 				std::cout << e.what() << '\n';
+				//std::this_thread::sleep_for(std::chrono::seconds(15));
+			}
 			else {
 				std::cout << "Fallback to the old PNG system, attempting to load as PNG" << std::endl;
 				char* pch = (char*)strstr(mFilename.c_str(), ".dds");

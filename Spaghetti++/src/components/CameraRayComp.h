@@ -21,6 +21,8 @@ namespace sge {
 		virtual void OnTrigger(Collider * other) override;
 	private:
 		LuaComponent* lua;
+		GameObject* hitPos;
+		float focusDistance = 5.f;
 
 	};
 }

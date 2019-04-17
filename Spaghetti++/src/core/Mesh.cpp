@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <map>
 #include <string>
@@ -221,8 +222,13 @@ namespace sge {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	vec3 _boundingBox[] = { vec3(0,0,0),vec3(0,0,0),vec3(0,0,0),vec3(0,0,0),vec3(0,0,0),vec3(0,0,0),vec3(0,0,0),vec3(0,0,0) };
+
 	void Mesh::_makeTangents()
 	{
+		vec2 boundsX;
+		vec2 boundsY;
+		vec2 boundsZ;
 		_tangents.resize(_normals.size());
 		printf("Making mesh tangents...\n");
 		for (int i = 0; i < _indices.size(); i += 3) {
@@ -237,6 +243,27 @@ namespace sge {
 			vec2 uv1 = _uvs[_indices[i]];
 			vec2 uv2 = _uvs[_indices[i + 1]];
 			vec2 uv3 = _uvs[_indices[i + 2]];
+
+			boundsX.x = min(boundsX.x, pos1.x);
+			boundsX.y = max(boundsX.y, pos1.x);
+			boundsX.x = min(boundsX.x, pos2.x);
+			boundsX.y = max(boundsX.y, pos2.x);
+			boundsX.x = min(boundsX.x, pos3.x);
+			boundsX.y = max(boundsX.y, pos3.x);
+
+			boundsY.x = min(boundsY.x, pos1.y);
+			boundsY.y = max(boundsY.y, pos1.y);
+			boundsY.x = min(boundsY.x, pos2.y);
+			boundsY.y = max(boundsY.y, pos2.y);
+			boundsY.x = min(boundsY.x, pos3.y);
+			boundsY.y = max(boundsY.y, pos3.y);
+
+			boundsZ.x = min(boundsZ.x, pos1.z);
+			boundsZ.y = max(boundsZ.y, pos1.z);
+			boundsZ.x = min(boundsZ.x, pos2.z);
+			boundsZ.y = max(boundsZ.y, pos2.z);
+			boundsZ.x = min(boundsZ.x, pos3.z);
+			boundsZ.y = max(boundsZ.y, pos3.z);
 
 			vec3 tan1 = normalize(pos2 - pos1);
 			vec2 uvd1 = normalize(uv2 - uv1);
@@ -283,6 +310,16 @@ namespace sge {
 			tan3 = mrot * tan3;
 			_tangents[_indices[i + 2]] = normalize(tan3);
 		}
+
+		std::cout << "Building bounding box..." << std::endl;
+		_boundingBox[0] = vec3(boundsX.x, boundsY.x, boundsZ.x);
+		_boundingBox[1] = vec3(boundsX.x, boundsY.x, boundsZ.y);
+		_boundingBox[2] = vec3(boundsX.x, boundsY.y, boundsZ.x);
+		_boundingBox[3] = vec3(boundsX.x, boundsY.y, boundsZ.y);
+		_boundingBox[4] = vec3(boundsX.y, boundsY.x, boundsZ.x);
+		_boundingBox[5] = vec3(boundsX.y, boundsY.x, boundsZ.y);
+		_boundingBox[6] = vec3(boundsX.y, boundsY.y, boundsZ.x);
+		_boundingBox[7] = vec3(boundsX.y, boundsY.y, boundsZ.y);
 	}
 
 	void Mesh::streamToOpenGL(GLint pVerticesAttrib, GLint pNormalsAttrib, GLint pUVsAttrib) {
@@ -403,6 +440,10 @@ namespace sge {
 	std::vector<glm::vec3>& Mesh::GetVertices()
 	{
 		return _vertices;
+	}
+	vec3* Mesh::GetBoundingBox()
+	{
+		return _boundingBox;
 	}
 	unsigned Mesh::GetPolyCount()
 	{

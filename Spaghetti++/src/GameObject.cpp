@@ -45,6 +45,16 @@ namespace sge {
 		return Game::GetInstance().FindGameObject(name);
 	}
 
+	void GameObject::SetKeepOnSoftDestroy(bool keep)
+	{
+		keepOnSoftDelete = keep;
+	}
+
+	bool GameObject::ToKeepOnSoftDestroy()
+	{
+		return keepOnSoftDelete;
+	}
+
 	void GameObject::DestroyAll()
 	{
 		return Game::GetInstance().DestroyAllObjects();
@@ -168,8 +178,11 @@ namespace sge {
 	{
 		vec3 forward = normalize(target - GetCombinedPosition());
 		vec3 left = cross(pUp, forward);
-		vec3 up = cross(left, forward);
-		mat4 newMat = lookAt(GetCombinedPosition(), target, pUp);
+		vec3 up = cross(forward, left);
+		mat4 newMat = lookAt(target, GetCombinedPosition(), pUp);
+		newMat[0] = normalize(vec4(left,0));
+		newMat[1] = normalize(vec4(up,0));
+		newMat[2] = normalize(vec4(forward, 0));
 		newMat[3] = _combinedTransform[3];
 		_combinedTransform = newMat;
 		if (GetParent() != NULL)
@@ -462,26 +475,41 @@ namespace sge {
 	{
 		//TODO: Implement ability to remove a component from the game object, also considering specials like collider or rigidbody
 		//_components.erase(p_component); 
+		//std::cout << GetName() << " has components: " << _components.size() << std::endl;
 		auto itr = std::find(_components.begin(), _components.end(), p_component);
 		if (itr != _components.end()) {
 			_components.erase(itr);
+			//std::cout << "Deleting component: " << p_component << std::endl;
+			p_component->OnDestroy();
+			delete p_component;
 		}
+		//std::cout << GetName() << " has components after deletion: " << _components.size() << std::endl;
 		//_components.erase(std::remove(_components.begin(), _components.end(), p_component), _components.end());
-		p_component->OnDestroy();
-		delete p_component;
 	}
 
-	void GameObject::Destroy(GameObject * p_object) //OVERRIDING DELETE BROKE EVERYTHING. Now this is how it's done until I figure that out
+	void GameObject::Destroy(GameObject * p_object, bool hardDelete) //OVERRIDING DELETE BROKE EVERYTHING. Now this is how it's done until I figure that out
 	{
+		
 		//std::cout << "Destroying a game object..." << std::endl;
 		GameObject* obj = (GameObject*)p_object;
 		if (obj->GetObjectState() < GOState::DESTROYED) {
+			if (hardDelete || !p_object->ToKeepOnSoftDestroy()) {
+				for (GameObject* child : p_object->GetChildren()) {
+					GameObject::Destroy(child, hardDelete);
+				}
+			}
+
+			if (p_object->ToKeepOnSoftDestroy() && !hardDelete) {
+				p_object->SetParent(NULL);
+				return;
+			}
 			//std::cout << "Marked game object for deletion, will destroy after frame: " << obj->GetName() << " - " << obj << std::endl;
 			Game::GetInstance().RemoveGameObject(obj);
 			obj->SetObjectState(GOState::DESTROYED);
 		}
 		else if (obj->GetObjectState() == GOState::DELETED) {
 			//std::cout << "Deleted a game object from memory: " << obj->GetName() << " - " << obj << std::endl;
+			assert(p_object, "Attempt to delete a null object, this shouldn't even be able to happen!");
 			delete p_object;
 		}
 		else {

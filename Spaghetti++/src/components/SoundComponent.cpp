@@ -236,13 +236,15 @@ namespace sge {
 			alSourcePlay(source);
 		}*/
 		volume = clamp(volume + (1 / volumeGain) * TimeH::FixedDelta(), 0.f, 1.f);
-		vec3 pos = CameraComponent::GetMain()->GetView() * vec4(p_gameObj->GetCombinedPosition(),1);
-		vec3 vpos = p_gameObj->GetCombinedPosition() - CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
-		vec3 diff = vpos - lastPos;
-		lastPos = vpos;
-		diff /= TimeH::FixedDelta();
-		alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
-		alSource3f(source, AL_VELOCITY, diff.x,diff.y,diff.z);
+		if (CameraComponent::GetMain() != NULL) {
+			vec3 pos = CameraComponent::GetMain()->GetView() * vec4(p_gameObj->GetCombinedPosition(), 1);
+			vec3 vpos = p_gameObj->GetCombinedPosition() - CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
+			vec3 diff = vpos - lastPos;
+			lastPos = vpos;
+			diff /= TimeH::FixedDelta();
+			alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
+			alSource3f(source, AL_VELOCITY, diff.x, diff.y, diff.z);
+		}
 		alSourcef(source, AL_GAIN, volume * maxVolume);
 
 		if (!IsDirect()) {
@@ -313,7 +315,7 @@ namespace sge {
 
 	bool SoundComponent::IsDirect()
 	{
-		if (CameraComponent::GetMain() == NULL) return false;
+		if (CameraComponent::GetMain() == NULL || _snd->GetFormat() == AL_FORMAT_STEREO8 || _snd->GetFormat() == AL_FORMAT_STEREO16) return true;
 		vec3 cam = CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 		vec3 pos = GetParent()->GetCombinedPosition();
 		if (length(cam - pos) < 2.f) return true;
