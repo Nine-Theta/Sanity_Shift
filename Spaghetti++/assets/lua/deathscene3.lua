@@ -2,10 +2,10 @@ function init()
 
 	local objmannequin = gameObject.new()
 	objmannequin:setName("Bob")
-	objmannequin:setPos(0,0.5,20)
+	objmannequin:setPos(0,0.5,150)
 	objmannequin:setRotation(0,1,0,180)
 	objmannequin:addComponent("mesh", "Mannequin/Mannequin_2.obj", "Mannequin/diffuse.dds", "Mannequin/specular.dds", "Mannequin/normal.dds")
-	--objmannequin:addComponent("sound", "Roundabout.wav")
+	objmannequin:addComponent("sound", "death_shriek.wav")
 	--objmannequin:addComponent("lua", "endscenethings.lua")
 	objmannequin:addComponent("lua", "move.lua")
 	

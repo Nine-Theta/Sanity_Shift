@@ -20,17 +20,12 @@ count = 0
 targetRot = 0
 function update()
 	if(collided) then
-			d = d * 0.98
-			parent:setWorldRotation(0,1,0,targetRot + d)
+		d = d * 0.98
+		parent:setWorldRotation(0,1,0,targetRot + d)
 			
-			
-			if(targetRot +d <= targetRot + 0.12 or targetRot +d <= targetRot - 0.12) then
-				gameObject.deleteAll()
-				obj = gameObject.new()
-				obj:setName("Loader")
-				obj:addComponent("lua", "sceneloader.lua")
-				obj:sendMessage("../deathscene3.lua")
-			end
+		if(targetRot +d <= targetRot + 0.5 or targetRot +d <= targetRot - 0.5) then
+			commitmurder()
+		end
 	else
 	if mouse.moved() and locked then
 		local mX, mY = mouse.delta()
@@ -55,10 +50,16 @@ function update()
 	
 end
 
+function commitmurder() --this isn't brave, what did I ever do to you?
+	gameObject.deleteAll()
+	obj = gameObject.new()
+	obj:setName("Loader")
+	obj:addComponent("lua", "sceneloader.lua")
+	obj:sendMessage("../deathscene3.lua")
+end
+
 function oncollisionenter(other)
-	if(not not not not not not not not not not not not not not collided) then
-	
-	else
+	if(not collided) then
 	local name = other:getName()
 	print("Player collided with " .. name)
 	if name == "Mannequin" then
@@ -71,11 +72,13 @@ function oncollisionenter(other)
 		ux = x/l
 		uz = z/l
 				
-		--print(math.atan2(ux, uz)*180/3.14)
-		--print(rotX)
 		targetRot = math.atan2(ux, uz)*180/3.14
-		d = (rotX - targetRot)--/steps
-		--print(d)
+		
+		if(targetRot <= rotX + 2 and targetRot >= rotX - 2) then
+			commitmurder()
+		end
+		
+		d = (rotX - targetRot)
 		other:setWorldRotation(0,1,0, targetRot + 180)
 		collided = true
 		end

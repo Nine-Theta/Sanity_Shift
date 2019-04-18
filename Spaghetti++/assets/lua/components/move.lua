@@ -1,6 +1,7 @@
 --parent is component's parent gameObject. It supports functions 
 
 function start()
+	parent:playSound()
 	--print(test.test())
 end
 
@@ -8,7 +9,7 @@ end
 --	print("Updated lua component") 
 end]]--
 
-accz = -0.005
+accz = -0.002
 velz = 0
 
 function fixedupdate()
