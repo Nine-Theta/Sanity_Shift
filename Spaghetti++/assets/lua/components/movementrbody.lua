@@ -4,6 +4,8 @@ function start()
 	print("Initialised test lua component")
 	--print(test.test())
 	cam = gameObject.find("PlayerFeet")
+	
+	fly = keys.pressed(keys.I)
 end
 
 --[[function update() --currently disabled
@@ -50,7 +52,7 @@ function fixedupdate()
 		z = z + force * -rz * 0.5
 	end
 	
-	if keys.pressed(keys.Space) then
+	if fly and keys.pressed(keys.Space) then
 		parent:addForce(0,1500,0)
 	end
 	

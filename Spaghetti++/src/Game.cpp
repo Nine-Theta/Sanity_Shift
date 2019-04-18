@@ -93,6 +93,7 @@ namespace sge {
 	void Game::destroyOldObjects()
 	{
 		//std::cout << "Deleting all components of all destroyed objects..." << std::endl;
+		destructionPhase = true;
 		for (std::list<GameObject*>::iterator itr = _deletedObjects.begin(), end = _deletedObjects.end(); itr != end; itr++) {
 			GameObject* obj = (*itr);
 			obj->OnDestroy();
@@ -103,6 +104,7 @@ namespace sge {
 			GameObject::Destroy( obj);
 		}
 		_deletedObjects.clear();
+		destructionPhase = false;
 	}
 
 	void Game::doUpdate()
@@ -284,6 +286,11 @@ namespace sge {
 		running = false;
 	}
 
+	bool Game::IsDestroying()
+	{
+		return destructionPhase;
+	}
+
 	void Game::DestroyAllObjects()
 	{
 		for (GameObject* obj : _rootObjects) {
@@ -331,7 +338,8 @@ namespace sge {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glClearColor(0.02f, 0.02f, 0.04f, 1.0f);
+		//glClearColor(0.02f, 0.02f, 0.04f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
 	sge::Game& Game::GetInstance()

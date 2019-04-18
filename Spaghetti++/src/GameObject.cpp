@@ -275,7 +275,7 @@ namespace sge {
 
 	void GameObject::OnUpdate()
 	{
-		if (_state > GOState::ACTIVE)
+		if (_state > GOState::ACTIVE || _state < GOState::PRE_INIT)
 			return;
 		for (std::vector<GameObject*>::iterator itr = _children.begin(), end = _children.end(); itr != end; itr++) {
 			(*itr)->OnUpdate();
@@ -286,7 +286,7 @@ namespace sge {
 		UpdateTransform(true);
 	}
 	void GameObject::OnFixedUpdate(){
-		if (_state > GOState::ACTIVE)
+		if (_state > GOState::ACTIVE || _state < GOState::PRE_INIT)
 			return;
 		if (rigidbody != NULL) {
 			rigidbody->FixedUpdate();
@@ -507,7 +507,7 @@ namespace sge {
 			Game::GetInstance().RemoveGameObject(obj);
 			obj->SetObjectState(GOState::DESTROYED);
 		}
-		else if (obj->GetObjectState() == GOState::DELETED) {
+		else if (obj->GetObjectState() == GOState::DELETED && Game::GetInstance().IsDestroying()) {
 			//std::cout << "Deleted a game object from memory: " << obj->GetName() << " - " << obj << std::endl;
 			assert(p_object, "Attempt to delete a null object, this shouldn't even be able to happen!");
 			delete p_object;

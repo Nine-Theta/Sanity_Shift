@@ -73,13 +73,23 @@ namespace sge {
 
 		//	p_gameObj->LookAt(p_gameObj->GetCombinedPosition() + vec3(dir.x,dir.y,-dir.z),vec3(0,1,0));
 		if (_move) {
-			vec3 dir = roomCheck() ? _player->GetCombinedPosition() - p_gameObj->GetCombinedPosition() : (startPos - p_gameObj->GetCombinedPosition());
+			bool inRoom = roomCheck();
+			vec3 dir = inRoom ? _player->GetCombinedPosition() - p_gameObj->GetCombinedPosition() : (startPos - p_gameObj->GetCombinedPosition());
+			vec3 lookDir = (_player->GetCombinedPosition() - p_gameObj->GetCombinedPosition());
 			float dist = length(dir);
+			if (!inRoom && !_spawnChanged) {
+				_spawnChanged = true;
+				float newR = 0.75f + 0.25f * randf();
+				vec3 dist = (p_gameObj->GetCombinedPosition() - startPos) * newR;
+				startPos += dist;
+			}
 			if (dist > 1) {
+				float dist = length(dir);
 				dir = normalize(vec3(dir.x, 0, dir.z));
+				lookDir = normalize(vec3(lookDir.x, 0, lookDir.z));
 				//p_gameObj->SetWorldPosition(p_gameObj->GetCombinedPosition() + dir * .8f * TimeH::FixedDelta());
-				_col->GetRigidbody()->setLinearVelocity(Physics::glmToBullet(dir * 1.8f));
-				float facing = orientedAngle(vec2(0, -1), vec2(dir.x, -dir.z));
+				_col->GetRigidbody()->setLinearVelocity(Physics::glmToBullet(dir * 1.8f + (dir * clamp(inRoom ? dist * 0.5f : 8 - dist * 0.2f,0.f,5.f))));
+				float facing = orientedAngle(vec2(0, -1), vec2(lookDir.x, -lookDir.z));
 				btTransform t = _col->GetRigidbody()->getWorldTransform();
 				t.setRotation(btQuaternion(facing, 0, 0));
 				_col->GetRigidbody()->setWorldTransform(t);
@@ -94,6 +104,7 @@ namespace sge {
 			if (_timer > 0) return;
 			if (_toChange) {
 				swapModel(); 
+				_spawnChanged = false;
 			}
 			_move = true;
 			_toChange = false;
@@ -101,7 +112,7 @@ namespace sge {
 		else {
 			_toChange = true;
 			_move = false;
-			_timer = randf() * 1.5f + 1.5f;
+			_timer = randf() * 0.15f + 0.15f;
 		}
 	}
 

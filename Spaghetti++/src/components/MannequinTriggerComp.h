@@ -16,6 +16,7 @@ namespace sge {
 		MeshComponent* _comp;
 		bool _toChange = false;
 		bool _move = false;
+		bool _spawnChanged = false;
 		float _timer = 0;
 		int mannequins;
 		GameObject* _player;

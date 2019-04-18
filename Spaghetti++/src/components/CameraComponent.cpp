@@ -55,7 +55,7 @@ namespace sge {
 	{
 		width = Settings::GetInt("fullscreen") ? sf::VideoMode::getDesktopMode().width : sge::Settings::GetInt("width");
 		height = Settings::GetInt("fullscreen") ? sf::VideoMode::getDesktopMode().height : sge::Settings::GetInt("height");
-		if (main == NULL) {
+		if (main == NULL || true) { //temporary hack to make every new camera the default main, for loading screens right now
 			main = this;
 			this->SetProjection(Settings::GetInt("fov"), width / height, 0.1f, 1000.0f);
 		}
