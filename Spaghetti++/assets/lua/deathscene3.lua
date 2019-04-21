@@ -6,7 +6,7 @@ function init()
 	objmannequin:setRotation(0,1,0,180)
 	objmannequin:addComponent("mesh", "Mannequin/Mannequin_2.obj", "Mannequin/diffuse.dds", "Mannequin/specular.dds", "Mannequin/normal.dds")
 	objmannequin:addComponent("sound", "death_shriek.wav")
-	--objmannequin:addComponent("lua", "endscenethings.lua")
+	objmannequin:addComponent("lua", "endscenethings.lua")
 	objmannequin:addComponent("lua", "move.lua")
 	
 	local objfloor = gameObject.new()

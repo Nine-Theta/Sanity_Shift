@@ -18,6 +18,7 @@ function start()
 	footsteps:setParent(parent:getParent())
 	footsteps:setPos(0,0,0)
 	footsteps:addComponent("lua","footsteps.lua")
+	
 end
 
 rotation = 0

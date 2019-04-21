@@ -1,5 +1,5 @@
 --parent is component's parent gameObject. It supports functions 
-
+--[[
 function oncollisionenter(other)
 	local name = other:getName()
 	print("Player collided with " .. name)
@@ -11,4 +11,4 @@ function oncollisionenter(other)
 		--obj:addComponent("lua", "sceneloader.lua")
 		--obj:sendMessage("../deathscene_mask.lua")
 	end
-end
+end]]--
