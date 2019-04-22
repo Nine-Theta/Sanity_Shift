@@ -60,7 +60,7 @@ end
 
 function onmessage(msg)
 	if msg == "follow" then
-		following = true
+		--following = true
 	end
 end
 
@@ -69,6 +69,7 @@ function ondestroy()
 	if menuMusic ~= nil then
 		menuMusic:destroy()
 	end
+	print("DESTROYED VERTICAL PLAYER CONTROLS")
 end
 
 function raycastresult(hit)

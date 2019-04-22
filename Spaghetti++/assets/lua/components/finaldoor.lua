@@ -14,29 +14,42 @@ function start()
 	if string.find(parent:getName(),"inverse") then
 		invertedSign = -1
 	end
+	parent:getParent():setKeepOnSoftDestroy(true)
 	print("DOOR INITIALISED")
 end
 maxAngle = 100
 angleS = 0
 direction = 1
-secs = 0.95
+secs = 1.55
 ctime = 1
 
 toPlaySound = false
 active = true
 timeToClose = 15
+toggled = false
+triggered = false
 
 cam = nil
 function fixedupdate()
-	if ctime == 0 then
+	if not active then
+		return
+	end
+	if ctime ~= 1 and not toggled then
+		toggled = true
 		--cam:sendMessage("follow")
 		cam:removeComponent("lua")
-		cam:addComponent("lua","animFollow.lua")
 		--cam:getParent():sendMessage("follow")
 		cam:getParent():removeComponent("lua")
 		cam:removeComponent("raycast")
-		parent:removeComponent("lua")
+		player = gameObject.find("Player")
+		player:removeComponent("lua")
+		player:removeComponent("lua")
 		return
+	end
+	if ctime == 0 and not triggered then
+		cam:addComponent("lua","animFollow.lua")
+		--parent:removeComponent("lua")
+		triggered = true
 	end
 	lastTime = timeToClose
 	timeToClose = timeToClose - time.fixedDelta()
@@ -44,7 +57,8 @@ function fixedupdate()
 		if direction == -1 and ctime == 1 then
 			parent:getParent():setSound("door_open.wav")
 		elseif ctime == 0 then
-			parent:getParent():setSound("door_close.wav")
+			parent:getParent():setSound("door/door_slam.wav",0.01)
+			--parent:getParent():setSound("moon.wav")
 		end
 		parent:getParent():playSound()
 		toPlaySound = false
@@ -83,33 +97,18 @@ function onraycasthit(caster)
 		parent:setSound("door_open.wav")
 		direction = -direction
 		if direction == -1 then
-			timeToClose = math.random(12,20)
+			timeToClose = math.random(32,40)
 		end
 		toPlaySound = true
 	end
 end
 
 function ondestroy()
-	door:setRotation(0,1,0,0)
-	direction = 1
-	ctime = 1
-	angleS = 0
-	--parent:setWorldRotation(0,1,0,0)
-	active = false
-	--door:setPos(1,1,1)
-	if toPlaySound then
-		if direction == -1 then
-			parent:getParent():setSound("door_open.wav")
-		elseif ctime ~= 1 then
-			parent:getParent():setSound("door_close.wav")
-		end
-		parent:getParent():playSound()
-		toPlaySound = false
-	end
-	print("Door destroyed!!")
+	print("FINAL Door destroyed!!")
 end
 
 function onmessage(msg)
+	print(msg)
 	if msg == "invert" then
 		invertedSign = -invertedSign
 	elseif msg == "open" then
@@ -127,14 +126,23 @@ function onmessage(msg)
 		--toPlaySound = true
 	--	parent:setWorldPos(1,1,1)
 	--	active = false
+		toPlaySound = true
 		print("Closing door: " .. door:getName())
 	elseif msg == "lock" then
-		toPlaySound = true
 		print("Locking door")
 	--	parent:setWorldPos(1,1,1)
 		active = false
 	elseif msg == "unlock" then
 		active = true
 		print("Unlocking door")
+	end
+	if msg == "shut" then
+		secs = 0.35
+		direction = 1
+		toPlaySound = true
+		local timer = gameObject.new()
+		timer:addComponent("lua","endTimer.lua")
+		timer:setParent(parent)
+		timer:setPos(0,0,0)
 	end
 end

@@ -1,5 +1,9 @@
 --parent is component's parent gameObject. It supports functions 
 
+function deleteMannequins()
+	gameObject.find("Enemies"):destroy()
+end
+
 function start()
 	player = parent:getParent():getParent()
 	player:removeComponent("lua")
@@ -8,6 +12,16 @@ function start()
 	wpCount = #waypoints
 	target = waypoints[0]
 	lookTarget = gameObject.find("AnimLookTarget")
+	deleteMannequins()
+	lookLerp = gameObject.new()
+	local x,y,z = parent:getWorldPos()
+	local fx,fy,fz = parent:forward()
+	--lookLerp:setWorldPos(x + fx * 3,y + fy * 3,z + fz * 3)
+	lookLerp:setPos(x + fx * 5,y + fy * 5,z + fz * 5)
+	lookLerp:setRotationQ(1,0,0,0)
+	lookLerp:setParent(nil)
+	--lookLerp:addComponent("mesh","specular","13cube.obj","white.png","white.png","flat_n.dds")
+	--lookLerp:removeComponent("mesh")
 end
 
 waypoint = 0
@@ -30,6 +44,20 @@ function updateView()
 	local px,py,pz = parent:getWorldPos()
 	targetRot = math.atan2(tx - px, tz - pz)*180/3.14
 	d = (rotX - targetRot)--/steps
+	zy,zz = normalize(ry,rz,0)
+	if zz < 0 then
+		zz = math.abs(zz)
+	end
+	rotVert = math.atan2(zy,math.abs(zz))*180/3.14
+	--print(rotVert)
+	--print(zz)
+	
+	--dummy object to follow:
+	local lx,ly,lz = lookLerp:getWorldPos()
+	local dx = tx-lx
+	local dy = ty-ly
+	local dz = tz-lz
+	lookLerp:setWorldPos(lx+0.02*dx,ly+0.02*dy,lz+0.02*dz)
 end
 
 function fixedupdate()
@@ -39,11 +67,14 @@ function fixedupdate()
 	--print("Waypoint target: " .. waypoint)
 	player:addForce(px * force,py * force,pz * force)
 	
-	if d ~= nil then
-		d = d * 0.99
-		parent:setWorldRotation(0,1,0,targetRot + d)
-	end
 	updateView()
+	if d ~= nil then
+		d = d * 0.98
+		--parent:setWorldRotation(0,1,0,targetRot + d)
+		parent:lookAt(lookLerp:getWorldPos())
+		--rotVert = rotVert * 0.99
+		--parent:rotate(1,0,0,rotVert)
+	end
 end
 
 function ontriggerenter(col)
