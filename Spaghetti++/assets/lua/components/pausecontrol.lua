@@ -21,6 +21,7 @@ selected = 0
 buttonArray[selected]:callFunction("Selected")
 
 active = false
+parent:setActive(false)
 end
 
 function UpdateSelection(change)
