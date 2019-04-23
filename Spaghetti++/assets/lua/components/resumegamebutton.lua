@@ -6,6 +6,9 @@ function start()
 buttonSelected = parent:getChildren()[0]
 buttonIdle = parent:getChildren()[1]
 
+--buttonSelected:setFluorEmission(0.65,0.3,0,1)
+--buttonIdle:setFluorEmission(0.3,0.3,0.3,0.3)
+
 buttonIdle:setActive(false)
 
 end

@@ -18,6 +18,17 @@ buttonCount = 4
 
 selected = 0
 
+for i = 0, #buttonArray do
+	local children = buttonArray[i]:getChildren()
+	for j = 0, #children do
+		if string.find(children[j]:getName(),"Inactive") then
+			children[j]:setFluorEmission(0.4,0.4,0.4,0.6)
+		else
+			children[j]:setFluorEmission(0.65,0.3,0,1)
+		end
+	end
+end
+
 buttonArray[selected]:callFunction("Selected")
 
 active = false
