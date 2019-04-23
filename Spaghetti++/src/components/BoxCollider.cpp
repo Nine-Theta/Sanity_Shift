@@ -29,6 +29,7 @@ namespace sge {
 		if (mass > 0.f)
 			rbody->setFriction(0.6f);
 		rbody->setDamping(0.3f, 0.2);
+		rbody->setActivationState(DISABLE_DEACTIVATION);
 		rbody->setUserPointer(this);
 		id = Physics::AddBody(rbody);
 

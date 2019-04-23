@@ -41,9 +41,9 @@ function ontriggerenter(col)
 		print("CHANGING WAYPOINT!!!")
 	
 	end
-	force = tonumber(parent:getName())
-	if force == nil then
-		force = 400
+	local nforce = tonumber(parent:getName())
+	if nforce ~= nil then
+		force = nforce
 	end
 end
 

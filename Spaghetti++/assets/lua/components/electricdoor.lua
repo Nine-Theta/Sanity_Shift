@@ -6,10 +6,12 @@ function math.Clamp(val, lower, upper)
     return math.max(lower, math.min(upper, val))
 end
 
-function start()
-	
-end
 fuse = 5
+function start()
+	if keys.pressed(keys.U) then
+		fuse = 1
+	end
+end
 
 function onmessage(msg)
 	if msg == "fuse" then

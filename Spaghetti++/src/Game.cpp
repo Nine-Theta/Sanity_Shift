@@ -135,6 +135,7 @@ namespace sge {
 	{
 		std::list<CameraComponent*> cameras = CameraComponent::GetCameras();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glBlendEquation(GL_FUNC_ADD);
 		//std::cout << "Drawing cameras: " << cameras.size() << std::endl;
 		for (std::list<CameraComponent*>::iterator citr = cameras.begin(), cend = cameras.end(); citr != cend; citr++) {
 			(*citr)->UpdateCamera();
