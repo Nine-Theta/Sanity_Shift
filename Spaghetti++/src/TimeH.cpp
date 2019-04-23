@@ -69,6 +69,10 @@ namespace sge {
 		return (TimeH::_fixedDelta * _timeScale);
 	}
 
+	float TimeH::UnscaledFixedDelta() {
+		return (TimeH::_fixedDelta);
+	}
+
 	float TimeH::GetTimeScale()
 	{
 		return _timeScale;

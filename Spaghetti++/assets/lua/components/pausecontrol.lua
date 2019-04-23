@@ -9,8 +9,11 @@ settings = gameObject.find("PauseSettingsButton")
 exitmenu = gameObject.find("ExitToMenuButton")
 exitdesk = gameObject.find("ExitToDeskButton")
 
-buttonArray = { settings, exitmenu, exitdesk }
-buttonArray[0] = resume
+buttonArray = parent:getChildren()
+resume = buttonArray[0]
+settings = buttonArray[1]
+exitmenu = buttonArray[2]
+exitdesk = buttonArray[3]
 buttonCount = 4
 
 selected = 0
@@ -52,16 +55,16 @@ end
 
 function fixedupdate()
 	if keys.down(keys.P) or keys.down(keys.Escape) then
-		if time.gettimescale() > 0 then
+		if time.gettimescale() > 0.8 then
 		time.settimescale(0)
 		screen:setActive(true)
 		SetActiveAll(true)
-		mouse.setLock(false)
+		--mouse.setLock(false)
 		else		
 		time.settimescale(1)
 		screen:setActive(false)
 		SetActiveAll(false)
-		mouse.setLock(true)
+		--mouse.setLock(true)
 		end
 	end
 		

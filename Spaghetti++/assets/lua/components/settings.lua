@@ -2,8 +2,8 @@
 
 function start()
 
-buttonSelected = gameObject.find("SettingsButtonA")
-buttonIdle = gameObject.find("SettingsButtonNA")
+buttonSelected = parent:getChildren()[0]
+buttonIdle = parent:getChildren()[1]
 
 buttonSelected:setActive(false)
 

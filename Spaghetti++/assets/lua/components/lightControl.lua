@@ -26,23 +26,13 @@ function setActive(act)
 	lastActive = act
 end
 
-function start()
-
-	createpausemenu()
-	--print("Initialised test lua component")
-	--print(test.test())
-	light = parent:getChildren()
-	--also controls the flashlight now, so slightly misleading name but if it works...
-	setActive(false)
-	
-end
 
 function createpausemenu()
 
 	local objpause = gameObject.new()
 	objpause:setName("PauseScreen")
-	--objpause:setPos(-0.265,0.1,0)
-	objpause:setParent(parent:getParent())
+	objpause:setParent(parent:getParent():getParent())
+	objpause:setPos(-0.065,0.0,0)
 	objpause:setRotation(0,1,0,180)
 	
 		local objresume = gameObject.new()
@@ -57,9 +47,9 @@ function createpausemenu()
 			objresumeNA:setName("ResumeButtonNA")
 			objresumeNA:addComponent("mesh","ResumeGameTest.obj","lightGray.dds","white_s.png","flat_n.png")
 			objresumeNA:setParent(objresume)
-		objresume:addComponent("lua", "resumegamebutton.lua")
+		--objresume:addComponent("lua", "resumegamebutton.lua")
 		objresume:setParent(objpause)
-		objresume:setActive(false)
+		--objresume:setActive(false)
 		
 		local objsettingsp = gameObject.new()
 		objsettingsp:setName("PauseSettingsButton")
@@ -73,7 +63,7 @@ function createpausemenu()
 			objsettingspNA:setName("SettingsButtonNA")	
 			objsettingspNA:addComponent("mesh","SettingsTest.obj","lightGray.dds","white_s.png","flat_n.png")
 			objsettingspNA:setParent(objsettingsp)
-		objsettingsp:addComponent("lua", "settings.lua")
+		--objsettingsp:addComponent("lua", "settings.lua")
 		objsettingsp:setParent(objpause)
 		objsettingsp:setActive(false)
 		
@@ -89,7 +79,7 @@ function createpausemenu()
 			objexitmenuNA:setName("ExitMenuButtonNA")	
 			objexitmenuNA:addComponent("mesh","QuitToMenuTest.obj","lightGray.dds","white_s.png","flat_n.png")
 			objexitmenuNA:setParent(objexitmenu)
-		objexitmenu:addComponent("lua", "exittomenubutton.lua")
+		--objexitmenu:addComponent("lua", "exittomenubutton.lua")
 		objexitmenu:setParent(objpause)
 		objexitmenu:setActive(false)
 		
@@ -105,13 +95,24 @@ function createpausemenu()
 			objexitdeskNA:setName("ExitButtonNA")	
 			objexitdeskNA:addComponent("mesh","QuitToDesktopTest.obj","lightGray.dds","white_s.png","flat_n.png")
 			objexitdeskNA:setParent(objexitdesk)
-		objexitdesk:addComponent("lua", "exitgamebutton.lua")
+		--objexitdesk:addComponent("lua", "exitgamebutton.lua")
 		objexitdesk:setParent(objpause)
-		objexitdesk:setActive(false)
+		--objexitdesk:setActive(false)
 			
-	objpause:addComponent("lua", "pausecontrol.lua")
+	--objpause:addComponent("lua", "pausecontrol.lua")
 	--objpause:setActive(false)
 
+end
+
+function start()
+
+	--createpausemenu()
+	--print("Initialised test lua component")
+	--print(test.test())
+	light = parent:getChildren()
+	--also controls the flashlight now, so slightly misleading name but if it works...
+	setActive(false)
+	
 end
 
 function fixedupdate()

@@ -3,8 +3,8 @@
 
 function start()
 
-buttonSelected = gameObject.find("ResumeButtonA")
-buttonIdle = gameObject.find("ResumeButtonNA")
+buttonSelected = parent:getChildren()[0]
+buttonIdle = parent:getChildren()[1]
 
 buttonIdle:setActive(false)
 
