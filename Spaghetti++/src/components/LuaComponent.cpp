@@ -76,7 +76,13 @@ namespace sge {
 		LuaState* ls = comp->GetState();
 		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
 		//std::cout << "Parent should be: " << obj->GetParent()->GetName() << std::endl;
-		ls->PushLightUserData(obj->GetParent(),"sge.gameObject");
+		GameObject* parent = obj->GetParent();
+		if (parent) {
+			ls->PushLightUserData(obj->GetParent(), "sge.gameObject");
+		}
+		else {
+			lua_pushnil(ls->GetState());
+		}
 		return 1;
 	}
 
@@ -858,7 +864,12 @@ namespace sge {
 		GameObject* obj = GameObject::Find(name);
 		//std::cout << "Found game object: " << obj << std::endl;
 		LuaState* ls = comp->GetState();
-		ls->PushLightUserData(obj, "sge.gameObject");
+		if (obj) {
+			ls->PushLightUserData(obj, "sge.gameObject");
+		}
+		else {
+			lua_pushnil(ls->GetState());
+		}
 		return 1;
 	}
 	int LuaComponent::deleteAll(lua_State * state)

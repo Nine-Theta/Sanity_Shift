@@ -4,6 +4,7 @@ function start()
 	finalDoor = parent:getParent()
 	player = gameObject.find("Player")
 	--player:setKeepOnSoftDestroy(true)
+	parent:setKeepOnSoftDestroy(true)
 end
 darkCount = 0.34
 endCount = 4
@@ -12,15 +13,30 @@ function fixedupdate()
 	endCount = endCount - time.fixedDelta()
 	if darkCount < 0 then
 		gameObject.deleteAll()
-		finalDoor:removeComponent("mesh")
+		if finalDoor ~= nil then
+			finalDoor:removeComponent("mesh")
+		end
 		darkCount = 999
 	end
 	if endCount < 0 then
+		endCount = 2
 		obj = gameObject.new()
 		obj:setName("Loader")
 		obj:addComponent("lua", "sceneloader.lua")
 		obj:sendMessage("../startscene.lua")
-		parent:getParent():getParent():destroy()
-		player:destroy()
+		local p = parent:getParent()
+		if p ~= nil then
+			print(p)
+			local p2 = p:getParent()
+			print(p2)
+			if p2 ~= nil then 
+				p2:destroy()
+			end
+		end
+			
+		parent:destroy()
+		if player ~= nil then
+			player:destroy()
+		end
 	end
 end

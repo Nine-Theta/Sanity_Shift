@@ -27,11 +27,13 @@ end
 function Invoke()
 	--print("ExitToMenuButton Invoked")
 	time.settimescale(1)
+	parent:addComponent("lua","endTimer.lua")
+	parent:setKeepOnSoftDestroy(true)
 	gameObject.deleteAll()
-	obj = gameObject.new()
-	obj:setName("Loader")
-	obj:addComponent("lua", "sceneloader.lua")
-	obj:sendMessage("../startscene.lua")
+	--obj = gameObject.new()
+	--obj:setName("Loader")
+	--obj:addComponent("lua", "sceneloader.lua")
+	--obj:sendMessage("../startscene.lua")
 end
 	
 function fixedupdate()

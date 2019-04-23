@@ -14,7 +14,6 @@ function start()
 	if string.find(parent:getName(),"inverse") then
 		invertedSign = -1
 	end
-	parent:getParent():setKeepOnSoftDestroy(true)
 	print("DOOR INITIALISED")
 end
 maxAngle = 100
@@ -141,6 +140,7 @@ function onmessage(msg)
 		direction = 1
 		toPlaySound = true
 		local timer = gameObject.new()
+		parent:getParent():setKeepOnSoftDestroy(true)
 		timer:addComponent("lua","endTimer.lua")
 		timer:setParent(parent)
 		timer:setPos(0,0,0)
