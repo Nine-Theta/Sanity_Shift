@@ -15,6 +15,7 @@ namespace sge {
 		static int GetFramerateAvg();
 		static float DeltaTime();
 		static float FixedDelta();
+		static float UnscaledFixedDelta();
 		static float TimeRunning();
 		static unsigned GetFrame();
 		static unsigned GetFixedFrame();

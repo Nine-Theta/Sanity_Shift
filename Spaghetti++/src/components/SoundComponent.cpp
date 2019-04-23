@@ -241,7 +241,7 @@ namespace sge {
 			vec3 vpos = p_gameObj->GetCombinedPosition() - CameraComponent::GetMain()->GetParent()->GetCombinedPosition();
 			vec3 diff = vpos - lastPos;
 			lastPos = vpos;
-			diff /= TimeH::FixedDelta();
+			diff /= TimeH::FixedDelta() == 0 ? TimeH::UnscaledFixedDelta() : TimeH::FixedDelta();
 			alSource3f(source, AL_POSITION, pos.x, pos.y, pos.z);
 			alSource3f(source, AL_VELOCITY, diff.x, diff.y, diff.z);
 		}

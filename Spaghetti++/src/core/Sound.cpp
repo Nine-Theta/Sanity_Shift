@@ -9,22 +9,63 @@ namespace sge {
 	{
 		return buffer;
 	}
+	std::string ErrorCheck(ALenum error)
+	{
+		if (error == AL_INVALID_NAME)
+		{
+			return "Invalid name";
+		}
+		else if (error == AL_INVALID_ENUM)
+		{
+			return " Invalid enum ";
+		}
+		else if (error == AL_INVALID_VALUE)
+		{
+			return " Invalid value ";
+		}
+		else if (error == AL_INVALID_OPERATION)
+		{
+			return " Invalid operation ";
+		}
+		else if (error == AL_OUT_OF_MEMORY)
+		{
+			return " Out of memory like! ";
+		}
+		else if (error == AL_NONE)
+		{
+			return " NO ERROR! ";
+		}
+
+		return " Don't know ";
+
+
+	}
 	Sound::Sound(std::string pFilename)
 	{
-		
+		ALenum alErr = alGetError();
+		if (alErr)
+		{
+			fprintf(stderr, "AL Error detected: ");
+			std::cout << ErrorCheck(alErr) << std::endl;
+		}
 		ALvoid* data = alutLoadMemoryFromFile(pFilename.c_str(), &format, &size, &frequency);//alutCreateBufferFromFile(pFilename.c_str());
 		alGenBuffers(1, &buffer);
 		alBufferData(buffer, format, data, size, frequency);
-		if (buffer == AL_NONE)
+		ALenum error = alutGetError();
+		alErr = alGetError();
+		if (buffer == AL_NONE || error || alErr)
 		{
-			ALenum error = alutGetError();
-			fprintf(stderr, "Error loading file: '%s'\n",
-				alutGetErrorString(error));
+			fprintf(stderr, "AL Error detected: ");
+			std::cout << ErrorCheck(alErr) << std::endl;
+			std::cerr << "Error loading file " << pFilename << ": " << alutGetErrorString(error) << std::endl;
+			//fprintf(stderr, "Error loading file: '%s'\n",
+			//	alutGetErrorString(error));
 			//alutExit();
 			//exit(EXIT_FAILURE);
 		}
 		else
 			std::cout << "Successfully loaded sound file: " << pFilename << std::endl;
+		assert(alGetError() == AL_NONE);
 		//delete data;
 		//soundTest();
 	}
@@ -43,8 +84,11 @@ namespace sge {
 		Sound* snd = new Sound(pFilename);
 		//snd->buffer = alutCreateBufferFromFile(pFilename.c_str());
 		ALenum error = alutGetError();
-		if (snd->buffer == AL_NONE || error)
+		ALenum alErr = alGetError();
+		if (snd->buffer == AL_NONE || error || alErr)
 		{
+			fprintf(stderr, "AL Error detected: ");
+			std::cout << alErr << std::endl;
 			fprintf(stderr, "Error loading file: '%s'\n",
 				alutGetErrorString(error));
 			delete snd;

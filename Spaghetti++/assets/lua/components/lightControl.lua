@@ -26,12 +26,93 @@ function setActive(act)
 	lastActive = act
 end
 
+
+function createpausemenu()
+
+	local objpause = gameObject.new()
+	objpause:setName("PauseScreen")
+	objpause:setParent(parent:getParent():getParent())
+	objpause:setPos(-0.065,0.0,0)
+	objpause:setRotation(0,1,0,180)
+	
+		local objresume = gameObject.new()
+		objresume:setName("ResumeButton")
+		objresume:setPos(0.01,2.7,2)
+		objresume:setRotation(0,1,0,180)
+			local objresumeA = gameObject.new()
+			objresumeA:setName("ResumeButtonA")
+			objresumeA:addComponent("mesh","ResumeGameTestSelect.obj","brown.dds","white_s.png","flat_n.png")
+			objresumeA:setParent(objresume)
+			local objresumeNA = gameObject.new()
+			objresumeNA:setName("ResumeButtonNA")
+			objresumeNA:addComponent("mesh","ResumeGameTest.obj","lightGray.dds","white_s.png","flat_n.png")
+			objresumeNA:setParent(objresume)
+		--objresume:addComponent("lua", "resumegamebutton.lua")
+		objresume:setParent(objpause)
+		--objresume:setActive(false)
+		
+		local objsettingsp = gameObject.new()
+		objsettingsp:setName("PauseSettingsButton")
+		objsettingsp:setPos(-0.2,2.55,2)
+		objsettingsp:setRotation(0,1,0,180)	
+		local objsettingspA = gameObject.new()
+			objsettingspA:setName("SettingsButtonA")	
+			objsettingspA:addComponent("mesh","SettingsTestSelect.obj","brown.dds","white_s.png","flat_n.png")
+			objsettingspA:setParent(objsettingsp)
+			local objsettingspNA = gameObject.new()
+			objsettingspNA:setName("SettingsButtonNA")	
+			objsettingspNA:addComponent("mesh","SettingsTest.obj","lightGray.dds","white_s.png","flat_n.png")
+			objsettingspNA:setParent(objsettingsp)
+		--objsettingsp:addComponent("lua", "settings.lua")
+		objsettingsp:setParent(objpause)
+		objsettingsp:setActive(false)
+		
+		local objexitmenu = gameObject.new()
+		objexitmenu:setName("ExitToMenuButton")		
+		objexitmenu:setPos(0.085,2.4,2)
+		objexitmenu:setRotation(0,1,0,180)			
+			local objexitmenuA = gameObject.new()
+			objexitmenuA:setName("ExitMenuButtonA")	
+			objexitmenuA:addComponent("mesh","QuitToMenuTestSelect.obj","brown.dds","white_s.png","flat_n.png")
+			objexitmenuA:setParent(objexitmenu)
+			local objexitmenuNA = gameObject.new()
+			objexitmenuNA:setName("ExitMenuButtonNA")	
+			objexitmenuNA:addComponent("mesh","QuitToMenuTest.obj","lightGray.dds","white_s.png","flat_n.png")
+			objexitmenuNA:setParent(objexitmenu)
+		--objexitmenu:addComponent("lua", "exittomenubutton.lua")
+		objexitmenu:setParent(objpause)
+		objexitmenu:setActive(false)
+		
+		local objexitdesk = gameObject.new()
+		objexitdesk:setName("ExitToDeskButton")		
+		objexitdesk:setPos(0.3,2.25,2)
+		objexitdesk:setRotation(0,1,0,180)				
+			local objexitdeskA = gameObject.new()
+			objexitdeskA:setName("ExitButtonA")	
+			objexitdeskA:addComponent("mesh","QuitToDesktopTestSelect.obj","brown.dds","white_s.png","flat_n.png")
+			objexitdeskA:setParent(objexitdesk)
+			local objexitdeskNA = gameObject.new()
+			objexitdeskNA:setName("ExitButtonNA")	
+			objexitdeskNA:addComponent("mesh","QuitToDesktopTest.obj","lightGray.dds","white_s.png","flat_n.png")
+			objexitdeskNA:setParent(objexitdesk)
+		--objexitdesk:addComponent("lua", "exitgamebutton.lua")
+		objexitdesk:setParent(objpause)
+		--objexitdesk:setActive(false)
+			
+	--objpause:addComponent("lua", "pausecontrol.lua")
+	--objpause:setActive(false)
+
+end
+
 function start()
+
+	--createpausemenu()
 	--print("Initialised test lua component")
 	--print(test.test())
 	light = parent:getChildren()
 	--also controls the flashlight now, so slightly misleading name but if it works...
 	setActive(false)
+	
 end
 
 function fixedupdate()
