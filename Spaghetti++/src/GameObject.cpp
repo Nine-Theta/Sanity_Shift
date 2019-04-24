@@ -19,6 +19,7 @@ namespace sge {
 			//Game::GetInstance().AddToRoot(this);
 		}
 		Game::GetInstance().RegisterGameObject(this);
+		_name = "New GameObject";
 	}
 
 	GameObject::GameObject() : GameObject(nullptr)

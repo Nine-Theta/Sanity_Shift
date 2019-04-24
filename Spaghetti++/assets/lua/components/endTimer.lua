@@ -1,7 +1,7 @@
 --parent is component's parent gameObject. It supports functions 
 
 function start()
-	finalDoor = parent:getParent()
+	finalDoor = gameObject.find("FinalDoor")
 	player = gameObject.find("Player")
 	--player:setKeepOnSoftDestroy(true)
 	parent:setKeepOnSoftDestroy(true)
@@ -38,5 +38,6 @@ function fixedupdate()
 		if player ~= nil then
 			player:destroy()
 		end
+		print("FINAL TIMER DESTROYED THE WHOLE SCENE!! DOING SELF-DESTRUCT")
 	end
 end

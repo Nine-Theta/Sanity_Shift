@@ -2,7 +2,7 @@
 width = 1280
 height = 1024
 fullscreen = 0		--overrides resolution if active
-vsync = 1
+vsync = 0
 windowname = "Sanity Shift"
 fov=45
 meshDir="models/"
