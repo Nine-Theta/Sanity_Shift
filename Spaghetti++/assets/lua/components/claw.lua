@@ -5,14 +5,14 @@ function start()
 	parent:setRotation(0,0,0,0)
 end
 
-endCount = 3
+endCount = 2.8
 angle = 30
 Tangle = -30
 ty = -0.15
 tz = 0.65
 function fixedupdate()
 	endCount = endCount - time.fixedDelta()
-	if endCount - 0.4 < 0 then
+	if endCount - 0.25 < 0 then
 		Tangle = 30
 		ty = -0.4
 		tz = -0.1
