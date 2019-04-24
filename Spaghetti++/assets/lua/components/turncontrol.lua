@@ -58,13 +58,29 @@ function commitmurder() --this isn't brave, what did I ever do to you?
 	obj:sendMessage("../deathscene3.lua")
 end
 
+function dot(x1,y1,z1,x2,y2,z2)
+	return x1*x2+y1*y2+z1*z2
+end
+
+function isBehind(self,target)
+	local fx,fy,fz = self:forward()
+	local px,py,pz = self:getWorldPos()
+	local tx,ty,tz = target:getWorldPos()
+	tx = px - tx
+	ty = py - ty
+	tz = pz - tz
+	return dot(fx,fy,fz,tx,ty,tz) > 0
+end
+
 function oncollisionenter(other)
 	if(not collided) then
 	local name = other:getName()
 	print("Player collided with " .. name)
 	if name == "Mannequin" then
 		print("You Died")
-		ox,oy,oz = other:getWorldPos()
+		local behind = isBehind(parent,other)
+		print("Enemy is behind player: " .. tostring(behind))
+		--[[ox,oy,oz = other:getWorldPos()
 		px,py,pz = parent:getWorldPos()
 		x = ox - px
 		z = oz - pz
@@ -80,7 +96,7 @@ function oncollisionenter(other)
 		
 		d = (rotX - targetRot)
 		other:setWorldRotation(0,1,0, targetRot + 180)
-		collided = true
+		collided = true]]--
 		end
 	end
 end
