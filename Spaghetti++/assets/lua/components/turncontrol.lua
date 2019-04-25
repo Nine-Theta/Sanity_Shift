@@ -132,6 +132,7 @@ function oncollisionenter(other)
 		end
 		other:destroy()
 		collided = true
+		parent:addComponent("lua","playerondestroy.lua")
 		--[[ox,oy,oz = other:getWorldPos()
 		px,py,pz = parent:getWorldPos()
 		x = ox - px
@@ -151,14 +152,5 @@ function oncollisionenter(other)
 		collided = true]]--
 		end
 	end
-end
-
-	
-function ondestroy()
-	print("Destroying player, starting end timer")
-	local timer = gameObject.new()
-	timer:addComponent("lua","endTimer.lua")
-	--timer:setParent(parent)
-	timer:setPos(0,0,0)
 end
 
