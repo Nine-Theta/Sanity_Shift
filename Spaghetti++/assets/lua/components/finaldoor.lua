@@ -56,7 +56,7 @@ function fixedupdate()
 		if direction == -1 and ctime == 1 then
 			parent:getParent():setSound("door_open.wav")
 		elseif ctime == 0 then
-			parent:getParent():setSound("door/door_slam.wav",0.01)
+			parent:getParent():setSound("door/metal_slam1.wav",0.01)
 			--parent:getParent():setSound("moon.wav")
 		end
 		parent:getParent():playSound()
@@ -136,7 +136,7 @@ function onmessage(msg)
 		print("Unlocking door")
 	end
 	if msg == "shut" then
-		secs = 0.35
+		secs = 0.2
 		direction = 1
 		toPlaySound = true
 		local timer = gameObject.new()

@@ -6,7 +6,7 @@ function start()
 	--player:setKeepOnSoftDestroy(true)
 	parent:setKeepOnSoftDestroy(true)
 end
-darkCount = 0.34
+darkCount = 0.2
 endCount = 4
 function fixedupdate()
 	darkCount = darkCount - time.fixedDelta()
