@@ -3,6 +3,11 @@
 rotX = 0
 function start()
 	rotX = 180--parent:getWorldRotation()
+	heartbeat = gameObject.new()
+	heartbeat:setParent(parent:getParent())
+	heartbeat:addComponent("lua","heartbeat.lua")
+	heartbeat:setName("Heartbeat")
+	light = gameObject.find("Flashlight")
 end
 
 velY = 0
@@ -78,7 +83,7 @@ function killFromFront()
 	parent:addComponent("lua","selfdestruct.lua")
 	parent:setSound("death.wav")
 	parent:playSound()
-	gameObject.find("Heartbeat"):destroy()
+	heartbeat:destroy()
 	local children = parent:getChildren()[0]:getChildren()
 	for i = 0, #children do
 		children[i]:destroy()
@@ -96,14 +101,14 @@ function killFromBack()
 	parent:addComponent("lua","selfdestruct.lua")
 	parent:setSound("death.wav")
 	parent:playSound()
-	gameObject.find("Heartbeat"):destroy()
+	heartbeat:destroy()
 	local children = parent:getChildren()[0]:getChildren()
 	for i = 0, #children do
 		--children[i]:destroy()
 	end
 	parent:getChildren()[0]:stopSound(3)
 	parent:getChildren()[0]:removeComponent("raycast")
-	local light = gameObject.find("Flashlight")
+	--local light = gameObject.find("Flashlight")
 	light:removeComponent("lua")
 	local claw = gameObject.new()
 	claw:setName("Claw")
