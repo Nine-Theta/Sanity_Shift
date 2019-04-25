@@ -78,7 +78,7 @@ namespace sge {
 		while (TimeH::DoFixedStep()) {
 			//std::cout << TimeH::GetFramerate() << std::endl;
 			doFixedUpdate();
-			destroyOldObjects();
+			//destroyOldObjects();
 			setTitle(sge::Settings::GetSetting("windowname") + " FPS: " + std::to_string(TimeH::GetFramerateAvg()) + " Triangles: " + std::to_string(polys));
 		}
 		doUpdate();

@@ -20,12 +20,12 @@ count = 0
 targetRot = 0
 function update()
 	if(collided) then
-		d = d * 0.98
+		--[[d = d * 0.98
 		parent:setWorldRotation(0,1,0,targetRot + d)
 			
 		if(targetRot +d <= targetRot + 0.5 or targetRot +d <= targetRot - 0.5) then
 			commitmurder()
-		end
+		end]]--
 	else
 	if mouse.moved() and locked then
 		local mX, mY = mouse.delta()
@@ -58,13 +58,81 @@ function commitmurder() --this isn't brave, what did I ever do to you?
 	obj:sendMessage("../deathscene3.lua")
 end
 
+function dot(x1,y1,z1,x2,y2,z2)
+	return x1*x2+y1*y2+z1*z2
+end
+
+function isBehind(self,target)
+	local fx,fy,fz = self:forward()
+	local px,py,pz = self:getWorldPos()
+	local tx,ty,tz = target:getWorldPos()
+	tx = px - tx
+	ty = py - ty
+	tz = pz - tz
+	return dot(fx,fy,fz,tx,ty,tz) > 0
+end
+
+function killFromFront()
+	parent:setKeepOnSoftDestroy(true)
+	parent:getChildren()[0]:removeComponent("camera")
+	parent:addComponent("lua","selfdestruct.lua")
+	parent:setSound("death.wav")
+	parent:playSound()
+	gameObject.find("Heartbeat"):destroy()
+	local children = parent:getChildren()[0]:getChildren()
+	for i = 0, #children do
+		children[i]:destroy()
+	end
+	parent:getChildren()[0]:stopSound(3)
+	print("Killed player from front")
+end
+
+function killFromBack()
+	parent:setKeepOnSoftDestroy(true)
+	parent:getChildren()[0]:removeComponent("lua")
+	parent:getChildren()[0]:removeComponent("raycast")
+	parent:getParent():removeComponent("lua")
+	parent:getParent():removeComponent("lua")
+	parent:addComponent("lua","selfdestruct.lua")
+	parent:setSound("death.wav")
+	parent:playSound()
+	gameObject.find("Heartbeat"):destroy()
+	local children = parent:getChildren()[0]:getChildren()
+	for i = 0, #children do
+		--children[i]:destroy()
+	end
+	parent:getChildren()[0]:stopSound(3)
+	parent:getChildren()[0]:removeComponent("raycast")
+	local light = gameObject.find("Flashlight")
+	light:removeComponent("lua")
+	local claw = gameObject.new()
+	claw:setName("Claw")
+	claw:setParent(parent:getChildren()[0])
+	claw:addComponent("lua","claw.lua")
+	claw:setPos(0,0,0)
+	claw:setRotation(1,0,0,0)
+	claw:addComponent("mesh","specular","claw.obj","Mannequin/Diffuse.dds", "Mannequin/Specular.dds", "Mannequin/Normal.dds")
+	--light:setParent(nil)
+	--light:addComponent("boxcollider","0.11","0.17","0.11","1")
+	print("Killed player from back")
+end
+
 function oncollisionenter(other)
 	if(not collided) then
 	local name = other:getName()
 	print("Player collided with " .. name)
 	if name == "Mannequin" then
 		print("You Died")
-		ox,oy,oz = other:getWorldPos()
+		local behind = isBehind(parent,other)
+		print("Enemy is behind player: " .. tostring(behind))
+		if behind then
+			killFromBack()
+		else
+			killFromFront()
+		end
+		other:destroy()
+		collided = true
+		--[[ox,oy,oz = other:getWorldPos()
 		px,py,pz = parent:getWorldPos()
 		x = ox - px
 		z = oz - pz
@@ -80,13 +148,17 @@ function oncollisionenter(other)
 		
 		d = (rotX - targetRot)
 		other:setWorldRotation(0,1,0, targetRot + 180)
-		collided = true
+		collided = true]]--
 		end
 	end
 end
 
 	
 function ondestroy()
-
+	print("Destroying player, starting end timer")
+	local timer = gameObject.new()
+	timer:addComponent("lua","endTimer.lua")
+	--timer:setParent(parent)
+	timer:setPos(0,0,0)
 end
 

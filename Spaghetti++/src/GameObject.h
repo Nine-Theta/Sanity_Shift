@@ -20,7 +20,7 @@ namespace sge {
 		sge::GOState _state = GOState::PRE_INIT;
 		std::vector<ObjectBehaviour*> _components;
 		std::vector<GameObject*> _children;
-		std::string _name;
+		std::string _name = "";
 		sge::Collider* _collider = NULL;
 		bool isstatic = true;
 		Rigidbody2D* rigidbody = NULL;
