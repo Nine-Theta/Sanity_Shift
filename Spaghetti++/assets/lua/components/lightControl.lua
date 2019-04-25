@@ -120,6 +120,9 @@ function fixedupdate()
 		setActive(false)
 		return
 	end
+	if time.fixedDelta() == 0 then
+		return
+	end
 	if mouse.buttonDown(1) then
 		enabled = not enabled
 	end

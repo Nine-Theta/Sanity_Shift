@@ -49,9 +49,11 @@ function start()
 --	parent:addComponent("lua","childdebug.lua")
 end
 
+seconds = 0
 function fixedupdate()
-	local x = math.sin(time.seconds() * 0.8) * 0.1
-	local y = math.sin(time.seconds() * 0.6) * 0.1
+	seconds = seconds + time.fixedDelta()
+	local x = math.sin(seconds * 0.8) * 0.1
+	local y = math.sin(seconds * 0.6) * 0.1
 	
 	
 	parent:setRotation(0,1,0,x * 35)
