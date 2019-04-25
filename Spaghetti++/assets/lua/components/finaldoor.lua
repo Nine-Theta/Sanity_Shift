@@ -15,6 +15,7 @@ function start()
 		invertedSign = -1
 	end
 	print("DOOR INITIALISED")
+	parent:getParent():setSound("door/metal_slam1.wav",0.01)
 end
 maxAngle = 100
 angleS = 0
