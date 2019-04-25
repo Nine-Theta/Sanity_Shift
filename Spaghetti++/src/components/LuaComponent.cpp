@@ -276,6 +276,7 @@ namespace sge {
 		{"setFluorReaction", setFluorReaction},
 		{"setFluorEmission", setFluorEmission},
 		{"playSound", playSound},
+		{"isPlaying", isPlaying},
 		{"setSound", setSound},
 		{"stopSound", stopSound},
 		{"setVolume", setVolume},
@@ -674,6 +675,19 @@ namespace sge {
 			std::cout << "ATTEMPTED TO PLAY A SOUND THAT DOES NOT EXIST " << std::endl;
 		}
 		return 0;
+	}
+	int LuaComponent::isPlaying(lua_State * state)
+	{
+		LuaComponent* comp = _components[state];
+		GameObject* obj = comp->GetState()->GetObjectFromStack<GameObject>("sge.gameObject");
+		SoundComponent* col = obj->GetComponent<SoundComponent>();
+		if (col != NULL) {
+			lua_pushboolean(state,col->IsPlaying());
+		}
+		else {
+			lua_pushboolean(state, false);
+		}
+		return 1;
 	}
 	int LuaComponent::setSound(lua_State * state)
 	{

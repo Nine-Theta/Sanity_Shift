@@ -46,6 +46,10 @@ function fixedupdate()
 	if following then
 		return
 	end
+	--print("Background track playing: " .. tostring(parent:isPlaying()))
+	if not parent:isPlaying() then
+		parent:playSound()
+	end
 	if mouse.buttonDown(1) then
 		enabled = not enabled
 	end

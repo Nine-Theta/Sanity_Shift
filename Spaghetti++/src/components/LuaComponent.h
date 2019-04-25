@@ -38,6 +38,7 @@ namespace sge {
 		static int test(lua_State* state);
 		static int playAudio(lua_State* state);
 		static int playSound(lua_State* state); //new, for 3d audio
+		static int isPlaying(lua_State* state); //new, for 3d audio
 		static int setSound(lua_State* state); //new, for 3d audio
 		static int stopSound(lua_State* state); //new, for 3d audio
 		static int setVolume(lua_State* state); //new, for 3d audio
