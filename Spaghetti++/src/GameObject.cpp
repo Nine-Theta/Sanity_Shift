@@ -289,13 +289,7 @@ namespace sge {
 	void GameObject::OnFixedUpdate(){
 		if (_state > GOState::ACTIVE || _state < GOState::PRE_INIT)
 			return;
-		if (rigidbody != NULL) {
-			rigidbody->FixedUpdate();
-			//std::cout << _collider->GetParent() << " - Updated collider with that parent!" << std::endl;
-		}
 
-			if (_collider != NULL && !isstatic) //make colliders also check for collision even without rigidbody now. Slower, but lua. Thanks lua
-				_collider->CollideWithAll();
 		/*for (unsigned int i = 0; i < _components.size(); i++) {
 			_components[i]->FixedUpdate();
 		}*/
