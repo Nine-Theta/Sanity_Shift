@@ -276,7 +276,7 @@ namespace sge {
 
 	void GameObject::OnUpdate()
 	{
-		if (_state > GOState::ACTIVE || _state < GOState::PRE_INIT)
+		if (_state > GOState::ACTIVE || _state <= GOState::PRE_INIT)
 			return;
 		for (std::vector<GameObject*>::iterator itr = _children.begin(), end = _children.end(); itr != end; itr++) {
 			(*itr)->OnUpdate();
@@ -287,7 +287,7 @@ namespace sge {
 		UpdateTransform(true);
 	}
 	void GameObject::OnFixedUpdate(){
-		if (_state > GOState::ACTIVE || _state < GOState::PRE_INIT)
+		if (_state > GOState::ACTIVE || _state <= GOState::PRE_INIT)
 			return;
 
 		/*for (unsigned int i = 0; i < _components.size(); i++) {
@@ -487,7 +487,7 @@ namespace sge {
 		
 		//std::cout << "Destroying a game object..." << std::endl;
 		GameObject* obj = (GameObject*)p_object;
-		if (obj->GetObjectState() < GOState::DESTROYED) {
+		if (obj->GetObjectState() < GOState::DESTROYED && obj->GetObjectState() > GOState::PRE_INIT) {
 			if (hardDelete || !p_object->ToKeepOnSoftDestroy()) {
 				for (GameObject* child : p_object->GetChildren()) {
 					GameObject::Destroy(child, hardDelete);
@@ -563,7 +563,7 @@ namespace sge {
 
 	void GameObject::UpdateTransform(bool flag)
 	{
-		if (!moved) return;
+		if (!moved || _state != GOState::ACTIVE) return;
 		if (_p_parent != NULL)
 			_combinedTransform = _p_parent->GetCombinedTransform() * _transform;// .combine(getTransform());
 		else

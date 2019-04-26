@@ -25,8 +25,8 @@ namespace sge {
 		bool isstatic = true;
 		Rigidbody2D* rigidbody = NULL;
 		bool enabled = true;
-		bool moved = false;
-		void SetObjectState(GOState state);
+		bool moved = true;
+		//void SetObjectState(GOState state);
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);
 		void FlagMoved();
@@ -39,6 +39,7 @@ namespace sge {
 		~GameObject();
 		glm::mat4 GetCombinedTransform() const;
 		sge::GOState GetObjectState();
+		void SetObjectState(GOState newState);
 		GameObject* GetParent();
 		std::vector<GameObject*> GetChildren();
 		Collider* GetCollider();

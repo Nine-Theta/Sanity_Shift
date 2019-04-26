@@ -152,6 +152,8 @@ namespace sge {
 	void Game::initNewComponents()
 	{
 		for (GameObject* newObj : _newObjects) {
+			newObj->SetObjectState(GOState::ACTIVE);
+			newObj->UpdateTransform();
 			if (newObj->GetParent() == NULL) {
 				AddToRoot(newObj);
 			}
@@ -163,6 +165,7 @@ namespace sge {
 			if (comp != NULL) {
 				comp->GetParent()->UpdateTransform();
 				comp->Start();
+				comp->GetParent()->UpdateTransform();
 			}
 		}
 		_newComponents.clear();
@@ -229,6 +232,9 @@ namespace sge {
 				_rootObjects.remove(p_object);
 			}*/
 			_deletedObjects.push_back(p_object);
+		}
+		else {
+			std::cout << "Attempted to queue a game object for deletion that was already deleted before" << std::endl;
 		}
 		//p_object->SetObjectState(GOState::DESTROYED);
 	}
