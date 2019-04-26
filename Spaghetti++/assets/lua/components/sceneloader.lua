@@ -15,10 +15,10 @@ function start()
 		objback:addComponent("mesh","plane169test.obj","Loading.dds","black.dds","flat_n.png")
 			local objbackback = gameObject.new()
 			objbackback:setName("Floor")
+			objbackback:setParent(objback)
 			objbackback:setPos(0,0,1)
 			objbackback:setRotation(1,0,0,-90)
 			objbackback:addComponent("mesh", "plane20x20_2tris_aligned_uvs.obj", "black.dds","black.dds","flat_n.png")
-			objbackback:setParent(objback)
 end
 
 function loadscene()
