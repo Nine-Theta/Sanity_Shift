@@ -1,0 +1,9 @@
+diff a/Spaghetti++/src/components/LuaComponent.cpp b/Spaghetti++/src/components/LuaComponent.cpp	(rejected hunks)
+@@ -38,7 +38,6 @@
+ 		_state.RegisterLib(audioLib, "audio");
+ 		_state.PushMetaLib("sge.keys", keysMetaLib);
+ 		registerKeys();
+-		_state.RegisterLib(mouseLib, "mouse");
+ 		_state.CallFunction("start");
+ //		std::cout << _state.CallFunction("returnTest", 3)[1] << std::endl;
+ 		
